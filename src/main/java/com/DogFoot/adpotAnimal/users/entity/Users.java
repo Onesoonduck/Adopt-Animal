@@ -17,7 +17,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
 @Entity
 @Getter
-@NoArgsConstructor(force = true)
+@NoArgsConstructor
 public class Users {
 
     @Id
@@ -26,25 +26,25 @@ public class Users {
 
     @NotNull
     @Column(name = "user_id", unique = true)
-    private final String userId;
+    private String userId;
 
     @NotNull
     @Column(name = "user_name")
-    private final String userName;
+    private String userName;
 
     @NotNull
-    private final String password;
+    private String password;
 
     @NotNull
     @Column(unique = true)
-    private final String email;
+    private String email;
 
     @NotNull
-    private final String phoneNumber;
+    private String phoneNumber;
 
     @NotNull
     @Column(name = "user_role")
-    private final UsersRole userRole;
+    private UsersRole userRole;
 
     @Builder
     public Users(String userId, String userName, String password, String email, String phoneNumber, UsersRole userRole) {
