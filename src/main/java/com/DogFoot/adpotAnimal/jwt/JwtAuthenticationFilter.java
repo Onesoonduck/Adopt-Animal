@@ -19,6 +19,7 @@ public class JwtAuthenticationFilter extends GenericFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
         // jwt 토큰 추출
         String token = resolveToken((HttpServletRequest) request);
 
