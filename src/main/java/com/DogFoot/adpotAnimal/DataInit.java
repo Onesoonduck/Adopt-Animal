@@ -1,6 +1,6 @@
 package com.DogFoot.adpotAnimal;
 
-import com.DogFoot.adpotAnimal.member.repository.MemberRepository;
+import com.DogFoot.adpotAnimal.member.repository.UsersRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 @Component
 @RequiredArgsConstructor
 public class DataInit {
-    private final MemberRepository memberRepository;
+    private final UsersRepository usersRepository;
 
     @PostConstruct
     public void init() {

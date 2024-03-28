@@ -2,11 +2,11 @@ package com.DogFoot.adpotAnimal.member.service;
 
 import com.DogFoot.adpotAnimal.jwt.JwtToken;
 import com.DogFoot.adpotAnimal.jwt.JwtTokenProvider;
-import com.DogFoot.adpotAnimal.member.dto.MemberDto;
+import com.DogFoot.adpotAnimal.member.dto.UsersDto;
 import com.DogFoot.adpotAnimal.member.dto.SignUpDto;
-import com.DogFoot.adpotAnimal.member.entity.Member;
-import com.DogFoot.adpotAnimal.member.entity.MemberRole;
-import com.DogFoot.adpotAnimal.member.repository.MemberRepository;
+import com.DogFoot.adpotAnimal.member.entity.Users;
+import com.DogFoot.adpotAnimal.member.entity.UsersRole;
+import com.DogFoot.adpotAnimal.member.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -20,9 +20,9 @@ import org.springframework.transaction.annotation.Transactional;
 @Slf4j
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MemberService {
+public class UsersService {
 
-    private final MemberRepository memberRepository;
+    private final UsersRepository usersRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
@@ -44,8 +44,8 @@ public class MemberService {
     }
 
     @Transactional
-    public MemberDto sighUp(SignUpDto signUpDto) {
-        if (memberRepository.existsByUserId(signUpDto.getUserId())) {
+    public UsersDto sighUp(SignUpDto signUpDto) {
+        if (usersRepository.existsByUserId(signUpDto.getUserId())) {
             throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
         }
 
@@ -53,11 +53,11 @@ public class MemberService {
         String encodedPassword = passwordEncoder.encode(signUpDto.getPassword());
 
         // 멤버 리포지터리에 저장
-        Member signMember = memberRepository.save(
-            signUpDto.toEntity(encodedPassword, MemberRole.USER));
+        Users signUsers = usersRepository.save(
+            signUpDto.toEntity(encodedPassword, UsersRole.USER));
 
         // 저장된 멤버 엔티티를 dto로 변환
-        return signMember.toDto();
+        return signUsers.toDto();
     }
 
 }

@@ -2,7 +2,6 @@ package com.DogFoot.adpotAnimal.config;
 
 import com.DogFoot.adpotAnimal.jwt.JwtAuthenticationFilter;
 import com.DogFoot.adpotAnimal.jwt.JwtTokenProvider;
-import com.DogFoot.adpotAnimal.member.entity.MemberRole;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

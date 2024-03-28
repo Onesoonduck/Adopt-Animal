@@ -1,6 +1,6 @@
 package com.DogFoot.adpotAnimal.member.entity;
 
-import com.DogFoot.adpotAnimal.member.dto.MemberDto;
+import com.DogFoot.adpotAnimal.member.dto.UsersDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,7 +18,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 @Entity
 @Getter
 @NoArgsConstructor(force = true)
-public class Member {
+public class Users {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -44,10 +44,10 @@ public class Member {
 
     @NotNull
     @Column(name = "user_role")
-    private final MemberRole userRole;
+    private final UsersRole userRole;
 
     @Builder
-    public Member(String userId, String userName, String password, String email, String phoneNumber, MemberRole userRole) {
+    public Users(String userId, String userName, String password, String email, String phoneNumber, UsersRole userRole) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
@@ -56,8 +56,8 @@ public class Member {
         this.userRole = userRole;
     }
 
-    public MemberDto toDto() {
-        MemberDto memberDto = MemberDto.builder()
+    public UsersDto toDto() {
+        UsersDto usersDto = UsersDto.builder()
             .userId(userId)
             .userName(userName)
             .password(password)
@@ -65,9 +65,8 @@ public class Member {
             .phoneNumber(phoneNumber)
             .userRole(userRole)
             .build();
-        return memberDto;
+        return usersDto;
     }
-
 
     // todo : getAuthorities 메소드 작성
     public Collection<? extends GrantedAuthority> getAuthorities() {
