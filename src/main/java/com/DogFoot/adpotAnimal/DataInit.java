@@ -1,6 +1,6 @@
 package com.DogFoot.adpotAnimal;
 
-import com.DogFoot.adpotAnimal.member.repository.UsersRepository;
+import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
