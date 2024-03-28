@@ -1,7 +1,7 @@
-package com.DogFoot.adpotAnimal.member.dto;
+package com.DogFoot.adpotAnimal.users.dto;
 
-import com.DogFoot.adpotAnimal.member.entity.Users;
-import com.DogFoot.adpotAnimal.member.entity.UsersRole;
+import com.DogFoot.adpotAnimal.users.entity.Users;
+import com.DogFoot.adpotAnimal.users.entity.UsersRole;
 import lombok.Builder;
 import lombok.Getter;
 

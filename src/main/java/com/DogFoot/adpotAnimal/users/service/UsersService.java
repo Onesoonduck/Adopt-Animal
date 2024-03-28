@@ -1,12 +1,12 @@
-package com.DogFoot.adpotAnimal.member.service;
+package com.DogFoot.adpotAnimal.users.service;
 
 import com.DogFoot.adpotAnimal.jwt.JwtToken;
 import com.DogFoot.adpotAnimal.jwt.JwtTokenProvider;
-import com.DogFoot.adpotAnimal.member.dto.UsersDto;
-import com.DogFoot.adpotAnimal.member.dto.SignUpDto;
-import com.DogFoot.adpotAnimal.member.entity.Users;
-import com.DogFoot.adpotAnimal.member.entity.UsersRole;
-import com.DogFoot.adpotAnimal.member.repository.UsersRepository;
+import com.DogFoot.adpotAnimal.users.dto.UsersDto;
+import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
+import com.DogFoot.adpotAnimal.users.entity.Users;
+import com.DogFoot.adpotAnimal.users.entity.UsersRole;
+import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

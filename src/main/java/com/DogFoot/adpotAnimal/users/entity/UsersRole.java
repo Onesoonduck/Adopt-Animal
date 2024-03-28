@@ -1,4 +1,4 @@
-package com.DogFoot.adpotAnimal.member.entity;
+package com.DogFoot.adpotAnimal.users.entity;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

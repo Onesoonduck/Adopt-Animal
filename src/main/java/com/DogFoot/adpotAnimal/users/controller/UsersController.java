@@ -1,10 +1,10 @@
-package com.DogFoot.adpotAnimal.member.controller;
+package com.DogFoot.adpotAnimal.users.controller;
 
 import com.DogFoot.adpotAnimal.jwt.JwtToken;
-import com.DogFoot.adpotAnimal.member.dto.UsersDto;
-import com.DogFoot.adpotAnimal.member.dto.SignInDto;
-import com.DogFoot.adpotAnimal.member.dto.SignUpDto;
-import com.DogFoot.adpotAnimal.member.service.UsersService;
+import com.DogFoot.adpotAnimal.users.dto.UsersDto;
+import com.DogFoot.adpotAnimal.users.dto.SignInDto;
+import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
+import com.DogFoot.adpotAnimal.users.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

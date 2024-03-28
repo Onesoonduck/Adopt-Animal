@@ -1,6 +1,6 @@
-package com.DogFoot.adpotAnimal.member.repository;
+package com.DogFoot.adpotAnimal.users.repository;
 
-import com.DogFoot.adpotAnimal.member.entity.Users;
+import com.DogFoot.adpotAnimal.users.entity.Users;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

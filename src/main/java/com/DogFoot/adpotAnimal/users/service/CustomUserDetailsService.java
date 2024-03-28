@@ -1,7 +1,7 @@
-package com.DogFoot.adpotAnimal.member.service;
+package com.DogFoot.adpotAnimal.users.service;
 
-import com.DogFoot.adpotAnimal.member.entity.Users;
-import com.DogFoot.adpotAnimal.member.repository.UsersRepository;
+import com.DogFoot.adpotAnimal.users.entity.Users;
+import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;

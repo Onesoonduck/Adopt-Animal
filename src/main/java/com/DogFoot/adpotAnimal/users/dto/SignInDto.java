@@ -1,4 +1,4 @@
-package com.DogFoot.adpotAnimal.member.dto;
+package com.DogFoot.adpotAnimal.users.dto;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,6 +1,6 @@
-package com.DogFoot.adpotAnimal.member.dto;
+package com.DogFoot.adpotAnimal.users.dto;
 
-import com.DogFoot.adpotAnimal.member.entity.UsersRole;
+import com.DogFoot.adpotAnimal.users.entity.UsersRole;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.Builder;

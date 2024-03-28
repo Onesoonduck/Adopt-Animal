@@ -1,6 +1,6 @@
-package com.DogFoot.adpotAnimal.member.entity;
+package com.DogFoot.adpotAnimal.users.entity;
 
-import com.DogFoot.adpotAnimal.member.dto.UsersDto;
+import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
