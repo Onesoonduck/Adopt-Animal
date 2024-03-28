@@ -1,7 +1,7 @@
 package com.DogFoot.adpotAnimal.users.controller;
 
 import com.DogFoot.adpotAnimal.jwt.JwtToken;
-import com.DogFoot.adpotAnimal.users.dto.SignInDto;
+import com.DogFoot.adpotAnimal.users.dto.LoginDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
@@ -22,10 +22,10 @@ public class UsersController {
     private final UsersService usersService;
 
     // 로그인
-    @PostMapping("/sign-in")
-    public JwtToken signIn(@RequestBody SignInDto signInDto) {
-        String userId = signInDto.getUserId();
-        String password = signInDto.getPassword();
+    @PostMapping("/login")
+    public JwtToken login(@RequestBody LoginDto loginDto) {
+        String userId = loginDto.getUserId();
+        String password = loginDto.getPassword();
         JwtToken jwtToken = usersService.signIn(userId, password);
 
         // 확인
@@ -36,15 +36,10 @@ public class UsersController {
     }
 
     // 회원 가입
-    @PostMapping("/sign-up")
+    @PostMapping("/signup")
     public ResponseEntity<UsersDto> signUp(@RequestBody SignUpDto signUpDto) {
         UsersDto savedUsersDto = usersService.sighUp(signUpDto);
         return ResponseEntity.ok(savedUsersDto);
     }
 
-    // 테스트용
-    @PostMapping("/test")
-    public String test() {
-        return "success";
-    }
 }
