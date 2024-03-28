@@ -1,7 +1,7 @@
 package com.DogFoot.adpotAnimal.member.dto;
 
-import com.DogFoot.adpotAnimal.member.entity.Member;
-import com.DogFoot.adpotAnimal.member.entity.MemberRole;
+import com.DogFoot.adpotAnimal.member.entity.Users;
+import com.DogFoot.adpotAnimal.member.entity.UsersRole;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -12,10 +12,10 @@ public class SignUpDto {
     private String password;
     private String email;
     private String phoneNumber;
-    private MemberRole userRole;
+    private UsersRole userRole;
 
     @Builder
-    public SignUpDto(String userId, String userName, String password, String email, String phoneNumber, MemberRole userRole) {
+    public SignUpDto(String userId, String userName, String password, String email, String phoneNumber, UsersRole userRole) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
@@ -24,8 +24,8 @@ public class SignUpDto {
         this.userRole = userRole;
     }
 
-    public Member toEntity(String encodedPassword, MemberRole role) {
-        Member member = Member.builder()
+    public Users toEntity(String encodedPassword, UsersRole role) {
+        Users users = Users.builder()
             .userId(userId)
             .userName(userName)
             .password(encodedPassword)
@@ -33,6 +33,6 @@ public class SignUpDto {
             .phoneNumber(phoneNumber)
             .userRole(role)
             .build();
-        return member;
+        return users;
     }
 }

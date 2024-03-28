@@ -6,7 +6,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 @Getter
 @RequiredArgsConstructor
-public enum MemberRole implements GrantedAuthority {
+public enum UsersRole implements GrantedAuthority {
     USER, ADMIN;
 
     @Override
