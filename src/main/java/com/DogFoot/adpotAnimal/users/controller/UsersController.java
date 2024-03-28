@@ -1,9 +1,9 @@
 package com.DogFoot.adpotAnimal.users.controller;
 
 import com.DogFoot.adpotAnimal.jwt.JwtToken;
-import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import com.DogFoot.adpotAnimal.users.dto.SignInDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
+import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,7 +30,8 @@ public class UsersController {
 
         // 확인
         log.info("request userId = {}, password = {}", userId, password);
-        log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(), jwtToken.getRefreshToken());
+        log.info("jwtToken accessToken = {}, refreshToken = {}", jwtToken.getAccessToken(),
+            jwtToken.getRefreshToken());
         return jwtToken;
     }
 

@@ -35,7 +35,7 @@ public class SecurityConfiguration {
 
         http
             .authorizeHttpRequests((auth)->auth
-                .requestMatchers("members/sign-up","/","members/sign-in").permitAll()  // 홈, 로그인, 가입 페이지는 전체 허가
+                .requestMatchers("users/sign-up","/","users/sign-in").permitAll()  // 홈, 로그인, 가입 페이지는 전체 허가
                 .requestMatchers("/admin").hasRole("ADMIN")   // 관리자 페이지는 관리자만
                 .anyRequest().authenticated()
             );
