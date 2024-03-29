@@ -5,6 +5,7 @@ import com.DogFoot.adpotAnimal.users.dto.LoginDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -26,7 +27,7 @@ public class UsersController {
     public JwtToken login(@RequestBody LoginDto loginDto) {
         String userId = loginDto.getUserId();
         String password = loginDto.getPassword();
-        JwtToken jwtToken = usersService.signIn(userId, password);
+        JwtToken jwtToken = usersService.login(userId, password);
 
         // 확인
         log.info("request userId = {}, password = {}", userId, password);
@@ -37,7 +38,7 @@ public class UsersController {
 
     // 회원 가입
     @PostMapping("/signup")
-    public ResponseEntity<UsersDto> signUp(@RequestBody SignUpDto signUpDto) {
+    public ResponseEntity<UsersDto> signUp(@Valid @RequestBody SignUpDto signUpDto) {
         UsersDto savedUsersDto = usersService.sighUp(signUpDto);
         return ResponseEntity.ok(savedUsersDto);
     }
