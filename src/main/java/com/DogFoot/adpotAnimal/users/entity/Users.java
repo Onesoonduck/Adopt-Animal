@@ -6,45 +6,46 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
+import jakarta.persistence.Table;
 import java.util.Collection;
-import java.util.Collections;
+import java.util.List;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
+@Table(name = "users")
 @Entity
 @Getter
-@NoArgsConstructor
-public class Users {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Users implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", updatable = false)
     private Long id;
 
-    @NotNull
-    @Column(name = "user_id", unique = true)
+    @Column(name = "user_id", nullable = false, unique = true)
     private String userId;
 
-    @NotNull
-    @Column(name = "user_name")
+    @Column(name = "user_name", nullable = false)
     private String userName;
 
-    @NotNull
+    @Column(name = "password", nullable = false)
     private String password;
 
-    @NotNull
-    @Column(unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
-    @NotNull
+    @Column(name = "phoneNumber", nullable = false, unique = true)
     private String phoneNumber;
 
-    @NotNull
-    @Column(name = "user_role")
+    @Column(name = "user_role", nullable = false,)
     private UsersRole userRole;
+
 
     @Builder
     public Users(String userId, String userName, String password, String email, String phoneNumber, UsersRole userRole) {
@@ -68,8 +69,38 @@ public class Users {
         return usersDto;
     }
 
-    // todo : getAuthorities 메소드 작성
+    @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(new SimpleGrantedAuthority(userRole.getAuthority()));
+        return List.of(new SimpleGrantedAuthority("user"));
+    }
+
+    @Override
+    public String getUsername() {
+        return email;
+    }
+
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }
