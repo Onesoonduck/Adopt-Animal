@@ -6,6 +6,7 @@ import com.DogFoot.adpotAnimal.users.dto.LoginDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -41,9 +42,13 @@ public class UsersController {
         return ResponseEntity.ok(savedUsersDto);
     }
 
+    /**
+     * 로그아웃 현재 accessToken 은
+     */
     @PostMapping("/logout")
-    public void logout() {
-
+    public ResponseEntity logout(HttpServletRequest request) {
+        String token = request.getHeader(JwtTokenProvider.AUTHORIZATION_HEADER);
+        return usersService.logout(token);
     }
 
 }
