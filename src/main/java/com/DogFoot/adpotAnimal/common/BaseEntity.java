@@ -1,23 +1,23 @@
-package com.DogFoot.adpotAnimal.common;
+package main.java.com.DogFoot.adpotAnimal.common;
 
-import jakarta.persistence.EntityListeners;
-import jakarta.persistence.MappedSuperclass;
-import java.time.LocalDateTime;
 import lombok.Getter;
-import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.MappedSuperclass;
+import java.time.LocalDateTime;
 @Getter
-@Setter
 @MappedSuperclass
-@EntityListeners(AuditingEntityListener.class)
+@EntityListeners({AuditingEntityListener.class})
 public class BaseEntity {
-
     @CreatedDate
-    private LocalDateTime createdAt;
+    private LocalDateTime created_at;
 
     @LastModifiedDate
-    private LocalDateTime modifiedAt;
+    private LocalDateTime updated_at;
+
+    public void updateUpdated_at(BaseEntity baseEntity){
+        this.updated_at = baseEntity.created_at;
+    }
 }

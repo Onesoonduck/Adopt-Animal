@@ -47,6 +47,8 @@ public class SecurityConfiguration {
         // jwt 인증 필터 추가
         http.addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), UsernamePasswordAuthenticationFilter.class);
 
+
+
         return http.build();
     }
 
