@@ -30,7 +30,7 @@ public class SecurityConfiguration {
 
         // csrf, http basic 비활성화
         http.csrf(AbstractHttpConfigurer::disable);
-        //http.formLogin(AbstractHttpConfigurer::disable);
+        http.formLogin(AbstractHttpConfigurer::disable);
         http.httpBasic(AbstractHttpConfigurer::disable);
 
         // 세션 사용 안함
