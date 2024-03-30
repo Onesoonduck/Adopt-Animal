@@ -1,5 +1,7 @@
 package com.DogFoot.adpotAnimal.users.service;
 
+import com.DogFoot.adpotAnimal.TokenBlacklist.TokenBlack;
+import com.DogFoot.adpotAnimal.TokenBlacklist.TokenBlackRepository;
 import com.DogFoot.adpotAnimal.jwt.JwtToken;
 import com.DogFoot.adpotAnimal.jwt.JwtTokenProvider;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
@@ -9,6 +11,8 @@ import com.DogFoot.adpotAnimal.users.entity.UsersRole;
 import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -16,6 +20,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
 
 @Service
 @Slf4j
@@ -27,6 +32,7 @@ public class UsersService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final TokenBlackRepository tokenBlackRepository;
 
     //  로그인 요청으로 들어온 아이디와 패스워드를 검증하여 jwt 토큰 생성
     @Transactional
@@ -68,4 +74,19 @@ public class UsersService {
         return signUsers.toDto();
     }
 
+    @Transactional
+    public ResponseEntity logout(String accessToken) {
+        // 토큰이 유효한 지 검증
+        if(!jwtTokenProvider.validateToken(accessToken)){
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+        }
+
+        // 멤버의 정보를 확인
+        jwtTokenProvider.getAuthentication(accessToken);
+
+        // 토큰 블랙리스트에 추가
+        tokenBlackRepository.save(new TokenBlack(accessToken));
+
+        return ResponseEntity.ok("로그아웃 완료");
+    }
 }
