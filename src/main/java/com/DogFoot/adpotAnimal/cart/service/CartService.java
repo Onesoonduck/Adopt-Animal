@@ -22,5 +22,4 @@ public class CartService {
         cartEntity.setCnt(cartDto.getCnt());
         cartRepository.save(cartEntity);
     }
-
 }
