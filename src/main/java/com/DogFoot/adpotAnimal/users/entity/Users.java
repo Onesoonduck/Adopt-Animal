@@ -68,6 +68,13 @@ public class Users implements UserDetails {
         return usersDto;
     }
 
+    public void updateUsers(Users users) {
+        this.userName = users.getUsername();
+        this.password = users.getPassword();
+        this.email = users.getEmail();
+        this.phoneNumber = users.getPhoneNumber();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
