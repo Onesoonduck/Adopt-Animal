@@ -5,6 +5,11 @@ import com.DogFoot.adpotAnimal.cart.entity.CartEntity;
 import com.DogFoot.adpotAnimal.cart.repository.CartRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CartService {
@@ -16,10 +21,38 @@ public class CartService {
     }
 
     public void addCart(CartDto cartDto) {
-        CartEntity cartEntity=new CartEntity();
-        cartEntity.setUserId(cartDto.getUserId());
-        cartEntity.setProductId(cartDto.getProductId());
-        cartEntity.setCnt(cartDto.getCnt());
+        CartEntity cartEntity = CartDto.toEntity(cartDto);
         cartRepository.save(cartEntity);
+    }
+    public List<CartDto> getCartItemsByUserId(String userId) {
+        List<CartEntity> cartEntities = cartRepository.findByUserId(userId);
+        return cartEntities.stream()
+                .map(CartDto::fromDto)
+                .collect(Collectors.toList());
+    }
+    @Transactional
+    public void deleteCartItems(List<Long> itemId){
+        for(Long itemIds:itemId){
+            cartRepository.deleteByCartId(itemIds);
+        }
+    }
+    public CartDto increaseItemCount(Long itemId){
+        Optional<CartEntity> opCartEntity = cartRepository.findById(itemId);
+        CartEntity cartEntity = opCartEntity.get();
+        cartEntity.setCnt(cartEntity.getCnt()+1);
+        CartEntity updatedEntity = cartRepository.save(cartEntity);
+        return CartDto.fromDto(updatedEntity);
+    }
+    public CartDto decreaseItemCount(Long itemId){
+        Optional<CartEntity> opCartEntity = cartRepository.findById(itemId);
+        CartEntity cartEntity = opCartEntity.get();
+        if(cartEntity.getCnt()>1){
+            cartEntity.setCnt(cartEntity.getCnt()-1);
+            CartEntity updatedEntity = cartRepository.save(cartEntity);
+            return CartDto.fromDto(updatedEntity);
+        }
+        else{
+            throw new IllegalArgumentException("감소 불가");
+        }
     }
 }
