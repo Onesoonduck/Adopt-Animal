@@ -35,7 +35,7 @@ public class JwtTokenProvider {
     public static final String AUTHORIZATION_HEADER = "Authorization";  // Header KEY 값
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 120;            // 120분
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            // 30분
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 14;  // 14일
 
     private final Key key;
@@ -124,6 +124,15 @@ public class JwtTokenProvider {
     }
 
     // Refresh 토큰을 검증하여 유효하다면 새로운 accessToke을 생성하여 반환
+    public JwtToken refreshValidateToken(String refreshToken) {
+        if(!validateToken(refreshToken)){
+            throw new IllegalArgumentException("Invalid refresh token");
+        }
+
+        Authentication authentication = getAuthentication(refreshToken);
+
+        return generateToken(authentication);
+    }
 
     // Access 토큰을 복호화하여 토큰에 포함된 클레임을 반환
     public Claims parseClaims(String accessToken) {

@@ -1,4 +1,4 @@
-package com.DogFoot.adpotAnimal.TokenBlacklist;
+package com.DogFoot.adpotAnimal.tokenBlack;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

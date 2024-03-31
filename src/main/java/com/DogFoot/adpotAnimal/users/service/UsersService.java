@@ -1,7 +1,7 @@
 package com.DogFoot.adpotAnimal.users.service;
 
-import com.DogFoot.adpotAnimal.TokenBlacklist.TokenBlack;
-import com.DogFoot.adpotAnimal.TokenBlacklist.TokenBlackRepository;
+import com.DogFoot.adpotAnimal.tokenBlack.TokenBlack;
+import com.DogFoot.adpotAnimal.tokenBlack.TokenBlackRepository;
 import com.DogFoot.adpotAnimal.jwt.JwtToken;
 import com.DogFoot.adpotAnimal.jwt.JwtTokenProvider;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
@@ -34,12 +34,11 @@ public class UsersService {
     private final PasswordEncoder passwordEncoder;
     private final TokenBlackRepository tokenBlackRepository;
 
-    //  로그인 요청으로 들어온 아이디와 패스워드를 검증하여 jwt 토큰 생성
     @Transactional
     public JwtToken login(String userId, String password) {
 
         // userId, password를 기반으로 Authentication 객체 생성
-        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, password, null);
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userId, password);
 
         // 요청된 Member에 대한 검증 진행
         Authentication authentication;
@@ -75,18 +74,28 @@ public class UsersService {
     }
 
     @Transactional
-    public ResponseEntity logout(String accessToken) {
+    public ResponseEntity logout(String token) {
+
         // 토큰이 유효한 지 검증
-        if(!jwtTokenProvider.validateToken(accessToken)){
+        if(!jwtTokenProvider.validateToken(token)){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }
 
         // 멤버의 정보를 확인
-        jwtTokenProvider.getAuthentication(accessToken);
+        jwtTokenProvider.getAuthentication(token);
 
         // 토큰 블랙리스트에 추가
-        tokenBlackRepository.save(new TokenBlack(accessToken));
+        tokenBlackRepository.save(new TokenBlack(token));
 
         return ResponseEntity.ok("로그아웃 완료");
+    }
+
+    // Refresh 토큰을 검증하여 새로운 토큰을 발급
+    public JwtToken revalidatedToken(String token) {
+        if(tokenBlackRepository.existsByToken(token)){
+            throw new IllegalArgumentException("토큰이 만료되었습니다.");
+        }
+
+        return jwtTokenProvider.refreshValidateToken(token);
     }
 }
