@@ -36,7 +36,7 @@ public class JwtTokenProvider {
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 120;            // 120분
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 14;  // 14일
 
     private final Key key;
 
@@ -51,7 +51,6 @@ public class JwtTokenProvider {
     * AccessToken : 인증된 사용자의 권한 정보와 만료 시간
     * RefreshToken : AccessToken의 갱신 (자동 로그인 유지에 사용)
     */
-
     public JwtToken generateToken(Authentication authentication) {
         // 권한 가져오기
         String authorities = authentication.getAuthorities().stream()
@@ -123,6 +122,8 @@ public class JwtTokenProvider {
         }
         return false;
     }
+
+    // Refresh 토큰을 검증하여 유효하다면 새로운 accessToke을 생성하여 반환
 
     // Access 토큰을 복호화하여 토큰에 포함된 클레임을 반환
     public Claims parseClaims(String accessToken) {

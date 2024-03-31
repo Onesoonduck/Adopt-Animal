@@ -43,7 +43,7 @@ public class UsersController {
     }
 
     /**
-     * 로그아웃 현재 accessToken 은
+     * 로그아웃
      */
     @PostMapping("/logout")
     public ResponseEntity logout(HttpServletRequest request) {
