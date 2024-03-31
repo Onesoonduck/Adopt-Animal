@@ -24,4 +24,3 @@ public class CartService {
     }
 
 }
-https://kdt-gitlab.elice.io/cloud_track/class_02/web_project2/team03/dogfoot.git
