@@ -32,10 +32,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class JwtTokenProvider {
 
+    public static final String AUTHORIZATION_HEADER = "Authorization";  // Header KEY 값
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 120;            // 120분
-    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
+    private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 14;  // 14일
 
     private final Key key;
 
@@ -50,7 +51,6 @@ public class JwtTokenProvider {
     * AccessToken : 인증된 사용자의 권한 정보와 만료 시간
     * RefreshToken : AccessToken의 갱신 (자동 로그인 유지에 사용)
     */
-
     public JwtToken generateToken(Authentication authentication) {
         // 권한 가져오기
         String authorities = authentication.getAuthorities().stream()
@@ -59,7 +59,7 @@ public class JwtTokenProvider {
 
         long now = (new Date()).getTime();
 
-        /** Access Token 생성
+        /* Access Token 생성
          *  복호화 하여 인증 벙보를 생성
          */
         Date accessTokenExpiresln = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
@@ -96,7 +96,7 @@ public class JwtTokenProvider {
         Collection<? extends GrantedAuthority> authorities =
             Arrays.stream(claims.get(AUTHORITIES_KEY).toString().split(","))
             .map(SimpleGrantedAuthority::new)
-            .toList();
+            .collect(Collectors.toList());
 
         // UserDetails 객체를 만들어 Authentication를 반환
         UserDetails principal = new User(claims.getSubject(), "", authorities);
@@ -104,7 +104,7 @@ public class JwtTokenProvider {
     }
 
     // 토큰 정보를 검증하는 메서드
-    public boolean vaildateToken(String token) {
+    public boolean validateToken(String token) {
         try {
             Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -120,8 +120,10 @@ public class JwtTokenProvider {
         } catch (IllegalArgumentException e) {  // jwt 클레임 문자열이 비어있을 경우
             log.info("JWT claims string is empty.", e);
         }
-        return false;   // 예외 발생 시 false 반환
+        return false;
     }
+
+    // Refresh 토큰을 검증하여 유효하다면 새로운 accessToke을 생성하여 반환
 
     // Access 토큰을 복호화하여 토큰에 포함된 클레임을 반환
     public Claims parseClaims(String accessToken) {
