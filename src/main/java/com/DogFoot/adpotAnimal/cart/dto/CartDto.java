@@ -13,4 +13,21 @@ public class CartDto {
     private Long productId;
     private int cnt;
 
+    public static CartEntity toEntity(CartDto cartDto) {
+        CartEntity cartEntity = new CartEntity();
+        cartEntity.setCartId(cartDto.getCartId());
+        cartEntity.setUserId(cartDto.getUserId());
+        cartEntity.setProductId(cartDto.getProductId());
+        cartEntity.setCnt(cartDto.getCnt());
+        return cartEntity;
+    }
+
+    public static CartDto fromDto(CartEntity cartEntity) {
+        CartDto cartDto = new CartDto();
+        cartDto.setCartId(cartEntity.getCartId());
+        cartDto.setUserId(cartEntity.getUserId());
+        cartDto.setProductId(cartEntity.getProductId());
+        cartDto.setCnt(cartEntity.getCnt());
+        return cartDto;
+    }
 }

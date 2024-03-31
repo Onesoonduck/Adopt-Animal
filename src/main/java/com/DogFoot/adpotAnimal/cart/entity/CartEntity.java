@@ -10,7 +10,7 @@ import lombok.*;
 @Table(name = "cart")
 public class CartEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cartId;
 
     @Column(name = "user_id")
