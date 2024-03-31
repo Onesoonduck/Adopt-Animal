@@ -8,9 +8,11 @@ import com.DogFoot.adpotAnimal.users.dto.UpdateDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
+import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +36,19 @@ public class UsersController {
         String userId = loginDto.getUserId();
         String password = loginDto.getPassword();
         JwtToken jwtToken = usersService.login(userId, password);
-        response.addHeader(JwtTokenProvider.AUTHORIZATION_HEADER, jwtToken.getAccessToken());
+
+        // 쿠키 생성 및 쿠키 세팅
+        Cookie cookie = new Cookie("TOKEN", jwtToken.getRefreshToken());
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+
+        // 자동 로그인 시 max-age 속성을 설정하여 브라우저 종료 시에도 쿠키가 사라지지 않도록 함
+        if(false){
+            cookie.setMaxAge(1000 * 60 * 60 * 24 * 14);
+        }
+
+        response.addCookie(cookie);
+
         return jwtToken;
     }
 
@@ -45,15 +59,6 @@ public class UsersController {
         return ResponseEntity.ok(savedUsersDto);
     }
 
-    /**
-     * 로그아웃
-     */
-    @PostMapping("/logout")
-    public ResponseEntity logout(HttpServletRequest request) {
-        String token = request.getHeader(JwtTokenProvider.AUTHORIZATION_HEADER);
-        return usersService.logout(token);
-    }
-
     // 회원 정보 수정
     @PostMapping("/{id}")
     public ResponseEntity updateUsers(@PathVariable Long id, UpdateDto updateDto) {
@@ -61,5 +66,18 @@ public class UsersController {
         return ResponseEntity.ok(users);
     }
 
+    // 로그 아웃
+    @PostMapping("/logout")
+    public ResponseEntity logout(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+
+        String token = Arrays.stream(cookies)
+            .filter(cookie -> "TOKEN".equals(cookie.getName()))
+            .findFirst()
+            .map(Cookie::getValue)
+            .orElse(null);
+
+        return usersService.logout(token);
+    }
 
 }

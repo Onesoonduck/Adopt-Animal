@@ -35,7 +35,11 @@ public class JwtTokenProvider {
     public static final String AUTHORIZATION_HEADER = "Authorization";  // Header KEY 값
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "Bearer";
+
     private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 120;            // 120분
+
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 30;            // 30분
+
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 14;  // 14일
 
     private final Key key;
@@ -121,6 +125,20 @@ public class JwtTokenProvider {
             log.info("JWT claims string is empty.", e);
         }
         return false;
+<<<<<<< src/main/java/com/DogFoot/adpotAnimal/jwt/JwtTokenProvider.java
+=======
+    }
+
+    // Refresh 토큰을 검증하여 유효하다면 새로운 accessToke을 생성하여 반환
+    public JwtToken refreshValidateToken(String refreshToken) {
+        if(!validateToken(refreshToken)){
+            throw new IllegalArgumentException("Invalid refresh token");
+        }
+
+        Authentication authentication = getAuthentication(refreshToken);
+
+        return generateToken(authentication);
+>>>>>>> src/main/java/com/DogFoot/adpotAnimal/jwt/JwtTokenProvider.java
     }
 
     // Refresh 토큰을 검증하여 유효하다면 새로운 accessToke을 생성하여 반환

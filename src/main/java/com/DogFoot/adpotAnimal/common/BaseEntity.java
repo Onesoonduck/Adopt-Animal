@@ -1,4 +1,4 @@
-package main.java.com.DogFoot.adpotAnimal.common;
+package com.DogFoot.adpotAnimal.common;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;
