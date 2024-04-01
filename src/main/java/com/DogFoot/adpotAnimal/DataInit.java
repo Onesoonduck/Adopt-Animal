@@ -16,18 +16,5 @@ public class DataInit {
 
     @PostConstruct
     public void init() {
-
-        // 패스워드 암호화
-        SignUpDto signUpDto = SignUpDto.builder()
-            .userName("won")
-            .userId("elice")
-            .email("elice@example.com")
-            .password("1234")
-            .phoneNumber("01012341234")
-            .build();
-        String encodedPassword = passwordEncoder.encode(signUpDto.getPassword());
-
-        // 멤버 리포지터리에 저장
-        usersRepository.save(signUpDto.toEntity(encodedPassword, UsersRole.USER));
     }
 }

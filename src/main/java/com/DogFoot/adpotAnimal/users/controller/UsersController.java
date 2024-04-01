@@ -62,7 +62,7 @@ public class UsersController {
     // 회원 정보 수정
     @PostMapping("/{id}")
     public ResponseEntity updateUsers(@PathVariable Long id, UpdateDto updateDto) {
-        Users users =usersService.update(id, updateDto);
+        Users users = usersService.update(id, updateDto);
         return ResponseEntity.ok(users);
     }
 
