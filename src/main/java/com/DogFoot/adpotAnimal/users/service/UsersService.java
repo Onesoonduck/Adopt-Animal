@@ -102,7 +102,6 @@ public class UsersService {
         if (usersRepository.existsByEmail(updateDto.getEmail())) {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         } else if(!updateUsers.getUserId().equals(updateDto.getUserId())) {
-            System.out.println(updateUsers.getUserId()+ " , " + updateDto.getUserId());
             throw new IllegalArgumentException("다른 계정입니다.");
         }
 
@@ -117,6 +116,7 @@ public class UsersService {
         // 저장된 멤버 엔티티를 dto로 반환
         return updateUsers.toDto();
     }
+
     // Refresh 토큰을 검증하여 새로운 토큰을 발급
     public JwtToken revalidatedToken(String token) {
         if(tokenBlackRepository.existsByToken(token)){
@@ -124,5 +124,26 @@ public class UsersService {
         }
 
         return jwtTokenProvider.refreshValidateToken(token);
+    }
+
+    @Transactional
+    public ResponseEntity deleteUsers(long id, String token) {
+
+        // 유효성 체크
+        if(!usersRepository.existsById(id)) {
+            throw new IllegalArgumentException("계정이 존재하지 않습니다.");
+        } else if (!jwtTokenProvider.validateToken(token)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+            }
+
+        // 멤버의 정보를 확인
+        jwtTokenProvider.getAuthentication(token);
+
+        // 토큰 블랙리스트에 추가
+        tokenBlackRepository.save(new TokenBlack(token));
+
+        usersRepository.deleteById(id);
+
+        return ResponseEntity.ok("로그아웃 완료");
     }
 }
