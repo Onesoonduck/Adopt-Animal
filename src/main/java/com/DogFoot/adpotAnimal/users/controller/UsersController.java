@@ -4,9 +4,8 @@ import com.DogFoot.adpotAnimal.jwt.JwtToken;
 import com.DogFoot.adpotAnimal.jwt.JwtTokenProvider;
 import com.DogFoot.adpotAnimal.users.dto.LoginDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
-import com.DogFoot.adpotAnimal.users.dto.UpdateDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
-import com.DogFoot.adpotAnimal.users.entity.Users;
+import com.DogFoot.adpotAnimal.users.dto.UpdateUsersDto;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -61,9 +60,9 @@ public class UsersController {
 
     // 회원 정보 수정
     @PostMapping("/{id}")
-    public ResponseEntity updateUsers(@PathVariable Long id, UpdateDto updateDto) {
-        Users users = usersService.update(id, updateDto);
-        return ResponseEntity.ok(users);
+    public ResponseEntity<UsersDto> updateUsers(@PathVariable Long id, @Valid @RequestBody UpdateUsersDto updateDto) {
+        UsersDto updateUsersDto = usersService.update(id, updateDto);
+        return ResponseEntity.ok(updateUsersDto);
     }
 
     // 로그 아웃

@@ -4,7 +4,7 @@ import com.DogFoot.adpotAnimal.tokenBlack.TokenBlack;
 import com.DogFoot.adpotAnimal.tokenBlack.TokenBlackRepository;
 import com.DogFoot.adpotAnimal.jwt.JwtToken;
 import com.DogFoot.adpotAnimal.jwt.JwtTokenProvider;
-import com.DogFoot.adpotAnimal.users.dto.UpdateDto;
+import com.DogFoot.adpotAnimal.users.dto.UpdateUsersDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
 import com.DogFoot.adpotAnimal.users.entity.Users;
@@ -94,25 +94,28 @@ public class UsersService {
     }
 
     @Transactional
-    public Users update(long id, UpdateDto updateDto) {
-
+    public UsersDto update(long id, UpdateUsersDto updateDto) {
+        //해당 멤버 가져오기
         Users updateUsers =usersRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
 
         // 유효성 체크
-       if (usersRepository.existsByEmail(updateDto.getEmail())) {
+        if (usersRepository.existsByEmail(updateDto.getEmail())) {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
-        } else if(updateUsers.getUserId() != updateDto.getUserId()) {
-           throw new IllegalArgumentException("다른 계정입니다.");
-       }
+        } else if(!updateUsers.getUserId().equals(updateDto.getUserId())) {
+            System.out.println(updateUsers.getUserId()+ " , " + updateDto.getUserId());
+            throw new IllegalArgumentException("다른 계정입니다.");
+        }
 
         // 패스워드 암호화
         String encodedPassword = passwordEncoder.encode(updateDto.getPassword());
 
         // 멤버 리포지터리 업데이트
         Users users =updateDto.toEntity(encodedPassword,UsersRole.USER);
-        users.updateUsers(users);
-        // 저장된 멤버 엔티티를 반환
-        return users;
+        updateUsers.updateUsers(users);
+        usersRepository.save(updateUsers);
+
+        // 저장된 멤버 엔티티를 dto로 반환
+        return updateUsers.toDto();
     }
     // Refresh 토큰을 검증하여 새로운 토큰을 발급
     public JwtToken revalidatedToken(String token) {
