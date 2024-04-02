@@ -1,11 +1,11 @@
 package com.DogFoot.adpotAnimal.dto;
 
+import com.DogFoot.adpotAnimal.entity.Product;
+import lombok.*;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
-@Getter
+@Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProductDto {
     private Long id;
     private Integer category_id;
@@ -14,14 +14,25 @@ public class ProductDto {
     private int product_stock;
     private int like;
 
-    public ProductDto(Long id, Integer category_id, int price, String product_name, int product_stock, int like) {
-        this.id = id;
-        this.category_id = category_id;
-        this.price = price;
-        this.product_name = product_name;
-        this.product_stock = product_stock;
-        this.like = like;
-
+    public static Product toEntity(ProductDto productDto) {
+        Product product = new Product();
+        product.setId(productDto.getId());
+        product.setCategory_id(productDto.getCategory_id());
+        product.setPrice(productDto.getPrice());
+        product.setProduct_name(productDto.getProduct_name());
+        product.setProduct_stock(productDto.getProduct_stock());
+        product.setLike(productDto.getLike());
+        return product;
     }
 
+    public static ProductDto fromDto(Product product) {
+        ProductDto productDto = new ProductDto();
+        productDto.setId(product.getId());
+        productDto.setCategory_id(product.getCategory_id());
+        productDto.setPrice(product.getPrice());
+        productDto.setProduct_name(product.getProduct_name());
+        productDto.setProduct_stock(product.getProduct_stock());
+        productDto.setLike(product.getLike());
+        return productDto;
+    }
 }
