@@ -82,6 +82,8 @@ public class UsersService {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
 
+        // TODO : 패스워드 검증
+
         // 패스워드 암호화
         String encodedPassword = passwordEncoder.encode(signUpDto.getPassword());
 
@@ -109,7 +111,7 @@ public class UsersService {
 
             Instant expiredTimeInstant = jwtTokenProvider.getExpirationDate(refreshToken).toInstant();
             LocalDateTime expiredTime = expiredTimeInstant.atZone(ZoneId.systemDefault()).toLocalDateTime();
-            tokenBlackService.saveTokenToBlacklist(accessToken, TokenType.REFRESH, expiredTime);
+            tokenBlackService.saveTokenToBlacklist(refreshToken, TokenType.REFRESH, expiredTime);
         }
 
         // 헤더와 쿠키에서 토큰 삭제
@@ -121,7 +123,7 @@ public class UsersService {
     @Transactional
     public UsersDto update(long id, UpdateUsersDto updateDto) {
         //해당 멤버 가져오기
-        Users updateUsers =usersRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
+        Users updateUsers = usersRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
             HttpStatus.NOT_FOUND));
 
         // 유효성 체크
@@ -139,24 +141,17 @@ public class UsersService {
         updateUsers.updateUsers(users);
         usersRepository.save(updateUsers);
 
+        // TODO : jwt 토큰 새로 발급을 받아야 되요.
+
         // 저장된 멤버 엔티티를 dto로 반환
         return updateUsers.toDto();
     }
+
+
+
     @Transactional
-    public ResponseEntity deleteUsers(long id, String token) {
-
-        // 유효성 체크
-        if(!usersRepository.existsById(id)) {
-            throw new IllegalArgumentException("계정이 존재하지 않습니다.");
-        } else if (!jwtTokenProvider.validateToken(token)) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
-            }
-
-        // 멤버의 정보를 확인
-        jwtTokenProvider.getAuthentication(token);
-
+    public ResponseEntity deleteUsers(long id) {
         usersRepository.deleteById(id);
-
         return ResponseEntity.ok("로그아웃 완료");
     }
 }

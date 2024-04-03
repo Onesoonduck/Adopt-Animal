@@ -108,7 +108,7 @@ public class JwtTokenProvider {
         Authentication authentication = getAuthentication(refreshToken);
         String accessToken = generateAccessToken(authentication);
 
-        // RefreshToken을 검증하여 만료기한이 1시간 이내라면 refreshToken 도 같이 발급
+        // RefreshToken을 검증하여 만료기한이 30분 이내라면 refreshToken 도 같이 발급
         Date expirationDate = getExpirationDate(refreshToken);
         if (TimeUnit.MILLISECONDS.toMinutes(expirationDate.getTime() - System.currentTimeMillis()) <= 30) {
             refreshToken = generateRefreshToken();
@@ -245,11 +245,11 @@ public class JwtTokenProvider {
         Cookie cookie = new Cookie("TOKEN", refreshToken);
         cookie.setHttpOnly(true);
         cookie.setSecure(true);
-        cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(REFRESH_TOKEN_EXPIRE_TIME));
-        response.addCookie(cookie);
 
         // 자동 로그인 시 max-age 속성을 설정하여 브라우저 종료 시에도 쿠키가 사라지지 않도록 함
         if(isAutoLogin){
+            cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(REFRESH_TOKEN_EXPIRE_TIME));
+            response.addCookie(cookie);
             cookie = new Cookie("AUTOLOGIN", "TRUE");
             cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(REFRESH_TOKEN_EXPIRE_TIME));
             response.addCookie(cookie);

@@ -3,6 +3,7 @@ package com.DogFoot.adpotAnimal.users.controller;
 import com.DogFoot.adpotAnimal.jwt.JwtToken;
 import com.DogFoot.adpotAnimal.users.dto.LoginDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
+import com.DogFoot.adpotAnimal.users.dto.UpdateUsersDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
 import jakarta.servlet.http.Cookie;
@@ -51,18 +52,18 @@ public class UsersController {
     }
 
     // 회원 정보 수정
+    @PostMapping("/{id}")
+    public ResponseEntity<UsersDto> updateUsers(@PathVariable Long id, @Valid @RequestBody UpdateUsersDto updateDto) {
+        UsersDto updateUsersDto = usersService.update(id, updateDto);
+        return ResponseEntity.ok(updateUsersDto);
+    }
+
+    // 회원 정보 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity deleteUsers(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) throws IOException {
-        Cookie[] cookies = request.getCookies();
-        String token = Arrays.stream(cookies)
-            .filter(cookie -> "TOKEN".equals(cookie.getName()))
-            .findFirst()
-            .map(Cookie::getValue)
-            .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND));
-
         usersService.logout(request, response);
         response.sendRedirect("http://localhost:8080/login");
 
-        return usersService.deleteUsers(id, token);
+        return usersService.deleteUsers(id);
     }
 }
