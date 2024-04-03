@@ -11,6 +11,8 @@ public class CartDto {
     private Long cartId;
     private String userId;
     private Long productId;
+    private String productName;
+    private int productPrice;
     private int cnt;
 
     public static CartEntity toEntity(CartDto cartDto) {

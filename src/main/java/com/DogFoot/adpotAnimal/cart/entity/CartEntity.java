@@ -19,7 +19,23 @@ public class CartEntity {
     @Column(name = "product_id")
     private Long productId;
 
-
     private int cnt;
 
+      //product merge후 추가
+//    @ManyToOne(fetch = FetchType.LAZY) 
+//    @JoinColumn(name = "product_id") 
+//    private Product product; 
+//    
+//    @Transient 
+//    private String productName;
+//
+//    @Transient
+//    private double productPrice;
+//    public void setProductInfo() {
+//        if (product != null) {
+//            this.productName = product.getName();
+//            this.productPrice = product.getPrice();
+//        }
+//    }
+    
 }

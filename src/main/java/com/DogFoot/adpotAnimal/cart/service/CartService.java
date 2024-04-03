@@ -30,10 +30,26 @@ public class CartService {
                 .map(CartDto::fromDto)
                 .collect(Collectors.toList());
     }
+//    product merge후 바꿔야할 클래스    
+//    public List<CartDto> getCartItemsByUserId(String userId) {
+//        List<CartEntity> cartEntities = cartRepository.findByUserId(userId);
+//        return cartEntities.stream()
+//                .map(cartEntity -> {
+//                    CartDto cartDto = CartDto.fromDto(cartEntity);
+//                    Long productId = cartEntity.getProductId();
+//                    Optional<Product> productOptional = productRepository.findById(productId);
+//                    productOptional.ifPresent(product -> {
+//                        cartDto.setProductName(product.getName());
+//                        cartDto.setProductPrice(product.getPrice());
+//                    });
+//                    return cartDto;
+//                })
+//                .collect(Collectors.toList());
+//    }
     @Transactional
     public void deleteCartItems(List<Long> itemId){
         for(Long itemIds:itemId){
-            cartRepository.deleteByCartId(itemIds);
+            cartRepository.deleteById(itemIds);
         }
     }
     public CartDto increaseItemCount(Long itemId){

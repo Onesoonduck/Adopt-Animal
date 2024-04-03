@@ -23,11 +23,13 @@ public class CartController {
         cartService.addCart(cartDto);
         return ResponseEntity.ok(cartDto);
     }
+    @CrossOrigin(origins = "http://localhost:63342")
     @GetMapping("/{user-id}")
     public ResponseEntity <List<CartDto>> getCartItemsByUserId(@PathVariable("user-id") String userId){
         List<CartDto> cartItems = cartService.getCartItemsByUserId(userId);
         return ResponseEntity.ok(cartItems);
     }
+    @CrossOrigin(origins = "http://localhost:63342")
     @DeleteMapping
     public ResponseEntity<String> deleteCartItems(@RequestBody List<Long> itemIds){
         cartService.deleteCartItems(itemIds);
