@@ -66,8 +66,6 @@ public class UsersControllerTest {
     @Test
     public void loginTest() throws Exception {
 
-        signUpTest();
-
         LoginDto loginDto = LoginDto.builder()
             .userId("elice")
             .password("1234")

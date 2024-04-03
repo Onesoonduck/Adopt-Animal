@@ -1,5 +1,6 @@
 package com.DogFoot.adpotAnimal.users.entity;
 
+import com.DogFoot.adpotAnimal.common.BaseEntity;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -15,13 +16,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 @Table(name = "users")
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Users implements UserDetails {
+public class Users extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -69,54 +69,9 @@ public class Users implements UserDetails {
     }
 
     public void updateUsers(Users users) {
-        this.userName = users.getUsername();
+        this.userName = users.getUserName();
         this.password = users.getPassword();
         this.email = users.getEmail();
         this.phoneNumber = users.getPhoneNumber();
-    }
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-
-        // 현재 사용자의 권한을 가져옵니다.
-        UsersRole currentRole = userRole;
-
-        // 권한을 문자열로 변환합니다. 예를 들어, UsersRole.USER는 "ROLE_USER"로 변환됩니다.
-        String authority = currentRole.getAuthority();
-
-        // 문자열 권한을 사용하여 SimpleGrantedAuthority 객체를 생성합니다.
-        SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(authority);
-
-        // 생성된 SimpleGrantedAuthority 객체를 단일 항목의 리스트로 만듭니다.
-        Collection<GrantedAuthority> authorities = new ArrayList<>();
-        authorities.add(simpleGrantedAuthority);
-
-        // 권한 리스트를 반환합니다.
-        return authorities;
-    }
-
-    @Override
-    public String getUsername() {
-        return userId;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
     }
 }

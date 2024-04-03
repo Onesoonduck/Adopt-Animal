@@ -39,9 +39,9 @@ public class SecurityConfiguration {
         // 페이지 별 권한 설정
         http
             .authorizeHttpRequests((auth)->auth
-                .requestMatchers("users/signup","/","users/login").permitAll()  // 홈, 로그인, 가입 페이지는 전체 허가
+                .requestMatchers("users/signup","/","users/userTest","users/userTest","users/login","users/editUser").permitAll()  // 전체 허가 페이지
                 .requestMatchers("/admin").hasRole("ADMIN")   // 관리자 페이지는 관리자만
-                .anyRequest().authenticated()
+                .anyRequest().authenticated()   //인증된 사용자만 접근 허용
             );
 
         // jwt 인증 필터 추가

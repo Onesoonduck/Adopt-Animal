@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-public class UpdateDto {
+public class UpdateUsersDto {
         private String userId;
         private String userName;
         private String password;
@@ -15,7 +15,7 @@ public class UpdateDto {
         private UsersRole userRole;
 
         @Builder
-        public UpdateDto(String userId, String userName, String password, String email, String phoneNumber, UsersRole userRole) {
+        public UpdateUsersDto(String userId, String userName, String password, String email, String phoneNumber, UsersRole userRole) {
             this.userId = userId;
             this.userName = userName;
             this.password = password;
