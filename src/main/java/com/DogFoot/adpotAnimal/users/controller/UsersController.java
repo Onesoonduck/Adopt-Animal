@@ -6,6 +6,7 @@ import com.DogFoot.adpotAnimal.users.dto.LoginDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import com.DogFoot.adpotAnimal.users.dto.UpdateUsersDto;
+import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -15,6 +16,9 @@ import java.util.Arrays;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,23 +36,7 @@ public class UsersController {
     // 로그인
     @PostMapping("/login")
     public JwtToken login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
-        String userId = loginDto.getUserId();
-        String password = loginDto.getPassword();
-        JwtToken jwtToken = usersService.login(userId, password);
-
-        // 쿠키 생성 및 쿠키 세팅
-        Cookie cookie = new Cookie("TOKEN", jwtToken.getRefreshToken());
-        cookie.setHttpOnly(true);
-        cookie.setSecure(true);
-
-        // 자동 로그인 시 max-age 속성을 설정하여 브라우저 종료 시에도 쿠키가 사라지지 않도록 함
-        if(false){
-            cookie.setMaxAge(1000 * 60 * 60 * 24 * 14);
-        }
-
-        response.addCookie(cookie);
-
-        return jwtToken;
+        return usersService.login(loginDto, response);
     }
 
     // 회원 가입
@@ -58,25 +46,10 @@ public class UsersController {
         return ResponseEntity.ok(savedUsersDto);
     }
 
-    // 회원 정보 수정
-    @PostMapping("/{id}")
-    public ResponseEntity<UsersDto> updateUsers(@PathVariable Long id, @Valid @RequestBody UpdateUsersDto updateDto) {
-        UsersDto updateUsersDto = usersService.update(id, updateDto);
-        return ResponseEntity.ok(updateUsersDto);
-    }
-
     // 로그 아웃
     @PostMapping("/logout")
-    public ResponseEntity logout(HttpServletRequest request) {
-        Cookie[] cookies = request.getCookies();
-
-        String token = Arrays.stream(cookies)
-            .filter(cookie -> "TOKEN".equals(cookie.getName()))
-            .findFirst()
-            .map(Cookie::getValue)
-            .orElse(null);
-
-        return usersService.logout(token);
+    public ResponseEntity<String> logout(HttpServletRequest request, HttpServletResponse response) {
+        return usersService.logout(request, response);
     }
 
 }

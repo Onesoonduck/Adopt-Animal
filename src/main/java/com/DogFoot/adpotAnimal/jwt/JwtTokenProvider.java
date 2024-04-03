@@ -1,5 +1,8 @@
 package com.DogFoot.adpotAnimal.jwt;
 
+import com.DogFoot.adpotAnimal.tokenBlack.TokenBlackService;
+import com.DogFoot.adpotAnimal.users.entity.CustomUserDetails;
+import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -8,10 +11,14 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.security.Key;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,9 +26,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
+import org.springframework.util.StringUtils;
 
 /**
  * JWT 토큰을 사용하여 인증과 권한 부여를 처리하는 클래스
@@ -41,10 +47,13 @@ public class JwtTokenProvider {
 
     private final Key key;
 
+    private UsersRepository usersRepository;
+    private TokenBlackService tokenBlackService;
     // application.yml에서 secret 값을 가져와서 key에 저장
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UsersRepository usersRepository) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
+        this.usersRepository = usersRepository;
     }
 
     /**
@@ -53,6 +62,22 @@ public class JwtTokenProvider {
     * RefreshToken : AccessToken의 갱신 (자동 로그인 유지에 사용)
     */
     public JwtToken generateToken(Authentication authentication) {
+
+        // AccessToken 생성
+        String accessToken = generateAccessToken(authentication);
+
+        // AccessToken을 검증하여 Refresh Token 생성
+        String refreshToken = generateRefreshToken();
+
+        return JwtToken.builder()
+            .grantType(BEARER_TYPE)
+            .accessToken(accessToken)
+            .refreshToken(refreshToken)
+            .build();
+    }
+
+    // 액세스 토큰을 생성
+    private String generateAccessToken(Authentication authentication) {
         // 권한 가져오기
         String authorities = authentication.getAuthorities().stream()
             .map(GrantedAuthority::getAuthority)
@@ -71,17 +96,39 @@ public class JwtTokenProvider {
             .signWith(key, SignatureAlgorithm.HS256)
             .compact();
 
-        // AccessToken을 검증하여 유효성을 확인 Refresh Token 생성
-        String refreshToken = Jwts.builder()
-            .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
-            .signWith(key, SignatureAlgorithm.HS256)
-            .compact();
+        return accessToken;
+    }
+
+    // Refresh 토큰을 검증하여 유효하다면 새로운 accessToke을 생성하여 반환
+    public JwtToken refreshGenerateAccessToken(String refreshToken) {
+        if(!validateToken(refreshToken)){
+            throw new IllegalArgumentException("Invalid refresh token");
+        }
+
+        Authentication authentication = getAuthentication(refreshToken);
+        String accessToken = generateAccessToken(authentication);
+
+        // RefreshToken을 검증하여 만료기한이 1시간 이내라면 refreshToken 도 같이 발급
+        Date expirationDate = getExpirationDate(refreshToken);
+        if (TimeUnit.MILLISECONDS.toMinutes(expirationDate.getTime() - System.currentTimeMillis()) <= 30) {
+            refreshToken = generateRefreshToken();
+        }
 
         return JwtToken.builder()
             .grantType(BEARER_TYPE)
             .accessToken(accessToken)
             .refreshToken(refreshToken)
             .build();
+    }
+
+    // 리프레쉬 토큰을 생성
+    private String generateRefreshToken() {
+        long now = (new Date()).getTime();
+        String refreshToken = Jwts.builder()
+            .setExpiration(new Date(now + REFRESH_TOKEN_EXPIRE_TIME))
+            .signWith(key, SignatureAlgorithm.HS256)
+            .compact();
+        return refreshToken;
     }
 
     // jwt 토큰을 복호화하여 토큰에 들어 있는 정보를 꺼내는 메소드
@@ -100,12 +147,18 @@ public class JwtTokenProvider {
             .collect(Collectors.toList());
 
         // UserDetails 객체를 만들어 Authentication를 반환
-        UserDetails principal = new User(claims.getSubject(), "", authorities);
+        CustomUserDetails principal = new CustomUserDetails(usersRepository.findByUserId(
+            claims.getSubject()).get());
         return new UsernamePasswordAuthenticationToken(principal, "", authorities);
     }
 
     // 토큰 정보를 검증하는 메서드
     public boolean validateToken(String token) {
+
+        if(tokenBlackService.existsToken(token)){
+            return false;
+        }
+
         try {
             Jwts.parserBuilder()
                 .setSigningKey(key)
@@ -124,19 +177,6 @@ public class JwtTokenProvider {
         return false;
     }
 
-    // Refresh 토큰을 검증하여 유효하다면 새로운 accessToke을 생성하여 반환
-    public JwtToken refreshValidateToken(String refreshToken) {
-        if(!validateToken(refreshToken)){
-            throw new IllegalArgumentException("Invalid refresh token");
-        }
-
-        Authentication authentication = getAuthentication(refreshToken);
-
-        return generateToken(authentication);
-    }
-
-    // Refresh 토큰을 검증하여 유효하다면 새로운 accessToke을 생성하여 반환
-
     // Access 토큰을 복호화하여 토큰에 포함된 클레임을 반환
     public Claims parseClaims(String accessToken) {
         try {
@@ -150,4 +190,88 @@ public class JwtTokenProvider {
         }
     }
 
+    // Request Header에서 access 토큰 정보 추출
+    public String resolveToken(HttpServletRequest request) {
+        String bearerToken = request.getHeader("Authorization");
+        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
+            return bearerToken.substring(7);
+        }
+        return null;
+    }
+
+    // 쿠키에서 Refresh 토큰 추출
+    public String getRefreshToken(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("TOKEN".equals(cookie.getName())) {
+                    return cookie.getValue();
+                }
+            }
+        }
+        return null;
+    }
+
+    // 쿠키에서 자동 로그인 여부 추출
+    public boolean getIsAutoLogin(HttpServletRequest request) {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("AUTOLOGIN".equals(cookie.getName())) {
+                    if(cookie.getValue()=="TRUE"){
+                        return true;
+                    } else {
+                        return false;
+                    }
+
+                }
+            }
+        }
+        return false;
+    }
+
+    // 토큰의 만료시간 획득
+    public Date getExpirationDate(String token) {
+        Claims claims = parseClaims(token);
+        return claims.getExpiration();
+    }
+
+    // accessToken은 헤더, refreshToken은 쿠키에 저장
+    public void storeTokens(HttpServletResponse response, String accessToken, String refreshToken, boolean isAutoLogin) {
+        // 헤더에 accessToken 저장
+        response.setHeader("Authorization", "Bearer " + accessToken);
+
+        // 쿠키에 refreshToken 저장
+        Cookie cookie = new Cookie("TOKEN", refreshToken);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(REFRESH_TOKEN_EXPIRE_TIME));
+        response.addCookie(cookie);
+
+        // 자동 로그인 시 max-age 속성을 설정하여 브라우저 종료 시에도 쿠키가 사라지지 않도록 함
+        if(isAutoLogin){
+            cookie = new Cookie("AUTOLOGIN", "TRUE");
+            cookie.setMaxAge((int) TimeUnit.MILLISECONDS.toSeconds(REFRESH_TOKEN_EXPIRE_TIME));
+            response.addCookie(cookie);
+        } else {
+            cookie = new Cookie("AUTOLOGIN", "FALSE");
+            response.addCookie(cookie);
+        }
+    }
+
+    public void deleteStoreTokens(HttpServletResponse response) {
+        // 헤더에서 토큰 삭제
+        response.setHeader("Authorization", "");
+
+        // 쿠키에서 토큰 삭제
+        Cookie cookie = new Cookie("TOKEN", null);
+        cookie.setMaxAge(0);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(true);
+        response.addCookie(cookie);
+
+        cookie = new Cookie("AUTOLOGIN", "FALSE");
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
+    }
 }

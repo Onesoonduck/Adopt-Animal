@@ -2,41 +2,40 @@ package com.DogFoot.adpotAnimal.jwt;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.ServletRequest;
-import jakarta.servlet.ServletResponse;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 
-@RequiredArgsConstructor
-public class JwtAuthenticationFilter extends GenericFilterBean {
+public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtTokenProvider jwtTokenProvider;
 
-    @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
-        // jwt 토큰 추출
-        String token = resolveToken((HttpServletRequest) request);
-
-        // validate 토큰 유효성 검사
-        if(token != null && jwtTokenProvider.validateToken(token)){
-            Authentication authentication = jwtTokenProvider.getAuthentication(token);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
-        }
-
-        chain.doFilter(request, response);
+    public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
     }
 
-    // Request Header에서 토큰 정보 추출
-    public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
-            return bearerToken.substring(7);
+    @Override
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+        throws ServletException, IOException {
+        // jwt 토큰 추출
+        String accessToken = jwtTokenProvider.resolveToken(request);
+        String refreshToken = jwtTokenProvider.getRefreshToken(request);
+
+        // validate 토큰 유효성 검사
+        if(accessToken != null && jwtTokenProvider.validateToken(accessToken)){
+            Authentication authentication = jwtTokenProvider.getAuthentication(accessToken);
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+        } else if(refreshToken != null && jwtTokenProvider.validateToken(refreshToken)) {
+            // access 토큰이 만료되었다면 해당 refresh 토큰을 검증
+            JwtToken token = jwtTokenProvider.refreshGenerateAccessToken(refreshToken);
+            jwtTokenProvider.storeTokens(response, token.getAccessToken(), token.getRefreshToken(),
+                jwtTokenProvider.getIsAutoLogin(request));
+        } else {
+            logger.info("Invalid or expired token");
         }
-        return null;
+
+        filterChain.doFilter(request, response);
     }
 }
