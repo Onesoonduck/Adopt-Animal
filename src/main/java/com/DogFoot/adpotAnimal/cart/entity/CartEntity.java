@@ -1,5 +1,6 @@
 package com.DogFoot.adpotAnimal.cart.entity;
 
+import com.DogFoot.adpotAnimal.product.entity.ProductEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -16,26 +17,11 @@ public class CartEntity {
     @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "product_id")
-    private Long productId;
-
+    @Column(name = "cnt")
     private int cnt;
 
-      //product merge후 추가
-//    @ManyToOne(fetch = FetchType.LAZY) 
-//    @JoinColumn(name = "product_id") 
-//    private Product product; 
-//    
-//    @Transient 
-//    private String productName;
-//
-//    @Transient
-//    private double productPrice;
-//    public void setProductInfo() {
-//        if (product != null) {
-//            this.productName = product.getName();
-//            this.productPrice = product.getPrice();
-//        }
-//    }
-    
+    @Column(name="product_id")
+    private Long productId;
+
+
 }
