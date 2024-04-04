@@ -3,19 +3,13 @@ package com.DogFoot.adpotAnimal.order.repository;
 import com.DogFoot.adpotAnimal.order.entity.Order;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
+
 @Repository
-@RequiredArgsConstructor
-public class OrderRepository {
+public interface OrderRepository extends JpaRepository<Order, Long> {
 
-    private final EntityManager em;
-
-    public void save (Order order) {
-        em.persist(order);
-    }
-
-    public Order findOne (Long id) {
-        return em.find(Order.class, id);
-    }
+    List<Order> findAllByMember_id (Long memberId);
 }

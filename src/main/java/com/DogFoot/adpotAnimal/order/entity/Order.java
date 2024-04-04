@@ -41,7 +41,8 @@ public class Order {
     // 양방향 매핑 (연관관계 메소드)
     public void setMember (Member member) {
         this.member = member;
-        member.getOrders().add(this); // TODO : 회원 도메인과 추후 연결
+//        member.getOrders().add(this);
+        // TODO : 회원 도메인과 추후 연결
     }
 
     public void addOrderItem(OrderItem orderItem) {
@@ -54,27 +55,40 @@ public class Order {
         delivery.setOrder(this);
     }
 
+    public void setOrderDate(LocalDateTime orderDate) {
+        this.orderDate = orderDate;
+    }
+
+    public void setStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+
     //주문 생성
-    // 여러 연관관계가 얽혀 있어서 복잡....
-    public static Order createOrder(Member member, Delivery delivery, OrderItem... orderItems){
+    public static Order createOrder (Member member, Delivery delivery, List<OrderItem> orderItems) {
         Order order = new Order();
         order.setMember(member);
         order.setDelivery(delivery);
 
-        for(OrderItem orderItem : orderItems){
+        for(OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
         }
 
         order.setOrderStatus(OrderStatus.ORDER);
         order.setOrderDate(LocalDateTime.now());
+
         return order;
     }
+
 
     // 주문 취소
     // 배송이 완료된 상품은 취소 불가
     public void cancel () {
-        if (delivery.getStatus() == DeliveryStatus.COMP) {
-            throw new IllegalStateException("이미 배송 완료된 상품은 취소가 불가능합니다.");
+        if (this.orderStatus == OrderStatus.DELIVERY) {
+            throw new IllegalStateException("배송 중인 상품은 취소가 불가능합니다.");
+        }
+        if (this.orderStatus == OrderStatus.COMPLETE) {
+            throw new IllegalStateException("이미 배송이 완료된 상품은 취소가 불가능합니다.");
         }
 
         this.setOrderStatus(OrderStatus.CANCEL);
@@ -82,6 +96,21 @@ public class Order {
             orderItem.cancel();
         }
     }
+
+    public void delivery () {
+        if(this.orderStatus != OrderStatus.ORDER) {
+            throw new IllegalStateException("이미 배송이 시작되었거나, 취소된 상품입니다.");
+        }
+        this.setOrderStatus(OrderStatus.DELIVERY);
+    }
+
+    public void complete () {
+        if (this.orderStatus == OrderStatus.COMPLETE) {
+            throw new IllegalStateException("이미 배송 완료 처리된 상품입니다.");
+        }
+        this.setOrderStatus(OrderStatus.COMPLETE);
+    }
+
 
     // 주문의 전체 가격
     public int getTotalPrice () {

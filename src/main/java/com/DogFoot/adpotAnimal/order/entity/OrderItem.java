@@ -8,7 +8,6 @@ import lombok.Setter;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
@@ -29,6 +28,23 @@ public class OrderItem {
 
     private int count;
 
+
+    public void setOrder (Order order) {
+        this.order = order;
+    }
+
+    public void setProduct (Product product) {
+        this.product = product;
+    }
+
+    public void setOrderPrice (int orderPrice) {
+        this.orderPrice = orderPrice;
+    }
+
+    public void setCount (int count) {
+        this.count = count;
+    }
+
     // 추문 시 주문상품에 상품, 주문 당시 가격, 개수 추가 / 상품 재고량 감소
     public static OrderItem createOrderItem(Product product, int orderPrice, int count) { // TODO : 회원 도메인과 추후 연결
         OrderItem orderItem = new OrderItem();
@@ -36,17 +52,21 @@ public class OrderItem {
         orderItem.setOrderPrice(orderPrice);
         orderItem.setCount(count);
 
-        product.removeStock(count); // TODO : 상품 도메인과 추후 연결
+//        product.removeStock(count);
+        // TODO : 상품 도메인과 추후 연결
+
         return orderItem;
     }
 
+
     // 제품 취소 시 재고 원상복구
     public void cancel() {
-        getProduct().addStock(count); // TODO : 상품 도메인과 추후 연결
+//        getProduct().addStock(count);
+        // TODO : 상품 도메인과 추후 연결
     }
 
     // 가격 총액 = 제품 가격 * 개수
     public int getTotalPrice () {
-        return getOrderPrice() * getCount();
+        return this.orderPrice * this.count;
     }
 }
