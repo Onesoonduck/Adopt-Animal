@@ -64,6 +64,7 @@ public class UsersController {
         usersService.logout(request, response);
         response.sendRedirect("http://localhost:8080/login");
 
-        return usersService.deleteUsers(id);
+        usersService.deleteUsers(id);
+        return ResponseEntity.ok().build();
     }
 }
