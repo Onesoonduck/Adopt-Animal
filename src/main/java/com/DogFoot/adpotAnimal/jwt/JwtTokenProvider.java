@@ -223,7 +223,6 @@ public class JwtTokenProvider {
                     } else {
                         return false;
                     }
-
                 }
             }
         }

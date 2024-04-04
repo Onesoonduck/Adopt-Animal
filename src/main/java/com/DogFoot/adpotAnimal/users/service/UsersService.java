@@ -121,13 +121,13 @@ public class UsersService {
     }
 
     @Transactional
-    public UsersDto update(long id, UpdateUsersDto updateDto) {
+    public UsersDto update(long id, UpdateUsersDto updateDto,  HttpServletResponse response) {
         //해당 멤버 가져오기
         Users updateUsers = usersRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
             HttpStatus.NOT_FOUND));
 
         // 유효성 체크
-        if (usersRepository.existsByEmail(updateDto.getEmail())) {
+        if (usersRepository.existsByEmail(updateDto.getEmail()) && (!updateUsers.getEmail().equals(updateDto.getEmail()))) {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         } else if(!updateUsers.getUserId().equals(updateDto.getUserId())) {
             throw new IllegalArgumentException("다른 계정입니다.");
@@ -141,17 +141,34 @@ public class UsersService {
         updateUsers.updateUsers(users);
         usersRepository.save(updateUsers);
 
-        // TODO : jwt 토큰 새로 발급을 받아야 되요.
+        // jwt 토큰 새로 발급
+
+        // Authentication 객체 생성
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(updateUsers.getUserId(), updateDto.getPassword(), null);
+
+        // Member에 대한 검증 진행
+        Authentication authentication;
+        try {
+            authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        } catch (AuthenticationException e) {
+            throw new IllegalArgumentException("아이디나 비밀번호가 잘못되었습니다.");
+        }
+
+        // 인증 정보를 기반으로 jwt 토큰 생성
+        JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
+
+        jwtTokenProvider.storeTokens(response, jwtToken.getAccessToken(),
+                jwtToken.getRefreshToken(), false);
 
         // 저장된 멤버 엔티티를 dto로 반환
         return updateUsers.toDto();
     }
 
-
-
     @Transactional
-    public ResponseEntity deleteUsers(long id) {
+    public ResponseEntity<String> deleteUsers(long id) {
+        //멤버 삭제
         usersRepository.deleteById(id);
-        return ResponseEntity.ok("로그아웃 완료");
+
+        return ResponseEntity.ok("삭제 완료");
     }
 }

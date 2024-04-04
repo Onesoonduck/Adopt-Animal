@@ -53,8 +53,8 @@ public class UsersController {
 
     // 회원 정보 수정
     @PostMapping("/{id}")
-    public ResponseEntity<UsersDto> updateUsers(@PathVariable Long id, @Valid @RequestBody UpdateUsersDto updateDto) {
-        UsersDto updateUsersDto = usersService.update(id, updateDto);
+    public ResponseEntity<UsersDto> updateUsers(@PathVariable Long id, @Valid @RequestBody UpdateUsersDto updateDto,  HttpServletResponse response) {
+        UsersDto updateUsersDto = usersService.update(id, updateDto, response);
         return ResponseEntity.ok(updateUsersDto);
     }
 
