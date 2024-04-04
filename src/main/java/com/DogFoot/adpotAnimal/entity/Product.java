@@ -1,12 +1,15 @@
 package com.DogFoot.adpotAnimal.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @Entity
-@Getter
 @NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "product")
 public class Product {
 
     @Id
@@ -34,7 +37,8 @@ public class Product {
     @Column(name = "like")
     private int like;
 
-    public Product (Integer category_id, int price, String product_name, int product_stock, int like) {
+    public Product(Integer category_id, int price, String product_name, int product_stock,
+        int like) {
         this.category_id = category_id;
         this.price = price;
         this.product_name = product_name;
