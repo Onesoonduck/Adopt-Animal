@@ -4,7 +4,6 @@ import com.DogFoot.adpotAnimal.entity.Product;
 import com.DogFoot.adpotAnimal.dto.ProductDto;
 import com.DogFoot.adpotAnimal.repository.ProductRepository;
 import jakarta.transaction.Transactional;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import lombok.*;
@@ -15,7 +14,7 @@ public class ProductService {
 
     private final ProductRepository productRepository;
 
-    @Autowired
+
     public ProductService(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
