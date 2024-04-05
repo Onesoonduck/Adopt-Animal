@@ -1,8 +1,8 @@
-package com.DogFoot.adpotAnimal.controller;
+package com.DogFoot.adpotAnimal.products.controller;
 
-import com.DogFoot.adpotAnimal.dto.ProductDto;
-import com.DogFoot.adpotAnimal.entity.Product;
-import com.DogFoot.adpotAnimal.service.ProductService;
+import com.DogFoot.adpotAnimal.products.dto.ProductDto;
+import com.DogFoot.adpotAnimal.products.entity.Product;
+import com.DogFoot.adpotAnimal.products.service.ProductService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

@@ -1,4 +1,4 @@
-package com.DogFoot.adpotAnimal.entity;
+package com.DogFoot.adpotAnimal.products.entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -22,8 +22,8 @@ public class Product {
     private Integer category_id;
 
 
-    @Column(name = "price")
-    private int price;
+    @Column(name = "product_price")
+    private int product_price;
 
 
     @Column(name = "product_name")
@@ -34,15 +34,15 @@ public class Product {
     private int product_stock;
 
 
-    @Column(name = "like")
-    private int like;
+    @Column(name = "product_like")
+    private int product_like;
 
-    public Product(Integer category_id, int price, String product_name, int product_stock,
-        int like) {
+    public Product(Integer category_id, int product_price, String product_name, int product_stock,
+        int product_like) {
         this.category_id = category_id;
-        this.price = price;
+        this.product_price = product_price;
         this.product_name = product_name;
         this.product_stock = product_stock;
-        this.like = like;
+        this.product_like = product_like;
     }
 }

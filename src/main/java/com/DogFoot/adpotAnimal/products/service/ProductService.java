@@ -1,12 +1,11 @@
-package com.DogFoot.adpotAnimal.service;
+package com.DogFoot.adpotAnimal.products.service;
 
-import com.DogFoot.adpotAnimal.entity.Product;
-import com.DogFoot.adpotAnimal.dto.ProductDto;
-import com.DogFoot.adpotAnimal.repository.ProductRepository;
+import com.DogFoot.adpotAnimal.products.entity.Product;
+import com.DogFoot.adpotAnimal.products.dto.ProductDto;
+import com.DogFoot.adpotAnimal.products.repository.ProductRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import lombok.*;
 import java.util.List;
 
 @Service
@@ -22,10 +21,10 @@ public class ProductService {
     public Product createProduct(ProductDto productDto) {
         Product product = new Product(
             productDto.getCategory_id(),
-            productDto.getPrice(),
+            productDto.getProduct_price(),
             productDto.getProduct_name(),
             productDto.getProduct_stock(),
-            productDto.getLike()
+            productDto.getProduct_like()
         );
         return productRepository.save(product);
     }
@@ -51,10 +50,10 @@ public class ProductService {
         Product existingProduct = productRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
         existingProduct.setCategory_id(updatedProductDto.getCategory_id());
-        existingProduct.setPrice(updatedProductDto.getPrice());
+        existingProduct.setProduct_price(updatedProductDto.getProduct_price());
         existingProduct.setProduct_name(updatedProductDto.getProduct_name());
         existingProduct.setProduct_stock(updatedProductDto.getProduct_stock());
-        existingProduct.setLike(updatedProductDto.getLike());
+        existingProduct.setProduct_like(updatedProductDto.getProduct_like());
         return productRepository.save(existingProduct);
     }
 }
