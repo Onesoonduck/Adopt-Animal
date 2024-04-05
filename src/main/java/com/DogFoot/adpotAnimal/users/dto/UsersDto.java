@@ -1,21 +1,19 @@
 package com.DogFoot.adpotAnimal.users.dto;
 
 import com.DogFoot.adpotAnimal.users.entity.UsersRole;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Pattern;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.ToString;
+import lombok.NoArgsConstructor;
 
 @Getter
-@ToString
+@NoArgsConstructor
 public class UsersDto {
 
     private String userId;
     private String userName;
 
 //    @Pattern(regexp = "(?=.*[a-zA-Z])(?=.*[0-9])^[a-zA-Z0-9~!@#$%^&*()+|=]{8,15}$", message = "비밀번호는 최소 8자 이상, 15자 이하이며, 영문과 숫자, 특수문자만 입력하세요.")
-    private final String password;
+    private String password;
     private String email;
 
 //    @Pattern(regexp = "(?=.*[0-9])^[0-9]{11}$", message = "-을 제외한 10자리 번호를 입력해주세요")
