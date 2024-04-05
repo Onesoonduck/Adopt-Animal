@@ -54,16 +54,13 @@ public class OrderItem {
         orderItem.setCount(count);
 
         product.removeStock(count);
-        // TODO : 상품 도메인과 추후 연결
 
         return orderItem;
     }
 
-
     // 제품 취소 시 재고 원상복구
     public void cancel() {
         getProduct().addStock(count);
-        // TODO : 상품 도메인과 추후 연결
     }
 
     // 가격 총액 = 제품 가격 * 개수

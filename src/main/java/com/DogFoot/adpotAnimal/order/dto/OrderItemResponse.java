@@ -12,7 +12,7 @@ public class OrderItemResponse {
     private final int totalPrice;
 
     public OrderItemResponse (OrderItem orderItem) {
-//        this.productId = orderItem.getProduct().getId();
+        this.productId = orderItem.getProduct().getId();
         this.count = orderItem.getCount();
         this.orderPrice = orderItem.getOrderPrice();
         this.totalPrice = orderItem.getTotalPrice();

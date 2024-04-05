@@ -9,6 +9,7 @@ import com.DogFoot.adpotAnimal.order.service.DeliveryService;
 import com.DogFoot.adpotAnimal.order.service.OrderItemService;
 import com.DogFoot.adpotAnimal.order.service.OrderService;
 import com.DogFoot.adpotAnimal.users.entity.Users;
+import com.DogFoot.adpotAnimal.users.service.CustomUserDetailsService;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -26,13 +27,14 @@ public class OrderContorller {
     private final OrderService orderService;
     private final OrderItemService orderItemService;
     private final DeliveryService deliveryService;
-    private final UsersService usersService;
+    private final CustomUserDetailsService customUserDetailsService;
 
 
     // TODO: 유저, 상품 추가
     @PostMapping("/order")
     public ResponseEntity<Long> addOrder (@RequestBody OrderRequest request) {
-        Users users = usersService.findMemberById(request.getMemberId()).orElseThrow();
+        Users users = customUserDetailsService.loadUserByUsername(request.getUsersId()).orElseThrow();
+        // TODO : userService 에서 usersId 가져오는 메서드 이야기
 
         Delivery delivery = deliveryService.findById(request.getDeliveryId());
 
@@ -48,8 +50,8 @@ public class OrderContorller {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderResponse>> findOrders (@RequestParam Long memberId) {
-        List<OrderResponse> orderResponses = orderService.findAllByMemberId(memberId)
+    public ResponseEntity<List<OrderResponse>> findOrders (@RequestParam Long usersId) {
+        List<OrderResponse> orderResponses = orderService.findAllByMemberId(usersId)
             .stream()
             .map(OrderResponse::new)
             .toList();
