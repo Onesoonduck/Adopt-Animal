@@ -1,5 +1,6 @@
 package com.DogFoot.adpotAnimal.products.entity;
 
+import com.DogFoot.adpotAnimal.order.entity.OrderItem;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -45,4 +46,19 @@ public class Product {
         this.product_stock = product_stock;
         this.product_like = product_like;
     }
+
+    public void removeStock(int count) {
+        if (count > product_stock) {
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+        this.product_stock -= count;
+    }
+
+    public void addStock(int count) {
+        if (count == 0) {
+            throw new IllegalArgumentException("올바르지 않은 수입니다.");
+        }
+        this.product_stock += count;
+    }
+
 }

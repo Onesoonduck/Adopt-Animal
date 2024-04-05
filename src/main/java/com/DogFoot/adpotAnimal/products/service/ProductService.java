@@ -56,4 +56,5 @@ public class ProductService {
         existingProduct.setProduct_like(updatedProductDto.getProduct_like());
         return productRepository.save(existingProduct);
     }
+
 }
