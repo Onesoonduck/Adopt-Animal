@@ -2,6 +2,7 @@ package com.DogFoot.adpotAnimal.products.entity;
 
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
 import jakarta.persistence.*;
+import jdk.jfr.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,9 +19,9 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 
-
-    @Column(name = "category_id")
-    private Integer category_id;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
 
     @Column(name = "product_price")
@@ -38,9 +39,9 @@ public class Product {
     @Column(name = "product_like")
     private int product_like;
 
-    public Product(Integer category_id, int product_price, String product_name, int product_stock,
+    public Product(Category category, int product_price, String product_name, int product_stock,
         int product_like) {
-        this.category_id = category_id;
+        this.category = category;
         this.product_price = product_price;
         this.product_name = product_name;
         this.product_stock = product_stock;
