@@ -82,10 +82,16 @@ public class UsersService {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
 
-        // TODO : 패스워드 검증
+        // 패스워드 검증
+        String password =signUpDto.getPassword();
+        if (password.length() < 8 ) {
+            throw new IllegalArgumentException("비밀번호는 최소 8자 이상이어야 합니다.");
+        } else if (!password.matches("^(?=.*[a-z]|[A-Z])(?=.*[~!@#$%^&*+=()_-])(?=.*[0-9]).+$")) {
+            throw new IllegalArgumentException("비밀번호는 영문 소/대문자, 숫자, 특수문자를 조합하여 작성해야 합니다.");
+        }
 
         // 패스워드 암호화
-        String encodedPassword = passwordEncoder.encode(signUpDto.getPassword());
+        String encodedPassword = passwordEncoder.encode(password);
 
         // 멤버 리포지터리에 저장
         Users signUsers = usersRepository.save(

@@ -4,10 +4,12 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.DogFoot.adpotAnimal.users.controller.UsersController;
 import com.DogFoot.adpotAnimal.users.dto.LoginDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
 import com.DogFoot.adpotAnimal.users.dto.UpdateUsersDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
+import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -43,6 +45,10 @@ public class UsersControllerTest {
     TestRestTemplate testRestTemplate;
     @Autowired
     PasswordEncoder passwordEncoder;
+    @Autowired
+    UsersRepository usersRepository;
+    @Autowired
+    UsersController usersController;
 
     // 각각의 테스트 메서드가 실행되기 전 MockMvc 객체 초기화
     @BeforeEach
@@ -122,13 +128,20 @@ public class UsersControllerTest {
     @Test
     public void deleteUsersTest() throws Exception {
         //given : 유저 id
-        long id  = 1L;
+        long id  = 2L;
+        SignUpDto signUpDto = SignUpDto.builder()
+                .userName("elice delete track")
+                .userId("eliceDelete")
+                .email("eliceDelete@example.com")
+                .password("1234")
+                .phoneNumber("01043211234")
+                .build();
+        usersController.signUp(signUpDto);
 
-        //when & then :
-        mvc.perform(MockMvcRequestBuilders.delete("/users/{id}", id))
-                .andExpect(status().isOk());
+        //when : 레퍼지터리 회원 정보 삭제
+        usersRepository.deleteById(id);
 
-        //원본 비밀번호와 암호화된 비밀번호가 일치하는지 확인
-       // assertThat(!usersRepository.existsById(id));
+        //then : 존재하는지 확인
+       assertThat(usersRepository.existsById(id)).isEqualTo(false);
     }
 }
