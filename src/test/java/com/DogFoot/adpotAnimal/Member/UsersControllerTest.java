@@ -9,6 +9,7 @@ import com.DogFoot.adpotAnimal.users.dto.LoginDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
 import com.DogFoot.adpotAnimal.users.dto.UpdateUsersDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
+import com.DogFoot.adpotAnimal.users.entity.UsersRole;
 import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
@@ -24,6 +25,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -64,8 +66,9 @@ public class UsersControllerTest {
             .userName("elice track")
             .userId("elice")
             .email("elice@example.com")
-            .password("1234")
+            .password("@abcd12345678")
             .phoneNumber("01012341234")
+            .userRole(UsersRole.USER)
             .build();
 
         // Api 요청 설정
@@ -87,7 +90,7 @@ public class UsersControllerTest {
 
         LoginDto loginDto = LoginDto.builder()
             .userId("elice")
-            .password("1234")
+            .password("@abcd12345678")
             .build();
 
         String url = "https://localhost:" + randomPort + "/users/login";
@@ -98,14 +101,15 @@ public class UsersControllerTest {
     @Test
     public void updateUsersTest() throws Exception {
         //given : 유저 수정 및 저장
-        Long id = 1L;
-        String password ="1234";
+        Long id = 3L;
+        String password ="@aaaa12345678";
         UpdateUsersDto updateUsersDto = UpdateUsersDto.builder()
                 .userName("elice test")
                 .userId("elice")
                 .email("test@example.com")
                 .password(password)
                 .phoneNumber("01012341234")
+                .userRole(UsersRole.USER)
                 .build();
         String encodedPassword = passwordEncoder.encode(updateUsersDto.getPassword());
 
@@ -133,8 +137,9 @@ public class UsersControllerTest {
                 .userName("elice delete track")
                 .userId("eliceDelete")
                 .email("eliceDelete@example.com")
-                .password("1234")
+                .password("@abcd12345678")
                 .phoneNumber("01043211234")
+                .userRole(UsersRole.USER)
                 .build();
         usersController.signUp(signUpDto);
 

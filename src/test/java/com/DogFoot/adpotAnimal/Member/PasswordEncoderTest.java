@@ -18,7 +18,7 @@ public class PasswordEncoderTest {
         // 기존 저장해두었던 암호화된 비밀번호
         String encodedPwd = "{bcrypt}$2a$10$eR79CUYwnz9Kbgcmv3T/leyLaVOeMTq3d8G5bSOM6Q.J7dCv59sQa";
         // 검증할 비밀번호
-        String newPwd = "elice123";
+        String newPwd = "@abcd12345678";
         System.out.println(passwordEncoder.encode(newPwd));
 
         if(passwordEncoder.matches(newPwd, encodedPwd)){
