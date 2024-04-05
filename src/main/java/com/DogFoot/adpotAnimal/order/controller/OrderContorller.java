@@ -8,6 +8,8 @@ import com.DogFoot.adpotAnimal.order.entity.OrderItem;
 import com.DogFoot.adpotAnimal.order.service.DeliveryService;
 import com.DogFoot.adpotAnimal.order.service.OrderItemService;
 import com.DogFoot.adpotAnimal.order.service.OrderService;
+import com.DogFoot.adpotAnimal.users.entity.Users;
+import com.DogFoot.adpotAnimal.users.service.UsersService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -24,13 +26,13 @@ public class OrderContorller {
     private final OrderService orderService;
     private final OrderItemService orderItemService;
     private final DeliveryService deliveryService;
-    // TODO: 유저 Service 추가
+    private final UsersService usersService;
 
 
     // TODO: 유저, 상품 추가
     @PostMapping("/order")
     public ResponseEntity<Long> addOrder (@RequestBody OrderRequest request) {
-//        Member member = memverService.findMemberById(request.getMemberId()).orElseThrow();
+        Users users = usersService.findMemberById(request.getMemberId()).orElseThrow();
 
         Delivery delivery = deliveryService.findById(request.getDeliveryId());
 
@@ -40,7 +42,7 @@ public class OrderContorller {
             orderItems.add(orderItemService.findById(orderItemId));
         }
 
-        Order order = orderService.create(member, delivery, orderItems);
+        Order order = orderService.create(users, delivery, orderItems);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
     }

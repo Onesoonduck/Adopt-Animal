@@ -1,5 +1,6 @@
 package com.DogFoot.adpotAnimal.order.entity;
 
+import com.DogFoot.adpotAnimal.users.entity.Users;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -24,7 +25,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private Member member; // TODO : 회원 도메인과 추후 연결
+    private Users users; // TODO : 회원 도메인과 추후 연결
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -39,10 +40,9 @@ public class Order {
     private OrderStatus orderStatus;
 
     // 양방향 매핑 (연관관계 메소드)
-    public void setMember (Member member) {
-        this.member = member;
-//        member.getOrders().add(this);
-        // TODO : 회원 도메인과 추후 연결
+    public void setMember (Users users) {
+        this.users = users;
+        users.getOrders().add(this);
     }
 
     public void addOrderItem(OrderItem orderItem) {
@@ -65,9 +65,9 @@ public class Order {
 
 
     //주문 생성
-    public static Order createOrder (Member member, Delivery delivery, List<OrderItem> orderItems) {
+    public static Order createOrder (Users users, Delivery delivery, List<OrderItem> orderItems) {
         Order order = new Order();
-        order.setMember(member);
+        order.setMember(users);
         order.setDelivery(delivery);
 
         for(OrderItem orderItem : orderItems) {
@@ -110,7 +110,6 @@ public class Order {
         }
         this.setOrderStatus(OrderStatus.COMPLETE);
     }
-
 
     // 주문의 전체 가격
     public int getTotalPrice () {
