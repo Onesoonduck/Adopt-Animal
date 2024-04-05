@@ -1,43 +1,5 @@
 @import "reset.css";
 
-.header {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    margin: 50px 10%;
-}
-
-.DogFoot_main {
-    font-size: 34px;
-    margin-right: 200px;
-    text-decoration: none;
-    color: inherit;
-}
-
-.header_menu {
-    display: flex;
-    align-items: center;
-    margin-right: auto;
-}
-
-.header_list {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-}
-
-.header_category {
-    margin-right: 40px;
-    font-size: 28px;
-    white-space: nowrap;
-}
-
-.header_category a {
-    text-decoration: none;
-    color: inherit;
-}
-
 .login {
     font-size: 20px;
     margin: 20px;
@@ -65,7 +27,7 @@
     width: 400px;
     height: 350px;
     box-sizing: border-box;
-    margin-left: 30%;
+    margin-left: 700px;
     margin-top: 150px;
 }
 
@@ -100,10 +62,22 @@
     color: #D2D2D2;
 }
 
-#login_form > input[type="submit"]{
-    color: white;
-    font-size: 16px;
-    margin-top: 20px;
+/*#login_form > input[type="submit"]{*/
+/*    color: white;*/
+/*    font-size: 16px;*/
+/*    margin-top: 20px;*/
+/*    background-color: #ffb056;*/
+/*    cursor: pointer;*/
+/*}*/
+
+.login_button {
+    width: 400px;
+    height: 48px;
+    border-radius: 6px;
+    margin-top: 50px;
     background-color: #ffb056;
+    color: white;
+    border: none;
+    font-size: 20px;
     cursor: pointer;
 }
