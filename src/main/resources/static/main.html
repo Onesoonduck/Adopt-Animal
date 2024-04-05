@@ -3,27 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <title>메인 페이지</title>
-    <link rel="stylesheet" href=../static/css/main.css>
+    <link rel="stylesheet" href=./css/main.css>
 </head>
 <body>
 
-    <div class="header">
-        <a class="DogFoot_main" href="#">DogFoot</a>
-        <nav class="header_menu">
-            <ul class="header_list">
-                <li class="header_category"><a href="#">소개</a></li>
-                <li class="header_category"><a href="#">유기동물 돕기</a></li>
-                <li class="header_category"><a href="#">스토어</a></li>
-                <li class="header_category"><a href="#">기부 활동</a></li>
-            </ul>
-        </nav>
-        <div>
-            <span><a class="login" href="#">로그인</a></span>
-            <span>
-                <button type="button" class="cart_button" href="#">장바구니</button>
-            </span>
-        </div>
-    </div>
+<!-- include 함수 가져오기 -->
+<script src="./js/include.js"></script>
+<!-- 내비게이션 바 가져오기 시작 -->
+<div include="./header/index.html"></div>
+<script>includeHTML();</script>
 
     <div class="banner_one">
         <img>
@@ -57,6 +45,8 @@
         </div>
     </div>
 
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/form-validation.js"></script>
 
 </body>
 </html>

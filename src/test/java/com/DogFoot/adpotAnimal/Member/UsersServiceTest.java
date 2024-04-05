@@ -7,7 +7,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import com.DogFoot.adpotAnimal.jwt.JwtToken;
 import com.DogFoot.adpotAnimal.jwt.JwtTokenProvider;
 import com.DogFoot.adpotAnimal.users.dto.LoginDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
@@ -19,9 +18,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.core.Authentication;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayName("유저 서비스 테스트")
 @SpringBootTest
@@ -48,7 +46,7 @@ public class UsersServiceTest {
             .build();
 
         // When
-        UsersDto resultUserDto = usersService.sighUp(signUpDto);
+        UsersDto resultUserDto = usersService.signUp(signUpDto);
 
         // Then
         assertThat(resultUserDto.getUserId()).isEqualTo(signUpDto.getUserId());

@@ -1,15 +1,13 @@
 package com.DogFoot.adpotAnimal.users.service;
 
-import com.DogFoot.adpotAnimal.tokenBlack.TokenBlack;
-import com.DogFoot.adpotAnimal.tokenBlack.TokenBlack.TokenType;
 import com.DogFoot.adpotAnimal.jwt.JwtToken;
 import com.DogFoot.adpotAnimal.jwt.JwtTokenProvider;
+import com.DogFoot.adpotAnimal.tokenBlack.TokenBlack.TokenType;
 import com.DogFoot.adpotAnimal.tokenBlack.TokenBlackService;
 import com.DogFoot.adpotAnimal.users.dto.LoginDto;
+import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
 import com.DogFoot.adpotAnimal.users.dto.UpdateUsersDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
-import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
-import com.DogFoot.adpotAnimal.users.entity.CustomUserDetails;
 import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.DogFoot.adpotAnimal.users.entity.UsersRole;
 import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
@@ -26,7 +24,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,14 +63,11 @@ public class UsersService {
         jwtTokenProvider.storeTokens(response, jwtToken.getAccessToken(),
             jwtToken.getRefreshToken(), false);
 
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        Users user = userDetails.getUser();
-
         return jwtToken;
     }
 
     @Transactional
-    public UsersDto sighUp(SignUpDto signUpDto) {
+    public UsersDto signUp(SignUpDto signUpDto) {
 
         // 유효성 체크
         if (usersRepository.existsByUserId(signUpDto.getUserId())) {
@@ -89,7 +83,7 @@ public class UsersService {
 
         // 멤버 리포지터리에 저장
         Users signUsers = usersRepository.save(
-            signUpDto.toEntity(encodedPassword, UsersRole.USER));
+            signUpDto.toEntity(encodedPassword, signUpDto.getUserRole()));
 
         // 저장된 멤버 엔티티를 dto로 변환
         return signUsers.toDto();
