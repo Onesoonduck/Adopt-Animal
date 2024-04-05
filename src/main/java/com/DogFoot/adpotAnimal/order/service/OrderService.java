@@ -24,6 +24,13 @@ public class OrderService {
         return orderRepository.save(createOrder);
     }
 
+    public Order findById(Long id) {
+        return orderRepository.findById(id)
+            .orElseThrow(() -> new IllegalArgumentException("Not Found OrderId: " + id));
+    }
+
+
+
     public List<Order> findAllByMemberId (Long memberId) {
         return orderRepository.findAllByMember_id(memberId);
     }

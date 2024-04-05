@@ -17,10 +17,24 @@ public class DeliveryService {
             .orElseThrow(() -> new IllegalArgumentException("Not Found Delivery id: " + id));
     }
 
-    public Delivery create (Long id, Address address, String receiverName, String receiverPhoneNumber) {
+    public Delivery create (Address address, String receiverName, String receiverPhoneNumber) {
+        Delivery delivery = new Delivery();
+
+        return deliveryRepository.save(delivery);
+    }
+
+    public Delivery update (Long id, Address address, String receiverName, String receiverPhoneNumber) {
         Delivery delivery = findById(id);
+
         delivery.update(address, receiverName, receiverPhoneNumber);
+
         return delivery;
+    }
+
+    public void deleteById (Long id) {
+        findById(id);
+
+        deliveryRepository.deleteById(id);
     }
 
 }
