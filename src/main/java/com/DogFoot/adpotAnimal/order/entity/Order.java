@@ -25,7 +25,7 @@ public class Order {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    private Users users; // TODO : 회원 도메인과 추후 연결
+    private Users users;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
@@ -39,10 +39,10 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
-    // 양방향 매핑 (연관관계 메소드)
+//     양방향 매핑 (연관관계 메소드)
     public void setMember (Users users) {
         this.users = users;
-        users.getOrders().add(this);
+//        users.getOrders().add(this);
     }
 
     public void addOrderItem(OrderItem orderItem) {
@@ -67,7 +67,7 @@ public class Order {
     //주문 생성
     public static Order createOrder (Users users, Delivery delivery, List<OrderItem> orderItems) {
         Order order = new Order();
-        order.setMember(users);
+        order.setUsers(users);
         order.setDelivery(delivery);
 
         for(OrderItem orderItem : orderItems) {
@@ -119,4 +119,5 @@ public class Order {
         }
         return totalPrice;
     }
+
 }

@@ -2,6 +2,7 @@ package com.DogFoot.adpotAnimal.order.service;
 
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
 import com.DogFoot.adpotAnimal.order.repository.OrderItemRepository;
+import com.DogFoot.adpotAnimal.products.entity.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
