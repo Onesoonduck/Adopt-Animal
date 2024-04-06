@@ -23,13 +23,6 @@ public class Order {
     @Column(name = "order_id")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Users users;
-
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
-    private List<OrderItem> orderItems = new ArrayList<>();
-
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "delivery_id")
     private Delivery delivery;
@@ -39,10 +32,18 @@ public class Order {
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus;
 
+    // Orders 연관관계
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private Users users;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    private List<OrderItem> orderItems = new ArrayList<>();
+
 //     양방향 매핑 (연관관계 메소드)
     public void setMember (Users users) {
         this.users = users;
-//        users.getOrders().add(this);
+        users.getOrders().add(this);
     }
 
     public void addOrderItem(OrderItem orderItem) {
@@ -80,15 +81,17 @@ public class Order {
         return order;
     }
 
-
     // 주문 취소
-    // 배송이 완료된 상품은 취소 불가
+    // 배송 중인 상품, 배송이 완료된 상품, 이미 취소가 된 상품은 취소 불가
     public void cancel () {
         if (this.orderStatus == OrderStatus.DELIVERY) {
             throw new IllegalStateException("배송 중인 상품은 취소가 불가능합니다.");
         }
         if (this.orderStatus == OrderStatus.COMPLETE) {
             throw new IllegalStateException("이미 배송이 완료된 상품은 취소가 불가능합니다.");
+        }
+        if (this.orderStatus == OrderStatus.CANCEL) {
+            throw new IllegalStateException("이미 취소된 상품입니다.");
         }
 
         this.setOrderStatus(OrderStatus.CANCEL);
