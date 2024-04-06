@@ -42,7 +42,7 @@ public class Order {
     // 양방향 매핑 (연관관계 메소드)
     public void setMember (Users users) {
         this.users = users;
-        users.getOrders().add(this);
+//        users.getOrders().add(this);
     }
 
     public void addOrderItem(OrderItem orderItem) {
