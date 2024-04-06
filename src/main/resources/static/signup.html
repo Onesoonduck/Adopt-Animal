@@ -1,48 +1,37 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <title>로그인 페이지</title>
-    <link rel="stylesheet" href=../static/css/signup.css>
+    <title>회원가입 페이지</title>
+    <link rel="stylesheet" href="css/signup.css">
 </head>
 <body>
 
-<div class="header">
-    <a class="DogFoot_main" href="#">DogFoot</a>
-    <nav class="header_menu">
-        <ul class="header_list">
-            <li class="header_category"><a href="#">소개</a></li>
-            <li class="header_category"><a href="#">유기동물 돕기</a></li>
-            <li class="header_category"><a href="#">스토어</a></li>
-            <li class="header_category"><a href="#">기부 활동</a></li>
-        </ul>
-    </nav>
-    <div>
-        <span><a class="login" href="#">로그인</a></span>
-        <span>
-                <button type="button" class="cart_button" href="#">장바구니</button>
-            </span>
-    </div>
-</div>
+<!-- include 함수 가져오기 -->
+<script src="./js/include.js"></script>
+<!-- 내비게이션 바 가져오기 시작 -->
+<div include="./header/index.html"></div>
+<script>includeHTML();</script>
 
 <div class="signup_page">
     <h1>회원가입</h1>
 </div>
 
 <div class="signup_wrapper">
-    <form class="signup_form">
-        <input type="text" class="signupInput" placeholder="아이디">
-        <input type="password" class="signupInput" placeholder="비밀번호">
-        <input type="text" class="signupInput" placeholder="이름">
-        <input type="email" class="signupInput" placeholder="이메일">
-        <input type="text" class="signupInput" placeholder="전화번호">
+    <form id="signup_form">
+        <input type="text" id="userId" class="signupInput" placeholder="아이디">
+        <input type="password" id="password" class="signupInput" placeholder="비밀번호">
+        <input type="text" id="userName" class="signupInput" placeholder="이름">
+        <input type="email" id="email" class="signupInput" placeholder="이메일">
+        <input type="text" id="phoneNumber" class="signupInput" placeholder="전화번호">
+        <div>
+            <button class="signup_button" type="submit">회원가입</button>
+        </div>
     </form>
-    <div>
-        <button class="signup_button">회원가입</button>
-    </div>
 </div>
 
-
-
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/form-validation.js"></script>
+<script src="js/signup.js"></script>
 </body>
 </html>

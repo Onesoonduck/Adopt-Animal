@@ -1,10 +1,9 @@
-@import "reset.css";
 
 .header {
     display: flex;
     align-items: center;
     padding: 10px 20px;
-    margin: 50px 10%;
+    margin: 50px 200px;
 }
 
 .DogFoot_main {
@@ -60,24 +59,24 @@
 .banner_text {
     font-size: 40px;
     font-weight: bold;
-    margin: 200px 20% 0 20%;
+    margin: 200px 400px 0 470px;
 }
 
 .subBanner_text {
-    margin-left: 20%;
+    margin-left: 470px;
     margin-top: 50px;
     font-size: 25px;
 }
 
 .banner_text2 {
-    margin-left: 60%;
+    margin-left: 1420px;
     font-weight: bold;
     font-size: 40px;
     margin-top: 400px;
 }
 
 .subBanner_text2 {
-    margin-left: 60%;
+    margin-left: 1420px;
     margin-top: 50px;
     font-size: 25px;
 }

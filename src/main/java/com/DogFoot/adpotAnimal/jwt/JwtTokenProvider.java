@@ -219,12 +219,7 @@ public class JwtTokenProvider {
         if (cookies != null) {
             for (Cookie cookie : cookies) {
                 if ("AUTOLOGIN".equals(cookie.getName())) {
-                    if(cookie.getValue()=="TRUE"){
-                        return true;
-                    } else {
-                        return false;
-                    }
-
+                    return cookie.getValue().equals("TRUE");
                 }
             }
         }

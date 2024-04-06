@@ -17,12 +17,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.server.ResponseStatusException;
 
 @RestController
 @Slf4j
@@ -34,14 +33,14 @@ public class UsersController {
 
     // 로그인
     @PostMapping("/login")
-    public JwtToken login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
-        return usersService.login(loginDto, response);
+    public ResponseEntity<JwtToken> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
+        return ResponseEntity.ok(usersService.login(loginDto, response));
     }
 
     // 회원 가입
     @PostMapping("/signup")
     public ResponseEntity<UsersDto> signUp(@Valid @RequestBody SignUpDto signUpDto) {
-        UsersDto savedUsersDto = usersService.sighUp(signUpDto);
+        UsersDto savedUsersDto = usersService.signUp(signUpDto);
         return ResponseEntity.ok(savedUsersDto);
     }
 
@@ -53,8 +52,8 @@ public class UsersController {
 
     // 회원 정보 수정
     @PostMapping("/{id}")
-    public ResponseEntity<UsersDto> updateUsers(@PathVariable Long id, @Valid @RequestBody UpdateUsersDto updateDto) {
-        UsersDto updateUsersDto = usersService.update(id, updateDto);
+    public ResponseEntity<UsersDto> updateUsers(@PathVariable Long id, @Valid @RequestBody UpdateUsersDto updateDto,  HttpServletResponse response) {
+        UsersDto updateUsersDto = usersService.update(id, updateDto, response);
         return ResponseEntity.ok(updateUsersDto);
     }
 
@@ -63,7 +62,8 @@ public class UsersController {
     public ResponseEntity deleteUsers(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) throws IOException {
         usersService.logout(request, response);
         response.sendRedirect("http://localhost:8080/login");
-
-        return usersService.deleteUsers(id);
+        usersService.deleteUsers(id);
+        return ResponseEntity.ok().build();
     }
+
 }
