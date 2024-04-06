@@ -26,31 +26,35 @@ public class OrderService {
         return orderRepository.save(createOrder);
     }
 
+    // 주문 조회
     public Order findById(Long id) {
         return orderRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Not Found OrderId: " + id));
     }
 
-
-
-    public List<Order> findAllByMemberId (Long memberId) {
-        return orderRepository.findAllByMember_id(memberId);
+    // 회윈의 주문 조회
+    public List<Order> findAllByUsersId (Long usersId) {
+        return orderRepository.findAllByUsers_id(usersId);
     }
 
+    // 주문 상태 삭제
     public void deleteById (Long id) {
         findById(id);
 
         orderRepository.deleteById(id);
     }
 
+    // 주문 상태 취소
     public void cancel (Long id) {
         findById(id).cancel();
     }
 
+    // 주문 상태 배송
     public void delivery (Long id) {
         findById(id).delivery();
     }
 
+    // 주문 상태 배송 완료
     public void complete (Long id) {
         findById(id).complete();
     }
