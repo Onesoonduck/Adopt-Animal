@@ -11,7 +11,7 @@ import java.util.List;
 @Getter
 public class OrderRequest {
 
-    private Long memberId;
+    private Long usersId;
     private Long deliveryId;
     private List<Long> orderItemId;
 }

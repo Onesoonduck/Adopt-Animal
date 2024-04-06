@@ -30,9 +30,6 @@ public class Product {
     @Column(name = "product_id")
     private Long id;
 
-    @Column(name = "category_id")
-    private Integer category_id;
-
     @Column(name = "product_price")
     private int product_price;
 
@@ -53,18 +50,31 @@ public class Product {
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-/*
-    @ManyToOne
-    @JoinColumn(name = "category_id")
-    private Category category;
-*/
+//    @ManyToOne
+//    @JoinColumn(name = "category_id")
+//    private Category category;
 
     public Product(Integer category_id, int product_price, String product_name, int product_stock,
         int product_like) {
-        this.category_id = category_id;
+//        this.category = category;
         this.product_price = product_price;
         this.product_name = product_name;
         this.product_stock = product_stock;
         this.product_like = product_like;
     }
+
+    public void removeStock(int count) {
+        if (count > product_stock) {
+            throw new IllegalArgumentException("재고가 부족합니다.");
+        }
+        this.product_stock -= count;
+    }
+
+    public void addStock(int count) {
+        if (count == 0) {
+            throw new IllegalArgumentException("올바르지 않은 수입니다.");
+        }
+        this.product_stock += count;
+    }
+
 }

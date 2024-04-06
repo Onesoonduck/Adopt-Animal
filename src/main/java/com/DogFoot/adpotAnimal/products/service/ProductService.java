@@ -20,7 +20,7 @@ public class ProductService {
 
     public Product createProduct(ProductDto productDto) {
         Product product = new Product(
-            productDto.getCategory_id(),
+            productDto.getCategory(),
             productDto.getProduct_price(),
             productDto.getProduct_name(),
             productDto.getProduct_stock(),
@@ -49,11 +49,12 @@ public class ProductService {
     public Product updateProduct(Long id, ProductDto updatedProductDto) {
         Product existingProduct = productRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
-        existingProduct.setCategory_id(updatedProductDto.getCategory_id());
+        existingProduct.setCategory(updatedProductDto.getCategory());
         existingProduct.setProduct_price(updatedProductDto.getProduct_price());
         existingProduct.setProduct_name(updatedProductDto.getProduct_name());
         existingProduct.setProduct_stock(updatedProductDto.getProduct_stock());
         existingProduct.setProduct_like(updatedProductDto.getProduct_like());
         return productRepository.save(existingProduct);
     }
+
 }

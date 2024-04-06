@@ -4,6 +4,8 @@ import com.DogFoot.adpotAnimal.order.dto.OrderItemRequest;
 import com.DogFoot.adpotAnimal.order.dto.OrderItemResponse;
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
 import com.DogFoot.adpotAnimal.order.service.OrderItemService;
+import com.DogFoot.adpotAnimal.products.entity.Product;
+import com.DogFoot.adpotAnimal.products.service.ProductService;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -21,14 +23,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class OrderItemController {
 
     private final OrderItemService orderItemService;
+    private final ProductService productService;
 
     @PostMapping("/orderItem")
     public ResponseEntity<Long> createOrderItem (@RequestBody OrderItemRequest request) {
-//        Product product = productService.findById(request.getProductId());
-////        TODO : Product와 연결 후 작업
-//        OrderItem createdOrderItems = orderItemService.create(product, request.getCount());
-//        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderItems.getId());
-        return ResponseEntity.status(HttpStatus.CREATED).body(0L);
+        Product product = productService.findProductById(request.getProductId());
+
+        OrderItem createdOrderItems = orderItemService.create(product, product.getProduct_price(), request.getCount());
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderItems.getId());
     }
 
     @PostMapping("/orderItems")
@@ -36,10 +39,9 @@ public class OrderItemController {
         List<Long> orderItemId = new ArrayList<>();
 
         for (OrderItemRequest request : requests) {
-//        product product = productService.findById(request.getProductId());
-////        TODO : Product와 연결 후 작업
-//            OrderItem createdOrderItems = orderItemService.create(product, request.getCount());
-//            orderItemId.add(createdOrderItems.getId());
+            Product product = productService.findProductById(request.getProductId());
+            OrderItem createdOrderItems = orderItemService.create(product, product.getProduct_price(), request.getCount());
+            orderItemId.add(createdOrderItems.getId());
         }
 
         return ResponseEntity.status(HttpStatus.CREATED).body(orderItemId);

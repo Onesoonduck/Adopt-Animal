@@ -10,6 +10,7 @@ import com.DogFoot.adpotAnimal.order.service.OrderItemService;
 import com.DogFoot.adpotAnimal.order.service.OrderService;
 import com.DogFoot.adpotAnimal.users.entity.CustomUserDetails;
 import com.DogFoot.adpotAnimal.users.entity.Users;
+import com.DogFoot.adpotAnimal.users.service.CustomUserDetailsService;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,8 +58,8 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderResponse>> findOrders (@RequestParam Long memberId) {
-        List<OrderResponse> orderResponses = orderService.findAllByMemberId(memberId)
+    public ResponseEntity<List<OrderResponse>> findOrders (@RequestParam Long usersId) {
+        List<OrderResponse> orderResponses = orderService.findAllByMemberId(usersId)
             .stream()
             .map(OrderResponse::new)
             .toList();

@@ -1,17 +1,11 @@
 package com.DogFoot.adpotAnimal.order.entity;
 
 import com.DogFoot.adpotAnimal.products.entity.Product;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Getter
@@ -59,17 +53,14 @@ public class OrderItem {
         orderItem.setOrderPrice(orderPrice);
         orderItem.setCount(count);
 
-//        product.removeStock(count);
-        // TODO : 상품 도메인과 추후 연결
+        product.removeStock(count);
 
         return orderItem;
     }
 
-
     // 제품 취소 시 재고 원상복구
     public void cancel() {
-//        getProduct().addStock(count);
-        // TODO : 상품 도메인과 추후 연결
+        getProduct().addStock(count);
     }
 
     // 가격 총액 = 제품 가격 * 개수
