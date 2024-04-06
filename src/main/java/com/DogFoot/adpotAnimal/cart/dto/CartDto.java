@@ -1,6 +1,7 @@
 package com.DogFoot.adpotAnimal.cart.dto;
 
 import com.DogFoot.adpotAnimal.cart.entity.CartEntity;
+import java.util.List;
 import lombok.*;
 
 @Data
@@ -10,7 +11,7 @@ public class CartDto {
 
     private Long cartId;
     private String userId;
-    private Long productId;
+    private List<Long> productIds;
     private int cnt;
 
     public static CartEntity toEntity(CartDto cartDto) {
@@ -26,7 +27,7 @@ public class CartDto {
         CartDto cartDto = new CartDto();
         cartDto.setCartId(cartEntity.getCartId());
         cartDto.setUserId(cartEntity.getUserId());
-        cartDto.setProductId(cartEntity.getProductId());
+        cartDto.setProductId(cartEntity.getProduct());
         cartDto.setCnt(cartEntity.getCnt());
         return cartDto;
     }
