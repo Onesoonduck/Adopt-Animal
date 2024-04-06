@@ -1,7 +1,7 @@
 package com.DogFoot.adpotAnimal.products.dto;
 
+import com.DogFoot.adpotAnimal.cart.entity.CartEntity;
 import com.DogFoot.adpotAnimal.products.entity.Product;
-import jdk.jfr.Category;
 import lombok.*;
 
 @Data
@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 public class ProductDto {
     private Long id;
-    private Category category;
+    private CartEntity cart;
     private int product_price;
     private String product_name;
     private int product_stock;
@@ -18,7 +18,7 @@ public class ProductDto {
     public static Product toEntity(ProductDto productDto) {
         Product product = new Product();
         product.setId(productDto.getId());
-        product.setCategory(productDto.getCategory());
+        product.setCart(productDto.getCart());
         product.setProduct_price(productDto.getProduct_price());
         product.setProduct_name(productDto.getProduct_name());
         product.setProduct_stock(productDto.getProduct_stock());
@@ -29,7 +29,7 @@ public class ProductDto {
     public static ProductDto fromDto(Product product) {
         ProductDto productDto = new ProductDto();
         productDto.setId(product.getId());
-        productDto.setCategory(product.getCategory());
+        productDto.setCart(product.getCart());
         productDto.setProduct_price(product.getProduct_price());
         productDto.setProduct_name(product.getProduct_name());
         productDto.setProduct_stock(product.getProduct_stock());
