@@ -64,14 +64,11 @@ public class UsersService {
         jwtTokenProvider.storeTokens(response, jwtToken.getAccessToken(),
             jwtToken.getRefreshToken(), false);
 
-        CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-        Users user = userDetails.getUser();
-
         return jwtToken;
     }
 
     @Transactional
-    public UsersDto sighUp(SignUpDto signUpDto) {
+    public UsersDto signUp(SignUpDto signUpDto) {
 
         // 유효성 체크
         if (usersRepository.existsByUserId(signUpDto.getUserId())) {
@@ -80,14 +77,20 @@ public class UsersService {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         }
 
-        // TODO : 패스워드 검증
+        // 패스워드 검증
+        String password =signUpDto.getPassword();
+        if (password.length() < 8 ) {
+            throw new IllegalArgumentException("비밀번호는 최소 8자 이상이어야 합니다.");
+        } else if (!password.matches("^(?=.*[a-z]|[A-Z])(?=.*[~!@#$%^&*+=()_-])(?=.*[0-9]).+$")) {
+            throw new IllegalArgumentException("비밀번호는 영문 소/대문자, 숫자, 특수문자를 조합하여 작성해야 합니다.");
+        }
 
         // 패스워드 암호화
-        String encodedPassword = passwordEncoder.encode(signUpDto.getPassword());
+        String encodedPassword = passwordEncoder.encode(password);
 
         // 멤버 리포지터리에 저장
         Users signUsers = usersRepository.save(
-            signUpDto.toEntity(encodedPassword, UsersRole.USER));
+            signUpDto.toEntity(encodedPassword, signUpDto.getUserRole()));
 
         // 저장된 멤버 엔티티를 dto로 변환
         return signUsers.toDto();
@@ -119,13 +122,13 @@ public class UsersService {
     }
 
     @Transactional
-    public UsersDto update(long id, UpdateUsersDto updateDto) {
+    public UsersDto update(long id, UpdateUsersDto updateDto,  HttpServletResponse response) {
         //해당 멤버 가져오기
         Users updateUsers = usersRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
             HttpStatus.NOT_FOUND));
 
         // 유효성 체크
-        if (usersRepository.existsByEmail(updateDto.getEmail())) {
+        if (usersRepository.existsByEmail(updateDto.getEmail()) && (!updateUsers.getEmail().equals(updateDto.getEmail()))) {
             throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
         } else if(!updateUsers.getUserId().equals(updateDto.getUserId())) {
             throw new IllegalArgumentException("다른 계정입니다.");
@@ -139,17 +142,34 @@ public class UsersService {
         updateUsers.updateUsers(users);
         usersRepository.save(updateUsers);
 
-        // TODO : jwt 토큰 새로 발급을 받아야 되요.
+        // jwt 토큰 새로 발급
+
+        // Authentication 객체 생성
+        UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(updateUsers.getUserId(), updateDto.getPassword(), null);
+
+        // Member에 대한 검증 진행
+        Authentication authentication;
+        try {
+            authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        } catch (AuthenticationException e) {
+            throw new IllegalArgumentException("아이디나 비밀번호가 잘못되었습니다.");
+        }
+
+        // 인증 정보를 기반으로 jwt 토큰 생성
+        JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
+
+        jwtTokenProvider.storeTokens(response, jwtToken.getAccessToken(),
+                jwtToken.getRefreshToken(), false);
 
         // 저장된 멤버 엔티티를 dto로 반환
         return updateUsers.toDto();
     }
 
-
-
     @Transactional
-    public ResponseEntity deleteUsers(long id) {
+    public ResponseEntity<String> deleteUsers(long id) {
+        //멤버 삭제
         usersRepository.deleteById(id);
-        return ResponseEntity.ok("로그아웃 완료");
+
+        return ResponseEntity.ok("삭제 완료");
     }
 }

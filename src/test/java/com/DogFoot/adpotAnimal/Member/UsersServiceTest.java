@@ -17,6 +17,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayName("유저 서비스 테스트")
 @SpringBootTest
 public class UsersServiceTest {
@@ -42,7 +44,7 @@ public class UsersServiceTest {
             .build();
 
         // When
-        UsersDto resultUserDto = usersService.sighUp(signUpDto);
+        UsersDto resultUserDto = usersService.signUp(signUpDto);
 
         // Then
         assertThat(resultUserDto.getUserId()).isEqualTo(signUpDto.getUserId());

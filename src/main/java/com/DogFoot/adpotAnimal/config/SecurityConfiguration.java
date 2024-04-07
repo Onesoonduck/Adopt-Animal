@@ -40,10 +40,11 @@ public class SecurityConfiguration {
         http
             .authorizeHttpRequests((auth)->auth
                     .requestMatchers("/**").permitAll()
-                .requestMatchers("users/signup","/","users/login").permitAll()  // 홈, 로그인, 가입 페이지는 전체 허가
+                .requestMatchers("/css/**","/js/**","/header/index.html","signup.html","main.html","login.html","login","signup").permitAll()    // css, js, html
+                .requestMatchers("users/signup","/","users/login").permitAll()
                 .requestMatchers("users/{id}").permitAll()
-                .requestMatchers("/admin").hasRole("ADMIN")   // 관리자 페이지는 관리자만
-                    .requestMatchers("/cart/items").hasRole("USER")
+                .requestMatchers("/mypage.html").hasRole("USER")    // 유저만 접근 가능
+                .requestMatchers("/admin").hasRole("ADMIN")   // 관리자만 접근 가능
                 .anyRequest().authenticated()   //인증된 사용자만 접근 허용
             );
 
