@@ -18,7 +18,6 @@ public class ProductDto {
     public static Product toEntity(ProductDto productDto) {
         Product product = new Product();
         product.setId(productDto.getId());
-        product.setCart(productDto.getCart());
         product.setProduct_price(productDto.getProduct_price());
         product.setProduct_name(productDto.getProduct_name());
         product.setProduct_stock(productDto.getProduct_stock());
@@ -29,7 +28,6 @@ public class ProductDto {
     public static ProductDto fromDto(Product product) {
         ProductDto productDto = new ProductDto();
         productDto.setId(product.getId());
-        productDto.setCart(product.getCart());
         productDto.setProduct_price(product.getProduct_price());
         productDto.setProduct_name(product.getProduct_name());
         productDto.setProduct_stock(product.getProduct_stock());

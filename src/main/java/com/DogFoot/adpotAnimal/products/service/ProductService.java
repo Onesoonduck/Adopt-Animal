@@ -26,10 +26,6 @@ public class ProductService {
         product.setProduct_like(productDto.getProduct_like());
 
         // 카테고리 정보가 있다면 설정
-        if (productDto.getCart() != null) {
-            product.setCart(productDto.getCart());
-        }
-
         return productRepository.save(product);
     }
 
@@ -53,7 +49,6 @@ public class ProductService {
     public Product updateProduct(Long id, ProductDto updatedProductDto) {
         Product existingProduct = productRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
-        existingProduct.setCart(updatedProductDto.getCart());
         existingProduct.setProduct_price(updatedProductDto.getProduct_price());
         existingProduct.setProduct_name(updatedProductDto.getProduct_name());
         existingProduct.setProduct_stock(updatedProductDto.getProduct_stock());

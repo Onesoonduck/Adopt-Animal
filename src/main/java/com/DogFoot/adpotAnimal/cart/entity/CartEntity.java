@@ -15,9 +15,13 @@ import java.util.List;
 @AllArgsConstructor
 @Table(name = "cart")
 public class CartEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long cartId;
+
+    @Column(name = "user_id")
+    private String userId;
 
     @Column(name = "cnt")
     private int cnt;
@@ -25,11 +29,4 @@ public class CartEntity {
     @Column(name="product_id")
     private Long productId;
 
-    // CartEntity 연관 관계
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private Users users;
-
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    private List<Product> products;
 }

@@ -36,18 +36,19 @@ public class CartService {
     }
 
     public List<CartDto> getCartItemsByUserId(String userId) {
-        Users user = userRepository.findByUserId(userId)
-                .orElse(null);
-
-        if (user != null) { 
-            List<CartEntity> cartEntities = cartRepository.findByUsers(user); 
-            return cartEntities.stream()
-                    .map(cartEntity -> CartDto.fromEntity(cartEntity))
-                    .collect(Collectors.toList());
-        } else {
-            return Collections.emptyList(); 
-        }
+        List<CartEntity> cartEntities = cartRepository.findByUserId(userId);
+        return cartEntities.stream()
+                .map(cartEntity -> {
+                    Product productEntity = productRepository.findById(cartEntity.getProductId()).orElse(null);
+                    if (productEntity != null) {
+                        return CartDto.fromEntity2(cartEntity, productEntity.getProduct_name(), productEntity.getProduct_price());
+                    } else {
+                        return null;
+                    }
+                })
+                .collect(Collectors.toList());
     }
+
     public void deleteCartItems(List<Long> itemId){
         for(Long itemIds:itemId){
             cartRepository.deleteById(itemIds);
