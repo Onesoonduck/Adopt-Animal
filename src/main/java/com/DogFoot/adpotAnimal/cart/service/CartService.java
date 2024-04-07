@@ -39,13 +39,13 @@ public class CartService {
         Users user = userRepository.findByUserId(userId)
                 .orElse(null);
 
-        if (user != null) { // 사용자를 찾았는지 확인합니다.
-            List<CartEntity> cartEntities = cartRepository.findByUsers(user); // 사용자와 연관된 카트 엔티티를 찾습니다.
+        if (user != null) { 
+            List<CartEntity> cartEntities = cartRepository.findByUsers(user); 
             return cartEntities.stream()
-                    .map(cartEntity -> CartDto.fromEntity(cartEntity)) // 찾은 카트 엔티티를 CartDto로 변환합니다.
+                    .map(cartEntity -> CartDto.fromEntity(cartEntity))
                     .collect(Collectors.toList());
         } else {
-            return Collections.emptyList(); // 사용자가 없으면 빈 리스트를 반환합니다.
+            return Collections.emptyList(); 
         }
     }
     public void deleteCartItems(List<Long> itemId){
