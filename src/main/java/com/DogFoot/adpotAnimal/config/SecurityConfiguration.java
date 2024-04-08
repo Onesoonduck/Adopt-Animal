@@ -40,7 +40,7 @@ public class SecurityConfiguration {
         http
             .authorizeHttpRequests((auth)->auth
                     .requestMatchers("/**").permitAll()
-                .requestMatchers("/css/**","/js/**","/header/index.html","signup.html","main.html","login.html","login","signup").permitAll()    // css, js, html
+                .requestMatchers("/css/**","/js/**","/header/index.html","signup.html","main.html","login.html","login","signup","updateUsers.html").permitAll()    // css, js, html
                 .requestMatchers("users/signup","/","users/login").permitAll()
                 .requestMatchers("users/{id}").permitAll()
                 .requestMatchers("/mypage.html").hasRole("USER")    // 유저만 접근 가능
