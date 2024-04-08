@@ -26,7 +26,7 @@ public class OrderItemController {
     private final ProductService productService;
 
     @PostMapping("/orderItem")
-    public ResponseEntity<Long> createOrderItem (@RequestBody OrderItemRequest request) {
+    public ResponseEntity<Long> createOrderItem(@RequestBody OrderItemRequest request) {
         Product product = productService.findProductById(request.getProductId());
 
         OrderItem createdOrderItem = orderItemService.create(product, product.getProduct_price(), request.getCount());
@@ -35,7 +35,7 @@ public class OrderItemController {
     }
 
     @PostMapping("/orderItems")
-    public ResponseEntity<List<Long>> createOrderItems (@RequestBody List<OrderItemRequest> requests) {
+    public ResponseEntity<List<Long>> createOrderItems(@RequestBody List<OrderItemRequest> requests) {
         List<Long> orderItemIds = new ArrayList<>();
 
         for (OrderItemRequest request : requests) {

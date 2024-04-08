@@ -36,24 +36,24 @@ public class OrderItem {
     private CartEntity cart;
 
 
-    public void setOrder (Order order) {
+    public void setOrder(Order order) {
         this.order = order;
     }
 
-    public void setProduct (Product product) {
+    public void setProduct(Product product) {
         this.product = product;
     }
 
-    public void setOrderPrice (int orderPrice) {
+    public void setOrderPrice(int orderPrice) {
         this.orderPrice = orderPrice;
     }
 
-    public void setCount (int count) {
+    public void setCount(int count) {
         this.count = count;
     }
 
     // 추문 시 주문상품에 상품, 주문 당시 가격, 개수 추가 / 상품 재고량 감소
-    public static OrderItem createOrderItem(Product product, int orderPrice, int count) { // TODO : 회원 도메인과 추후 연결
+    public static OrderItem createOrderItem(Product product, int orderPrice, int count) {
         OrderItem orderItem = new OrderItem();
         orderItem.setProduct(product);
         orderItem.setOrderPrice(orderPrice);
@@ -70,7 +70,7 @@ public class OrderItem {
     }
 
     // 가격 총액 = 제품 가격 * 개수
-    public int getTotalPrice () {
+    public int getTotalPrice() {
         return this.orderPrice * this.count;
     }
 }

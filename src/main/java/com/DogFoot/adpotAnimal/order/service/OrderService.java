@@ -20,7 +20,7 @@ public class OrderService {
     private final UsersRepository usersRepository;
 
     // 주문 생성
-    public Order create (Users users, Delivery delivery, List<OrderItem> orderItems) {
+    public Order create(Users users, Delivery delivery, List<OrderItem> orderItems) {
         Order createOrder = Order.createOrder(users, delivery, orderItems);
 
         return orderRepository.save(createOrder);
@@ -33,29 +33,29 @@ public class OrderService {
     }
 
     // 회윈의 주문 조회
-    public List<Order> findAllByUsersId (Long usersId) {
+    public List<Order> findAllByUsersId(Long usersId) {
         return orderRepository.findAllByUsers_id(usersId);
     }
 
     // 주문 상태 삭제
-    public void deleteById (Long id) {
+    public void deleteById(Long id) {
         findById(id);
 
         orderRepository.deleteById(id);
     }
 
     // 주문 상태 취소
-    public void cancel (Long id) {
+    public void cancel(Long id) {
         findById(id).cancel();
     }
 
     // 주문 상태 배송
-    public void delivery (Long id) {
+    public void delivery(Long id) {
         findById(id).delivery();
     }
 
     // 주문 상태 배송 완료
-    public void complete (Long id) {
+    public void complete(Long id) {
         findById(id).complete();
     }
 

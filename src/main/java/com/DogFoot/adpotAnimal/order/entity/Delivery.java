@@ -25,20 +25,20 @@ public class Delivery {
     @Column(name = "receiver_phoneNumber", nullable = false)
     private String receiverPhoneNumber;
 
-    public void setOrder (Order order) {
+    public void setOrder(Order order) {
         this.order = order;
     }
 
     // protected -> 다른곳에서 수정을 못하도록 지정
-    protected void setAddress (Address address) {
+    protected void setAddress(Address address) {
         this.address = address;
     }
 
-    protected void setReceiverName (String receiverName) {
+    protected void setReceiverName(String receiverName) {
         this.receiverName = receiverName;
     }
 
-    protected void setReceiverPhoneNumber (String receiverPhoneNumber) {
+    protected void setReceiverPhoneNumber(String receiverPhoneNumber) {
         this.receiverPhoneNumber = receiverPhoneNumber;
     }
 

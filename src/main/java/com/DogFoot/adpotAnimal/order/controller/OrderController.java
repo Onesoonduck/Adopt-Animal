@@ -39,7 +39,7 @@ public class OrderController {
 
     // TODO: 유저, 상품 추가
     @PostMapping("/order")
-    public ResponseEntity<Long> addOrder (@RequestBody OrderRequest request) {
+    public ResponseEntity<Long> addOrder(@RequestBody OrderRequest request) {
 
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Users users = userDetails.getUser();
@@ -58,7 +58,7 @@ public class OrderController {
     }
 
     @GetMapping("/orders")
-    public ResponseEntity<List<OrderResponse>> findOrders (@RequestParam Long usersId) {
+    public ResponseEntity<List<OrderResponse>> findOrders(@RequestParam Long usersId) {
         List<OrderResponse> orderResponses = orderService.findAllByUsersId(usersId)
             .stream()
             .map(OrderResponse::new)
@@ -68,36 +68,37 @@ public class OrderController {
     }
 
     @GetMapping("/order/{id}")
-    public ResponseEntity<OrderResponse> findOrder (@PathVariable(value = "id") Long id) {
+    public ResponseEntity<OrderResponse> findOrder(@PathVariable(value = "id") Long id) {
         Order order = orderService.findById(id);
 
         return ResponseEntity.ok().body(new OrderResponse(order));
     }
 
     // 주문 상태
+    // TODO : 주문 상태 변경 api를 하나의 api에서 쿼리파라미터나 바디 사용해서 수정해보기
     @PutMapping("/order/{id}/delivery")
-    public ResponseEntity<Void> updateStatusDelivery (@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Void> updateStatusDelivery(@PathVariable(value = "id") Long id) {
         orderService.delivery(id);
 
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/order/{id}/complete")
-    public ResponseEntity<Void> updateStatusComplete (@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Void> updateStatusComplete(@PathVariable(value = "id") Long id) {
         orderService.complete(id);
 
         return ResponseEntity.ok().build();
     }
 
     @PutMapping("/order/{id}/cancel")
-    public ResponseEntity<Void> updateStatusCancel (@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Void> updateStatusCancel(@PathVariable(value = "id") Long id) {
         orderService.cancel(id);
 
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/order/{id}")
-    public ResponseEntity<Void> deleteOrder (@PathVariable(value = "id") Long id) {
+    public ResponseEntity<Void> deleteOrder(@PathVariable(value = "id") Long id) {
         orderService.deleteById(id);
 
         return ResponseEntity.ok().build();
