@@ -25,6 +25,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -171,5 +172,19 @@ public class UsersService {
         usersRepository.deleteById(id);
 
         return ResponseEntity.ok("삭제 완료");
+    }
+
+    @Transactional
+    public Users getUsers() {
+        Authentication authentication;
+        try {
+            authentication = SecurityContextHolder.getContext().getAuthentication();
+        } catch (AuthenticationException e) {
+            throw new IllegalArgumentException("로그인한 상태가 아닙니다.");
+        }
+        CustomUserDetails userDetails = (CustomUserDetails)authentication.getPrincipal();
+        Users users = userDetails.getUser();
+
+        return users;
     }
 }
