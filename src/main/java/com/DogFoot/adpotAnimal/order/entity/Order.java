@@ -95,6 +95,9 @@ public class Order {
         if (this.orderStatus == OrderStatus.CANCEL) {
             throw new IllegalStateException("이미 취소된 상품입니다.");
         }
+        if (this.orderStatus == OrderStatus.REFUND) {
+            throw new IllegalStateException("이미 환불된 상품입니다.");
+        }
 
         this.setOrderStatus(OrderStatus.CANCEL);
         for (OrderItem orderItem : orderItems) {
@@ -102,6 +105,7 @@ public class Order {
         }
     }
 
+    // 주문 배송
     public void delivery() {
         if(this.orderStatus != OrderStatus.ORDER) {
             throw new IllegalStateException("이미 배송이 시작되었거나, 취소된 상품입니다.");
@@ -109,11 +113,20 @@ public class Order {
         this.setOrderStatus(OrderStatus.DELIVERY);
     }
 
+    // 주문 배송 완료
     public void complete() {
         if (this.orderStatus == OrderStatus.COMPLETE) {
             throw new IllegalStateException("이미 배송 완료 처리된 상품입니다.");
         }
         this.setOrderStatus(OrderStatus.COMPLETE);
+    }
+
+    // 배송 물품 환불
+    public void refund() {
+        if (this.orderStatus != OrderStatus.COMPLETE) {
+            throw new IllegalStateException("환불 처리 불가능한 상태의 상품입니다. (환불 가능한 상품 : 배송이 완료된 상품)");
+        }
+        this.setOrderStatus(OrderStatus.REFUND);
     }
 
     // 주문의 전체 가격

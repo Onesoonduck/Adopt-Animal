@@ -38,25 +38,68 @@ public class OrderService {
     }
 
     // 주문 상태 삭제
+    @Transactional
     public void deleteById(Long id) {
-        findById(id);
+        Order order = findById(id);
+
+        // 예외사항
+        if (order == null) {
+            throw new IllegalStateException("삭제할 주문이 존재하지 않습니다. Id: " + id);
+        }
 
         orderRepository.deleteById(id);
     }
 
     // 주문 상태 취소
+    @Transactional
     public void cancel(Long id) {
-        findById(id).cancel();
+        Order order = findById(id);
+
+        // 예외사항
+        if (order == null) {
+            throw new IllegalStateException("취소할 주문이 존재하지 않습니다. Id: " + id);
+        }
+
+        order.cancel();
     }
 
     // 주문 상태 배송
+    @Transactional
     public void delivery(Long id) {
-        findById(id).delivery();
+        Order order = findById(id);
+
+        // 예외사항
+        if (order == null) {
+            throw new IllegalStateException("배송 처리할 주문이 존재하지 않습니다. Id: " + id);
+        }
+
+        order.delivery();
     }
 
     // 주문 상태 배송 완료
+    @Transactional
     public void complete(Long id) {
-        findById(id).complete();
+        Order order = findById(id);
+
+        // 예외사항
+        if (order == null) {
+            throw new IllegalStateException("주문이 존재하지 않습니다. Id: " + id);
+        }
+
+        order.complete();
+    }
+
+    // 주문 상태 배송 이후 환불
+    @Transactional
+    public void refund(Long id) {
+        Order order = findById(id);
+
+        // 예외사항
+        if (order == null) {
+            throw new IllegalStateException("주문이 존재하지 않습니다. Id: " + id);
+        }
+
+        order.refund();
     }
 
 }

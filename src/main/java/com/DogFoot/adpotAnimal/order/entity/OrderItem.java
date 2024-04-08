@@ -69,6 +69,11 @@ public class OrderItem {
         getProduct().addStock(count);
     }
 
+    // 제품 환불 시 재고 원상 복구
+    public void refund() {
+        getProduct().addStock(count);
+    }
+
     // 가격 총액 = 제품 가격 * 개수
     public int getTotalPrice() {
         return this.orderPrice * this.count;

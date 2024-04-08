@@ -37,7 +37,7 @@ public class OrderController {
     private final UsersService usersService;
 
 
-    // TODO: 유저, 상품 추가
+    // 주문 생성
     @PostMapping("/order")
     public ResponseEntity<Long> addOrder(@RequestBody OrderRequest request) {
 
@@ -57,6 +57,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
     }
 
+    // 주문 목록 검색
     @GetMapping("/orders")
     public ResponseEntity<List<OrderResponse>> findOrders(@RequestParam Long usersId) {
         List<OrderResponse> orderResponses = orderService.findAllByUsersId(usersId)
@@ -67,6 +68,7 @@ public class OrderController {
         return ResponseEntity.ok().body(orderResponses);
     }
 
+    // 특정 주문 검색
     @GetMapping("/order/{id}")
     public ResponseEntity<OrderResponse> findOrder(@PathVariable(value = "id") Long id) {
         Order order = orderService.findById(id);
