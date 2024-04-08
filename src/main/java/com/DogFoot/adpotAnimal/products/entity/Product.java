@@ -43,9 +43,7 @@ public class Product {
     private int product_like;
 
     // product 연관 관계
-    @ManyToOne
-    @JoinColumn(name = "cart_id")
-    private CartEntity cart;
+
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();

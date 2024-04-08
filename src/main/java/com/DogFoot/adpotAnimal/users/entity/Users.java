@@ -53,9 +53,6 @@ public class Users extends BaseEntity {
     @OneToMany(mappedBy = "users", cascade =  CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
-    @OneToOne(mappedBy = "users", cascade =  CascadeType.ALL)
-    private CartEntity carts;
-
 
     @Builder
     public Users(String userId, String userName, String password, String email, String phoneNumber, UsersRole userRole) {
