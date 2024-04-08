@@ -19,16 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/order")
 public class OrderController {
 
     private final OrderService orderService;
@@ -38,7 +33,7 @@ public class OrderController {
 
 
     // 주문 생성
-    @PostMapping("/order")
+    @PostMapping("")
     public ResponseEntity<Long> addOrder(@RequestBody OrderRequest request) {
 
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -58,7 +53,7 @@ public class OrderController {
     }
 
     // 주문 목록 검색
-    @GetMapping("/orders")
+    @GetMapping("")
     public ResponseEntity<List<OrderResponse>> findOrders(@RequestParam Long usersId) {
         List<OrderResponse> orderResponses = orderService.findAllByUsersId(usersId)
             .stream()
@@ -69,40 +64,12 @@ public class OrderController {
     }
 
     // 특정 주문 검색
-    @GetMapping("/order/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<OrderResponse> findOrder(@PathVariable(value = "id") Long id) {
         Order order = orderService.findById(id);
 
         return ResponseEntity.ok().body(new OrderResponse(order));
     }
 
-    // 주문 상태
-    // TODO : 주문 상태 변경 api를 하나의 api에서 쿼리파라미터나 바디 사용해서 수정해보기
-    @PutMapping("/order/{id}/delivery")
-    public ResponseEntity<Void> updateStatusDelivery(@PathVariable(value = "id") Long id) {
-        orderService.delivery(id);
 
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/order/{id}/complete")
-    public ResponseEntity<Void> updateStatusComplete(@PathVariable(value = "id") Long id) {
-        orderService.complete(id);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/order/{id}/cancel")
-    public ResponseEntity<Void> updateStatusCancel(@PathVariable(value = "id") Long id) {
-        orderService.cancel(id);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/order/{id}")
-    public ResponseEntity<Void> deleteOrder(@PathVariable(value = "id") Long id) {
-        orderService.deleteById(id);
-
-        return ResponseEntity.ok().build();
-    }
 }

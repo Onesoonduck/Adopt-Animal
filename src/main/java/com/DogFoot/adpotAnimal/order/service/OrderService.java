@@ -26,13 +26,13 @@ public class OrderService {
         return orderRepository.save(createOrder);
     }
 
-    // 주문 조회
+    // 각 회원 주문 조회
     public Order findById(Long id) {
         return orderRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Not Found OrderId: " + id));
     }
 
-    // 회윈의 주문 조회
+    // 모든 회윈의 주문 조회
     public List<Order> findAllByUsersId(Long usersId) {
         return orderRepository.findAllByUsers_id(usersId);
     }
