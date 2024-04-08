@@ -47,13 +47,14 @@ public class JwtTokenProvider {
 
     private final Key key;
 
-    private UsersRepository usersRepository;
+    private final UsersRepository usersRepository;
     private TokenBlackService tokenBlackService;
     // application.yml에서 secret 값을 가져와서 key에 저장
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UsersRepository usersRepository) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UsersRepository usersRepository, TokenBlackService tokenBlackService) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.usersRepository = usersRepository;
+        this.tokenBlackService = tokenBlackService;
     }
 
     /**
