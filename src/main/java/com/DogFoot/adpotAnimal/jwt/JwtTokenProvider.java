@@ -50,10 +50,11 @@ public class JwtTokenProvider {
     private UsersRepository usersRepository;
     private TokenBlackService tokenBlackService;
     // application.yml에서 secret 값을 가져와서 key에 저장
-    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UsersRepository usersRepository) {
+    public JwtTokenProvider(@Value("${jwt.secret}") String secretKey, UsersRepository usersRepository, TokenBlackService tokenBlackService) {
         byte[] keyBytes = Decoders.BASE64.decode(secretKey);
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.usersRepository = usersRepository;
+        this.tokenBlackService = tokenBlackService;
     }
 
     /**
@@ -85,9 +86,6 @@ public class JwtTokenProvider {
 
         long now = (new Date()).getTime();
 
-        /* Access Token 생성
-         *  복호화 하여 인증 벙보를 생성
-         */
         Date accessTokenExpiresln = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
             .setSubject(authentication.getName())

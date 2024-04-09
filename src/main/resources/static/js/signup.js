@@ -17,14 +17,9 @@ function getFormData() {
 }
 
 function postSignUp(data) {
-  fetch('/users/signup', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  }).then(function(response) {
-    if (response.ok) {
+  axios.post('/users/signup', data)
+  .then(function(response) {
+    if (response.status === 200) {
       alert('회원가입이 완료되었습니다.');
       location.href = '/login.html';
     } else {
