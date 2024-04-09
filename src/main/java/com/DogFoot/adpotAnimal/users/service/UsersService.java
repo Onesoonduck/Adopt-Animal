@@ -170,7 +170,6 @@ public class UsersService {
     public ResponseEntity<String> deleteUsers(long id) {
         //멤버 삭제
         usersRepository.deleteById(id);
-
         return ResponseEntity.ok("삭제 완료");
     }
 
