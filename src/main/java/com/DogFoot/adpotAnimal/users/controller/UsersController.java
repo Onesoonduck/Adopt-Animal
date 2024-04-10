@@ -57,11 +57,11 @@ public class UsersController {
     }
 
     // 회원 정보 삭제
-    @DeleteMapping("/{id}")
-    public ResponseEntity deleteUsers(@PathVariable Long id, HttpServletResponse response, HttpServletRequest request) throws IOException {
+    @DeleteMapping("/usersDelete")
+    public ResponseEntity deleteUsers(HttpServletResponse response, HttpServletRequest request) throws IOException {
         usersService.logout(request, response);
-        response.sendRedirect("http://localhost:8080/login");
-        usersService.deleteUsers(id);
+        Users users = usersService.getUsers();
+        usersService.deleteUsers(users.getId());
         return ResponseEntity.ok().build();
     }
 
