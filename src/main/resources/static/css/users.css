@@ -1,0 +1,52 @@
+.col-12 > h1 {
+  font-weight: bold;
+  color:orange;
+}
+
+.users-image-container {
+  margin-top: 50px;
+  margin-bottom: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.users-image {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.users-image img {
+  width: 100%;
+  height: auto;
+}
+
+.users-detail-link {
+  font-weight: bold;
+  color:orange;
+}
+
+.users-detail-link:hover{
+  color: coral;
+  text-decoration-line: none;
+}
+
+#users-detail-left {
+  text-align: center;
+  margin-right: 30px;
+  border-style:none;
+  text-decoration-line: none;
+
+}
+
+#users-detail-right {
+  text-align: center;
+  margin-left: 30px;
+  border-style:none;
+  text-decoration-line: none;
+}
