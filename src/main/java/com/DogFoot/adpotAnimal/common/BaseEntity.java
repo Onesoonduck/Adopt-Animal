@@ -18,8 +18,7 @@ public class BaseEntity {
     @LastModifiedDate
     private LocalDateTime updated_at;
 
-    // TODO: updateUpdate_at...? <- 업데이트라는 말을 두번..
-    public void updateUpdated_at(BaseEntity baseEntity){
+    public void editUpdated_at(BaseEntity baseEntity){
         this.updated_at = baseEntity.created_at;
     }
 }
