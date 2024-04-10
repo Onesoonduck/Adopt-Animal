@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <title>로그인 페이지</title>
-    <link rel="stylesheet" href=./css/login.css>
+    <link rel="stylesheet" href=/static/css/login.css>
 </head>
 <body>
 
 <!-- include 함수 가져오기 -->
-<script src="./js/include.js"></script>
+<script src="/static/js/include.js"></script>
 <!-- 내비게이션 바 가져오기 시작 -->
-<div include="./header/index.html"></div>
+<div include="/static/header/index.html"></div>
 <script>includeHTML();</script>
 
 <div class="login_page">
@@ -23,7 +23,7 @@
             <input type="text" id="userId" placeholder="아이디">
             <input type="password" id="password" placeholder="비밀번호">
             <div class="links_wrapper">
-                <a href="./signup.html">회원가입</a>
+                <a href="signup.html">회원가입</a>
                 <a href="#">아이디 / 비밀번호 찾기</a>
             </div>
             <button type="submit" class="login_button" value="로그인">로그인</button>
@@ -35,9 +35,9 @@
 </div>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 <script type="module" src="/js/common.js"></script>
-<script src="/js/bootstrap.bundle.min.js"></script>
-<script src="/js/form-validation.js"></script>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/form-validation.js"></script>
 
-<script src="/js/login.js"></script>
+<script src="/static/js/login.js"></script>
 </body>
 </html>
