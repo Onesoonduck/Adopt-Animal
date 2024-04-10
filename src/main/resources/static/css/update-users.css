@@ -6,7 +6,7 @@
 }
 
 .updateUsersWrapper {
-    margin: 10px 400px;
+    margin: 10px 500px;
 }
 
 .container {
@@ -50,4 +50,26 @@ label {
 
 .updateUsersButton:hover {
          background-color: #ff8c00;
+}
+
+.users-image-container {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.users-image {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.users-image img {
+  width: 100%;
+  height: auto;
 }
