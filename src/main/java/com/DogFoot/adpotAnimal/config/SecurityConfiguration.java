@@ -42,7 +42,7 @@ public class SecurityConfiguration {
                     .requestMatchers("/**").permitAll()
                 .requestMatchers("/css/**","/js/**","/header/index.html","signup.html","main.html","login.html","login","signup").permitAll()    // css, js, html
                 .requestMatchers("users/signup","/","users/login").permitAll()
-                .requestMatchers("users/{id}").permitAll()
+                .requestMatchers("users/{id}","users//usersEdit").permitAll()
                 .requestMatchers("/mypage.html").hasRole("USER")    // 유저만 접근 가능
                 .requestMatchers("/admin").hasRole("ADMIN")   // 관리자만 접근 가능
                 .anyRequest().authenticated()   //인증된 사용자만 접근 허용

@@ -82,7 +82,7 @@ public class UsersService {
         String password =signUpDto.getPassword();
         if (password.length() < 8 ) {
             throw new IllegalArgumentException("비밀번호는 최소 8자 이상이어야 합니다.");
-        } else if (!password.matches("^(?=.*[a-z]|[A-Z])(?=.*[~!@#$%^&*+=()_-])(?=.*[0-9]).+$")) {
+        } else if (!password.matches("(?=.*[a-z]|[A-Z])(?=.*[~!@#$%^&*+=()_-])(?=.*[0-9]).+$")) {
             throw new IllegalArgumentException("비밀번호는 영문 소/대문자, 숫자, 특수문자를 조합하여 작성해야 합니다.");
         }
 

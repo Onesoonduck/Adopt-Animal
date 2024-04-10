@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>회원정보 수정</title>
+    <link rel="stylesheet" href=css/update-users.css>
+</head>
+<body>
+<!-- include 함수 가져오기 -->
+<script src="./js/include.js"></script>
+<!-- 내비게이션 바 가져오기 시작 -->
+<div include="./header/index.html"></div>
+<script>includeHTML();</script>
+<div class="users-image-container">
+    <div class="users-image">
+        <img src="https://silver-worthwhile-cow-573.mypinata.cloud/ipfs/QmTcLEzaYkekx6QxEynHV8rWZobGrqmY7x4dETmtLFP3FU">
+    </div>
+</div>
+<div class="updateUsersPage">
+    <h1>회원 정보 수정</h1>
+</div>
+<div class="updateUsersWrapper">
+    <form id="updateUsersform">
+        <div class="form-group">
+            <label for="userName">이름:</label>
+            <input type="text" id="userName" name = 'userName' class="updateUsersInput" placeholder="이름">
+        </div>
+        <div class="form-group">
+            <label for="userId">아이디:</label>
+            <input type="text" id="userId" name='userId' class="updateUsersInput" placeholder="아이디">
+        </div>
+        <div class="form-group">
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name='password' class="updateUsersInput" placeholder="비밀번호">
+        </div>
+        <div class="form-group">
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name='email' class="updateUsersInput" placeholder="이메일">
+        </div>
+        <div class="form-group">
+            <label for="phoneNumber">전화번호:</label>
+            <input type="text" id="phoneNumber" name='phoneNumber' class="updateUsersInput" placeholder="전화번호">
+        </div>
+        <div>
+            <button class="updateUsersButton" type="submit">수정하기</button>
+        </div>
+    </form>
+</div>
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script type="module" src="/js/common.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/form-validation.js"></script>
+
+<script src="/js/update-users.js"></script>
+</body>
+</html>
