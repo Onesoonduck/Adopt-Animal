@@ -32,6 +32,7 @@
 #login-div {
     display: flex;
 }
+
 #logout-div {
     display: none;
 }

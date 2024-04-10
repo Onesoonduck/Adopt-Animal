@@ -1,0 +1,27 @@
+import {updateLogin} from './checkLogin.js';
+window.onload = updateLogin;
+
+// 모든 요청
+axios.interceptors.request.use(function (config) {
+  const accessKey = sessionStorage.getItem('authorization');
+  if (accessKey) {
+    config.headers.authorization = accessKey;
+  }
+  return config;
+}, function (error) {
+  return Promise.reject(error);
+});
+
+// 모든 응답
+axios.interceptors.response.use(function (response) {
+  const accessKey = response.headers['authorization'];
+  if (accessKey) {
+    // 임시로 세션 스토리지에 저장
+    sessionStorage.setItem('authorization', accessKey);
+  } else {
+    sessionStorage.removeItem('authorization');
+  }
+  return response;
+}, function (error) {
+  return Promise.reject(error);
+});

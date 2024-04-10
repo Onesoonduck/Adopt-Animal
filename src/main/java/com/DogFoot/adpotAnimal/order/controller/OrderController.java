@@ -59,7 +59,7 @@ public class OrderController {
 
     @GetMapping("/orders")
     public ResponseEntity<List<OrderResponse>> findOrders (@RequestParam Long usersId) {
-        List<OrderResponse> orderResponses = orderService.findAllByMemberId(usersId)
+        List<OrderResponse> orderResponses = orderService.findAllByUsersId(usersId)
             .stream()
             .map(OrderResponse::new)
             .toList();

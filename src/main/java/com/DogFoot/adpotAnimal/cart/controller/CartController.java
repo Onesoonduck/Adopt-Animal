@@ -23,24 +23,29 @@ public class CartController {
         cartService.addCart(cartDto);
         return ResponseEntity.ok(cartDto);
     }
+    @CrossOrigin(origins = "http://localhost:63342")
     @GetMapping("/{user-id}")
     public ResponseEntity <List<CartDto>> getCartItemsByUserId(@PathVariable("user-id") String userId){
         List<CartDto> cartItems = cartService.getCartItemsByUserId(userId);
         return ResponseEntity.ok(cartItems);
     }
+
+    @CrossOrigin(origins = "http://localhost:63342")
     @DeleteMapping
     public ResponseEntity<String> deleteCartItems(@RequestBody List<Long> itemIds){
         cartService.deleteCartItems(itemIds);
         return ResponseEntity.ok("선택한 물품이 삭제되었습니다.");
     }
-    @PatchMapping("/{itemId}/increase")
-    public ResponseEntity<CartDto> increaseItemCount(@PathVariable Long itemId) {
-        CartDto updatedCartDto = cartService.increaseItemCount(itemId);
+    @CrossOrigin(origins = "http://localhost:63342")
+    @PatchMapping("/{cartId}/increase")
+    public ResponseEntity<CartDto> increaseItemCount(@PathVariable Long cartId) {
+        CartDto updatedCartDto = cartService.increaseItemCount(cartId);
         return ResponseEntity.ok(updatedCartDto);
     }
-    @PatchMapping("/{itemId}/decrease")
-    public ResponseEntity<CartDto> decreaseItemCount(@PathVariable Long itemId) {
-        CartDto updatedCartDto = cartService.decreaseItemCount(itemId);
+    @CrossOrigin(origins = "http://localhost:63342")
+    @PatchMapping("/{cartId}/decrease")
+    public ResponseEntity<CartDto> decreaseItemCount(@PathVariable Long cartId) {
+        CartDto updatedCartDto = cartService.decreaseItemCount(cartId);
         return ResponseEntity.ok(updatedCartDto);
     }
 }

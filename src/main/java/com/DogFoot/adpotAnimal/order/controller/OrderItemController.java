@@ -29,22 +29,22 @@ public class OrderItemController {
     public ResponseEntity<Long> createOrderItem (@RequestBody OrderItemRequest request) {
         Product product = productService.findProductById(request.getProductId());
 
-        OrderItem createdOrderItems = orderItemService.create(product, product.getProduct_price(), request.getCount());
+        OrderItem createdOrderItem = orderItemService.create(product, product.getProduct_price(), request.getCount());
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderItems.getId());
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderItem.getId());
     }
 
     @PostMapping("/orderItems")
-    public ResponseEntity<List<Long>> createOrderItem (@RequestBody List<OrderItemRequest> requests) {
-        List<Long> orderItemId = new ArrayList<>();
+    public ResponseEntity<List<Long>> createOrderItems (@RequestBody List<OrderItemRequest> requests) {
+        List<Long> orderItemIds = new ArrayList<>();
 
         for (OrderItemRequest request : requests) {
             Product product = productService.findProductById(request.getProductId());
-            OrderItem createdOrderItems = orderItemService.create(product, product.getProduct_price(), request.getCount());
-            orderItemId.add(createdOrderItems.getId());
+            OrderItem createdOrderItem = orderItemService.create(product, product.getProduct_price(), request.getCount());
+            orderItemIds.add(createdOrderItem.getId());
         }
 
-        return ResponseEntity.status(HttpStatus.CREATED).body(orderItemId);
+        return ResponseEntity.status(HttpStatus.CREATED).body(orderItemIds);
     }
 
     @GetMapping("/orderItem/{id}")

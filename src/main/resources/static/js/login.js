@@ -9,18 +9,15 @@ function getLoginData() {
 }
 
 function postLogin(data) {
-  fetch('/users/login', {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  }).then(function(response) {
-    if (response.ok) {
+  axios.post('/users/login', data)
+  .then(function(response) {
+    if (response.status === 200) {
       const loginDiv = document.querySelector('#login-div');
       const logoutDiv = document.querySelector('#logout-div');
       loginDiv.style.display = "none";
       logoutDiv.style.display = "flex";
+
+      const accesskey = response.headers['Authorization'];
       location.href = '/main.html';
     } else {
       alert('로그인에 실패하였습니다.');
@@ -39,3 +36,4 @@ function loginFunc() {
 }
 
 loginFunc();
+

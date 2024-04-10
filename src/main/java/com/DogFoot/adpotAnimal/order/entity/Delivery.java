@@ -42,7 +42,6 @@ public class Delivery {
         this.receiverPhoneNumber = receiverPhoneNumber;
     }
 
-
     public static Delivery createDelivery(Address address, String receiverName, String receiverPhoneNumber) {
 
         Delivery delivery = new Delivery();

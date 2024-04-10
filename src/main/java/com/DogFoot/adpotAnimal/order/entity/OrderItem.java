@@ -1,5 +1,6 @@
 package com.DogFoot.adpotAnimal.order.entity;
 
+import com.DogFoot.adpotAnimal.cart.entity.CartEntity;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -17,6 +18,11 @@ public class OrderItem {
     @Column(name = "order_item_id")
     private Long id;
 
+    private int orderPrice;
+
+    private int count;
+
+    // OrderItem 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
@@ -25,9 +31,9 @@ public class OrderItem {
     @JoinColumn(name = "order_id")
     private Order order;
 
-    private int orderPrice;
-
-    private int count;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cart_id")
+    private CartEntity cart;
 
 
     public void setOrder (Order order) {

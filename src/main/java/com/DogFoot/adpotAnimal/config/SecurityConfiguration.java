@@ -39,6 +39,7 @@ public class SecurityConfiguration {
         // 페이지 별 권한 설정
         http
             .authorizeHttpRequests((auth)->auth
+                    .requestMatchers("/**").permitAll()
                 .requestMatchers("/css/**","/js/**","/header/index.html","signup.html","main.html","login.html","login","signup").permitAll()    // css, js, html
                 .requestMatchers("users/signup","/","users/login").permitAll()
                 .requestMatchers("users/{id}").permitAll()
