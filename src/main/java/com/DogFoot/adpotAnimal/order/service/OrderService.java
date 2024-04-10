@@ -20,43 +20,86 @@ public class OrderService {
     private final UsersRepository usersRepository;
 
     // 주문 생성
-    public Order create (Users users, Delivery delivery, List<OrderItem> orderItems) {
+    public Order create(Users users, Delivery delivery, List<OrderItem> orderItems) {
         Order createOrder = Order.createOrder(users, delivery, orderItems);
 
         return orderRepository.save(createOrder);
     }
 
-    // 주문 조회
+    // 각 회원 주문 조회
     public Order findById(Long id) {
         return orderRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Not Found OrderId: " + id));
     }
 
-    // 회윈의 주문 조회
-    public List<Order> findAllByUsersId (Long usersId) {
+    // 모든 회윈의 주문 조회
+    public List<Order> findAllByUsersId(Long usersId) {
         return orderRepository.findAllByUsers_id(usersId);
     }
 
     // 주문 상태 삭제
-    public void deleteById (Long id) {
-        findById(id);
+    @Transactional
+    public void deleteById(Long id) {
+        Order order = findById(id);
+
+        // 예외사항
+        if (order == null) {
+            throw new IllegalStateException("삭제할 주문이 존재하지 않습니다. Id: " + id);
+        }
 
         orderRepository.deleteById(id);
     }
 
     // 주문 상태 취소
-    public void cancel (Long id) {
-        findById(id).cancel();
+    @Transactional
+    public void cancel(Long id) {
+        Order order = findById(id);
+
+        // 예외사항
+        if (order == null) {
+            throw new IllegalStateException("취소할 주문이 존재하지 않습니다. Id: " + id);
+        }
+
+        order.cancel();
     }
 
     // 주문 상태 배송
-    public void delivery (Long id) {
-        findById(id).delivery();
+    @Transactional
+    public void delivery(Long id) {
+        Order order = findById(id);
+
+        // 예외사항
+        if (order == null) {
+            throw new IllegalStateException("배송 처리할 주문이 존재하지 않습니다. Id: " + id);
+        }
+
+        order.delivery();
     }
 
     // 주문 상태 배송 완료
-    public void complete (Long id) {
-        findById(id).complete();
+    @Transactional
+    public void complete(Long id) {
+        Order order = findById(id);
+
+        // 예외사항
+        if (order == null) {
+            throw new IllegalStateException("주문이 존재하지 않습니다. Id: " + id);
+        }
+
+        order.complete();
+    }
+
+    // 주문 상태 배송 이후 환불
+    @Transactional
+    public void refund(Long id) {
+        Order order = findById(id);
+
+        // 예외사항
+        if (order == null) {
+            throw new IllegalStateException("주문이 존재하지 않습니다. Id: " + id);
+        }
+
+        order.refund();
     }
 
 }

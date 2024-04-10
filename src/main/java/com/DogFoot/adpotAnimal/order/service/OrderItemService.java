@@ -13,18 +13,18 @@ public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
 
     // 주문 상품 추가
-    public OrderItem create (Product product, int orderPrice, int count) {
+    public OrderItem create(Product product, int orderPrice, int count) {
         return orderItemRepository.save(OrderItem.createOrderItem(product, orderPrice, count));
     }
 
     // 주문 상품 조회
-    public OrderItem findById (Long id) {
+    public OrderItem findById(Long id) {
         return orderItemRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("Not Found OrderItem Id: " + id));
     }
 
     // 주문 상품 취소
-    public void deleteById (Long id) {
+    public void deleteById(Long id) {
         findById(id);
         orderItemRepository.deleteById(id);
     }

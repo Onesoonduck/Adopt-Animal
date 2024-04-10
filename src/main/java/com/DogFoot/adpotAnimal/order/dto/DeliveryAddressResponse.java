@@ -11,7 +11,7 @@ public class DeliveryAddressResponse {
     private final String receiverName;
     private final String receiverPhoneNumber;
 
-    public DeliveryAddressResponse (Delivery delivery) {
+    public DeliveryAddressResponse(Delivery delivery) {
         this.address = delivery.getAddress();
         this.receiverName = delivery.getReceiverName();
         this.receiverPhoneNumber = delivery.getReceiverPhoneNumber();

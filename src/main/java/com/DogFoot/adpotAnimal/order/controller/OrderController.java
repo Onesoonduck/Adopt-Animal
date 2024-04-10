@@ -19,16 +19,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/order")
 public class OrderController {
 
     private final OrderService orderService;
@@ -37,9 +32,9 @@ public class OrderController {
     private final UsersService usersService;
 
 
-    // TODO: 유저, 상품 추가
-    @PostMapping("/order")
-    public ResponseEntity<Long> addOrder (@RequestBody OrderRequest request) {
+    // 주문 생성
+    @PostMapping("")
+    public ResponseEntity<Long> addOrder(@RequestBody OrderRequest request) {
 
         CustomUserDetails userDetails = (CustomUserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Users users = userDetails.getUser();
@@ -57,8 +52,9 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
     }
 
-    @GetMapping("/orders")
-    public ResponseEntity<List<OrderResponse>> findOrders (@RequestParam Long usersId) {
+    // 주문 목록 검색
+    @GetMapping("")
+    public ResponseEntity<List<OrderResponse>> findOrders(@RequestParam Long usersId) {
         List<OrderResponse> orderResponses = orderService.findAllByUsersId(usersId)
             .stream()
             .map(OrderResponse::new)
@@ -67,39 +63,13 @@ public class OrderController {
         return ResponseEntity.ok().body(orderResponses);
     }
 
-    @GetMapping("/order/{id}")
-    public ResponseEntity<OrderResponse> findOrder (@PathVariable(value = "id") Long id) {
+    // 특정 주문 검색
+    @GetMapping("/{id}")
+    public ResponseEntity<OrderResponse> findOrder(@PathVariable(value = "id") Long id) {
         Order order = orderService.findById(id);
 
         return ResponseEntity.ok().body(new OrderResponse(order));
     }
 
-    // 주문 상태
-    @PutMapping("/order/{id}/delivery")
-    public ResponseEntity<Void> updateStatusDelivery (@PathVariable(value = "id") Long id) {
-        orderService.delivery(id);
 
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/order/{id}/complete")
-    public ResponseEntity<Void> updateStatusComplete (@PathVariable(value = "id") Long id) {
-        orderService.complete(id);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @PutMapping("/order/{id}/cancel")
-    public ResponseEntity<Void> updateStatusCancel (@PathVariable(value = "id") Long id) {
-        orderService.cancel(id);
-
-        return ResponseEntity.ok().build();
-    }
-
-    @DeleteMapping("/order/{id}")
-    public ResponseEntity<Void> deleteOrder (@PathVariable(value = "id") Long id) {
-        orderService.deleteById(id);
-
-        return ResponseEntity.ok().build();
-    }
 }

@@ -1,6 +1,7 @@
 package com.DogFoot.adpotAnimal.order.entity;
 
 import com.DogFoot.adpotAnimal.users.entity.Users;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -35,13 +36,14 @@ public class Order {
     // Orders 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
+    @JsonManagedReference // 순환참조를 막기 위한 어노테이션이지만 Dto를 쓰는 방법도?
     private Users users;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
     private List<OrderItem> orderItems = new ArrayList<>();
 
 //     양방향 매핑 (연관관계 메소드)
-    public void setMember (Users users) {
+    public void setMember(Users users) {
         this.users = users;
         users.getOrders().add(this);
     }
@@ -66,7 +68,7 @@ public class Order {
 
 
     //주문 생성
-    public static Order createOrder (Users users, Delivery delivery, List<OrderItem> orderItems) {
+    public static Order createOrder(Users users, Delivery delivery, List<OrderItem> orderItems) {
         Order order = new Order();
         order.setUsers(users);
         order.setDelivery(delivery);
@@ -83,7 +85,7 @@ public class Order {
 
     // 주문 취소
     // 배송 중인 상품, 배송이 완료된 상품, 이미 취소가 된 상품은 취소 불가
-    public void cancel () {
+    public void cancel() {
         if (this.orderStatus == OrderStatus.DELIVERY) {
             throw new IllegalStateException("배송 중인 상품은 취소가 불가능합니다.");
         }
@@ -93,6 +95,9 @@ public class Order {
         if (this.orderStatus == OrderStatus.CANCEL) {
             throw new IllegalStateException("이미 취소된 상품입니다.");
         }
+        if (this.orderStatus == OrderStatus.REFUND) {
+            throw new IllegalStateException("이미 환불된 상품입니다.");
+        }
 
         this.setOrderStatus(OrderStatus.CANCEL);
         for (OrderItem orderItem : orderItems) {
@@ -100,22 +105,32 @@ public class Order {
         }
     }
 
-    public void delivery () {
+    // 주문 배송
+    public void delivery() {
         if(this.orderStatus != OrderStatus.ORDER) {
             throw new IllegalStateException("이미 배송이 시작되었거나, 취소된 상품입니다.");
         }
         this.setOrderStatus(OrderStatus.DELIVERY);
     }
 
-    public void complete () {
+    // 주문 배송 완료
+    public void complete() {
         if (this.orderStatus == OrderStatus.COMPLETE) {
             throw new IllegalStateException("이미 배송 완료 처리된 상품입니다.");
         }
         this.setOrderStatus(OrderStatus.COMPLETE);
     }
 
+    // 배송 물품 환불
+    public void refund() {
+        if (this.orderStatus != OrderStatus.COMPLETE) {
+            throw new IllegalStateException("환불 처리 불가능한 상태의 상품입니다. (환불 가능한 상품 : 배송이 완료된 상품)");
+        }
+        this.setOrderStatus(OrderStatus.REFUND);
+    }
+
     // 주문의 전체 가격
-    public int getTotalPrice () {
+    public int getTotalPrice() {
         int totalPrice = 0;
         for (OrderItem orderItem : orderItems) {
             totalPrice += orderItem.getTotalPrice();
