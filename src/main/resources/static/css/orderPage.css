@@ -1,0 +1,262 @@
+
+.header {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    margin: 50px 200px;
+}
+
+.DogFoot_main {
+    font-size: 34px;
+    margin-right: 200px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.header_menu {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+}
+
+.header_list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.header_category {
+    margin-right: 40px;
+    font-size: 28px;
+    white-space: nowrap;
+}
+
+.header_category a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.login {
+    font-size: 20px;
+    margin: 20px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.cart_button {
+    font-size: 20px;
+    width: 140px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.order_page {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 100px;
+}
+
+.order_product {
+    box-sizing: border-box;
+    border: .0625rem solid black;
+    background-color: white;
+    overflow: hidden;
+    padding: 1.25rem 1rem;
+    width: 33%;
+    margin-left: 500px;
+    margin-top: 100px;
+}
+
+.order_product h2 {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.order_product_box {
+    margin: 50px 0 0 50px;
+    box-sizing: border-box;
+    border: .0625rem solid black;
+    display: flex;
+    width: 40rem;
+}
+
+.order_product_box svg {
+    border: .0625rem solid black;
+    margin: 20px 0 20px 30px;
+    width: 3.875rem;
+    height: 3.875rem;
+    display: flex;
+    position: relative;
+}
+
+.order_product_details {
+    padding: .375rem 1rem .375rem .875rem;
+    display: flex;
+    flex-direction: column;
+    flex: 1 1;
+    overflow: hidden;
+    margin: 20px 0 0 0;
+}
+
+.order_product_details span:last-child {
+    text-align: right;
+}
+
+.delivery_price {
+    text-align: center;
+    align-items: center;
+    box-sizing: border-box;
+    border: .0625rem solid black;
+    width: 40rem;
+    height: 2rem;
+    margin: -1px 0 0 50px;
+    padding-top: 5px;
+}
+
+.order_user {
+    box-sizing: border-box;
+    border: .0625rem solid black;
+    display: block;
+    width: 33%;
+    margin: 100px 0 0 500px;
+    padding: 1.25rem 1rem;
+}
+
+.order_user h2 {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.order_user input[type="submit"] {
+    margin-left: 680px;
+    width: 3.875rem;
+    height: 2rem;
+}
+
+.order_user_details {
+    padding: 50px 0 20px 100px;
+}
+
+.order_user_details label {
+    font-size: 20px;
+}
+
+.order_user_details input {
+    margin-bottom: 20px;
+    height: 30px;
+    width: 50%;
+}
+
+#username {
+    margin-left: 108px;
+}
+
+#phoneNumber {
+    margin-left: 68px;
+}
+
+#email {
+    margin-left: 88px;
+}
+
+.order_delivery {
+    display: inline-block;
+    box-sizing: border-box;
+    border: .0625rem solid black;
+    width: 33%;
+    margin: 100px 0 100px 500px;
+    padding: 1.25rem 1rem;
+}
+
+.order_delivery_wrap {
+    display: flex;
+}
+
+.order_delivery h2 {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+.order_delivery_name input,
+.order_delivery_number input {
+    width: 300px;
+    height: 40px;
+    margin: 50px 0 0 50px;
+}
+
+.order_delivery_address {
+    margin: 110px 0 0 -663px;
+}
+
+.order_delivery_address input {
+    height: 40px;
+}
+
+.order_delivery_search {
+    border: .0625rem solid #ffb056;
+    height: 40px;
+    margin-top: 112px;
+    margin-left: 10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #ffb056;
+    color: white;
+}
+
+.order_delivery_search a {
+    width: 125px;
+}
+
+.order_delivery_address2 {
+    margin: 170px 0 0 -306px;
+}
+
+.order_delivery_address2 input {
+    height: 40px;
+    width: 660px;
+}
+
+.order_delivery_address3 {
+    margin: 230px 0 0 -666px;
+}
+
+.order_delivery_address3 input {
+    height: 40px;
+    width: 660px;
+}
+
+.order_delivery_memo {
+    margin: 350px 0 0 -665px;
+}
+
+.order_delivery_memo h3 {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 0 0 20px 0;
+}
+
+.memo_form {
+    width: 660px;
+    height: 40px;
+}
+
+.item_wrap {
+    margin: -1400px 0 0 1400px;
+}
+
+.item_information {
+    box-sizing: border-box;
+    border: .0625rem solid black;
+    padding: 1.25rem 1rem;
+    width: 500px;
+    height: 300px;
+}
+
+.item_information h3 {
+    font-size: 30px;
+    font-weight: bold;
+}

@@ -1,0 +1,82 @@
+
+.login {
+    font-size: 20px;
+    margin: 20px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.cart_button {
+    font-size: 20px;
+    width: 140px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.login_page {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 100px;
+}
+
+
+
+.login_wrapper{
+    width: 400px;
+    height: 350px;
+    box-sizing: border-box;
+    margin-left: 700px;
+    margin-top: 150px;
+}
+
+.login_wrapper > h2{
+    font-size: 24px;
+    color: #ffb056;
+    margin-bottom: 20px;
+}
+
+.links_wrapper {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.links_wrapper > a {
+    text-decoration: none;
+    color: inherit;
+}
+
+#login_form > input{
+    width: 100%;
+    height: 48px;
+    padding: 0 10px;
+    box-sizing: border-box;
+    margin-bottom: 16px;
+    border-radius: 6px;
+    background-color: white;
+}
+
+#login_form > input::placeholder{
+    color: #D2D2D2;
+}
+
+/*#login_form > input[type="submit"]{*/
+/*    color: white;*/
+/*    font-size: 16px;*/
+/*    margin-top: 20px;*/
+/*    background-color: #ffb056;*/
+/*    cursor: pointer;*/
+/*}*/
+
+.login_button {
+    width: 400px;
+    height: 48px;
+    border-radius: 6px;
+    margin-top: 50px;
+    background-color: #ffb056;
+    color: white;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
