@@ -13,14 +13,22 @@ import lombok.Setter;
 public class Categories {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long categoryId;
 
     @NotNull
     @Column(name = "category_name")
-    private String name;
+    private String categoryName;
 
     @Builder
-    public Categories(String name) {
-        this.name = name;
+    public Categories(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    public void setCategoryId(Long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 }
