@@ -1,0 +1,62 @@
+body {
+    margin:0;
+    padding:0;
+}
+/* navbar */
+.header{
+    user-select: none;
+}
+
+.nav-item:focus {
+    outline: none !important;
+}
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar-brand{
+    margin:auto;
+    color:orange;
+    font-size:30px;
+}
+.navbar-brand:hover{
+    color:orange;
+}
+.navbar-content{
+
+}
+.navbar-content ul li{
+    margin-left:30px;
+}
+.account{
+    margin:auto;
+}
+.navbar button{
+    background-color:orange;
+    border-style:none;
+    color:white;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+.login{
+    margin-top:5px;
+}
+/* header end */
+
+/* content */
+.content{
+    width:800px;
+    margin:auto;
+    margin-top:100px;
+}
+.price{
+    margin-top:50px;
+}
+.btns{
+    display:flex;
+    margin-top:50px;
+}
+.order-btn{
+    margin-left:580px;
+}
