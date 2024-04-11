@@ -1,7 +1,6 @@
 function getLoginData() {
   const userId = document.getElementById('userId').value;
   const password = document.getElementById('password').value;
-
   return {
     userId: userId,
     password: password,
@@ -23,6 +22,9 @@ function postLogin(data) {
       alert('로그인에 실패하였습니다.');
     }
   }).catch(function(error) {
+    if (error.response.status === 400) {
+      alert(error.response.data);
+    }
     console.error('Error:', error);
   });
 }

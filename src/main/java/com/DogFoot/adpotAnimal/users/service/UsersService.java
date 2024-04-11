@@ -11,6 +11,9 @@ import com.DogFoot.adpotAnimal.users.dto.UsersDto;
 import com.DogFoot.adpotAnimal.users.entity.CustomUserDetails;
 import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.DogFoot.adpotAnimal.users.entity.UsersRole;
+import com.DogFoot.adpotAnimal.users.exhandler.InvalidLoginException;
+import com.DogFoot.adpotAnimal.users.exhandler.InvalidPasswordException;
+import com.DogFoot.adpotAnimal.users.exhandler.InvalidSignUpException;
 import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -56,7 +59,7 @@ public class UsersService {
         try {
             authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         } catch (AuthenticationException e) {
-            throw new IllegalArgumentException("아이디나 비밀번호가 잘못되었습니다.");
+            throw new InvalidLoginException("아이디나 비밀번호가 잘못되었습니다.");
         }
 
         // 인증 정보를 기반으로 jwt 토큰 생성
@@ -73,17 +76,17 @@ public class UsersService {
 
         // 유효성 체크
         if (usersRepository.existsByUserId(signUpDto.getUserId())) {
-            throw new IllegalArgumentException("이미 사용 중인 아이디입니다.");
+            throw new InvalidSignUpException("이미 사용 중인 아이디입니다.");
         } else if (usersRepository.existsByEmail(signUpDto.getEmail())) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+            throw new InvalidSignUpException("이미 사용 중인 이메일입니다.");
         }
 
         // 패스워드 검증
         String password =signUpDto.getPassword();
         if (password.length() < 8 ) {
-            throw new IllegalArgumentException("비밀번호는 최소 8자 이상이어야 합니다.");
+            throw new InvalidPasswordException("비밀번호는 최소 8자 이상이어야 합니다.");
         } else if (!password.matches("(?=.*[a-z]|[A-Z])(?=.*[~!@#$%^&*+=()_-])(?=.*[0-9]).+$")) {
-            throw new IllegalArgumentException("비밀번호는 영문 소/대문자, 숫자, 특수문자를 조합하여 작성해야 합니다.");
+            throw new InvalidPasswordException("비밀번호는 영문 소/대문자, 숫자, 특수문자를 조합하여 작성해야 합니다.");
         }
 
         // 패스워드 암호화
@@ -130,13 +133,22 @@ public class UsersService {
 
         // 유효성 체크
         if (usersRepository.existsByEmail(updateDto.getEmail()) && (!updateUsers.getEmail().equals(updateDto.getEmail()))) {
-            throw new IllegalArgumentException("이미 사용 중인 이메일입니다.");
+            throw new InvalidSignUpException("이미 사용 중인 이메일입니다.");
         } else if(!updateUsers.getUserId().equals(updateDto.getUserId())) {
-            throw new IllegalArgumentException("다른 계정입니다.");
+            System.out.println(updateUsers.getUserId()+", "+ updateDto.getUserId());
+            throw new InvalidSignUpException("아이디가 다릅니다.");
+        }
+
+        // 패스워드 검증
+        String password =updateDto.getPassword();
+        if (password.length() < 8 ) {
+            throw new InvalidPasswordException("비밀번호는 최소 8자 이상이어야 합니다.");
+        } else if (!password.matches("(?=.*[a-z]|[A-Z])(?=.*[~!@#$%^&*+=()_-])(?=.*[0-9]).+$")) {
+            throw new InvalidPasswordException("비밀번호는 영문 소/대문자, 숫자, 특수문자를 조합하여 작성해야 합니다.");
         }
 
         // 패스워드 암호화
-        String encodedPassword = passwordEncoder.encode(updateDto.getPassword());
+        String encodedPassword = passwordEncoder.encode(password);
 
         // 멤버 리포지터리 업데이트
         Users users =updateDto.toEntity(encodedPassword,UsersRole.USER);
@@ -145,7 +157,6 @@ public class UsersService {
 
         // jwt 토큰 새로 발급
 
-        // Authentication 객체 생성
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(updateUsers.getUserId(), updateDto.getPassword(), null);
 
         // Member에 대한 검증 진행
@@ -153,7 +164,7 @@ public class UsersService {
         try {
             authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
         } catch (AuthenticationException e) {
-            throw new IllegalArgumentException("아이디나 비밀번호가 잘못되었습니다.");
+            throw new InvalidLoginException("아이디나 비밀번호가 잘못되었습니다.");
         }
 
         // 인증 정보를 기반으로 jwt 토큰 생성
