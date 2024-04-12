@@ -7,12 +7,12 @@ function getFormData() {
   const userRole = "USER";
 
   return {
-    userId: userId,
-    userName: userName,
-    password: password,
-    email: email,
-    phoneNumber: phoneNumber,
-    userRole: userRole
+    userId,
+    userName,
+    password,
+    email,
+    phoneNumber,
+    userRole
   };
 }
 

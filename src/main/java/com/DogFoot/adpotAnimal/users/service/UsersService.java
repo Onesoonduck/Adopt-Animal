@@ -8,6 +8,7 @@ import com.DogFoot.adpotAnimal.users.dto.LoginDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
 import com.DogFoot.adpotAnimal.users.dto.UpdateUsersDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
+import com.DogFoot.adpotAnimal.users.dto.UsersTableDto;
 import com.DogFoot.adpotAnimal.users.entity.CustomUserDetails;
 import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.DogFoot.adpotAnimal.users.entity.UsersRole;
@@ -19,6 +20,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -185,5 +188,14 @@ public class UsersService {
         Users users = userDetails.getUser();
 
         return users;
+    }
+
+    public Page<UsersTableDto> getUserTable(Pageable pageable) {
+        Page<Users> usersPage = usersRepository.findAll(pageable);
+        return usersPage.map(Users::toTableDto);
+    }
+
+    public long getUsersCount() {
+        return usersRepository.count();
     }
 }

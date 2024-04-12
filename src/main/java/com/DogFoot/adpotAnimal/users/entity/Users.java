@@ -1,9 +1,9 @@
 package com.DogFoot.adpotAnimal.users.entity;
 
-import com.DogFoot.adpotAnimal.cart.entity.CartEntity;
 import com.DogFoot.adpotAnimal.common.BaseEntity;
 import com.DogFoot.adpotAnimal.order.entity.Order;
 import com.DogFoot.adpotAnimal.users.dto.UsersDto;
+import com.DogFoot.adpotAnimal.users.dto.UsersTableDto;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -11,7 +11,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
@@ -53,7 +52,6 @@ public class Users extends BaseEntity {
     @OneToMany(mappedBy = "users", cascade =  CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
-
     @Builder
     public Users(String userId, String userName, String password, String email, String phoneNumber, UsersRole userRole) {
         this.userId = userId;
@@ -72,8 +70,22 @@ public class Users extends BaseEntity {
             .email(email)
             .phoneNumber(phoneNumber)
             .userRole(userRole)
+            .created_at(getCreatedAt())
+            .updated_at(getUpdatedAt())
             .build();
         return usersDto;
+    }
+
+    public UsersTableDto toTableDto() {
+        UsersTableDto usersTableDto = UsersTableDto.builder()
+            .userId(userId)
+            .userName(userName)
+            .email(email)
+            .phoneNumber(phoneNumber)
+            .created_at(getCreatedAt())
+            .orderCount(orders.toArray().length)
+            .build();
+        return usersTableDto;
     }
 
     public void updateUsers(Users users) {
