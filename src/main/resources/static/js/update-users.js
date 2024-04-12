@@ -1,5 +1,4 @@
 function getFormData() {
-  const userId = document.getElementById('userId').value;
   const userName = document.getElementById('userName').value;
   const password = document.getElementById('password').value;
   const email = document.getElementById('email').value;
@@ -7,7 +6,6 @@ function getFormData() {
   const userRole = "USER";
 
   return {
-    userId: userId,
     userName: userName,
     password: password,
     email: email,

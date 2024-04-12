@@ -24,9 +24,9 @@ public class UpdateUsersDto {
         this.userRole = userRole;
         }
 
-    public Users toEntity(String encodedPassword, UsersRole role) {
+    public Users toEntity(String usersId, String encodedPassword, UsersRole role) {
             Users users = Users.builder()
-                .userId(userId)
+                .userId(usersId)
                 .userName(userName)
                 .password(encodedPassword)
                 .email(email)

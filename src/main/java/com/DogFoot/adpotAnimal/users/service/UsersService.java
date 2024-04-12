@@ -130,13 +130,11 @@ public class UsersService {
         //해당 멤버 가져오기
         Users updateUsers = usersRepository.findById(id).orElseThrow(() -> new ResponseStatusException(
             HttpStatus.NOT_FOUND));
+        String userId = updateUsers.getUserId();
 
         // 유효성 체크
         if (usersRepository.existsByEmail(updateDto.getEmail()) && (!updateUsers.getEmail().equals(updateDto.getEmail()))) {
             throw new InvalidSignUpException("이미 사용 중인 이메일입니다.");
-        } else if(!updateUsers.getUserId().equals(updateDto.getUserId())) {
-            System.out.println(updateUsers.getUserId()+", "+ updateDto.getUserId());
-            throw new InvalidSignUpException("아이디가 다릅니다.");
         }
 
         // 패스워드 검증
@@ -151,7 +149,7 @@ public class UsersService {
         String encodedPassword = passwordEncoder.encode(password);
 
         // 멤버 리포지터리 업데이트
-        Users users =updateDto.toEntity(encodedPassword,UsersRole.USER);
+        Users users =updateDto.toEntity(userId, encodedPassword,UsersRole.USER);
         updateUsers.updateUsers(users);
         usersRepository.save(updateUsers);
 

@@ -52,7 +52,6 @@ public class UsersController {
     @PostMapping("/usersEdit")
     public ResponseEntity<UsersDto> updateUsers(@Valid @RequestBody UpdateUsersDto updateDto,  HttpServletResponse response) {
         Users users = usersService.getUsers();
-        System.out.println(updateDto);
         UsersDto updateUsersDto = usersService.update(users.getId(), updateDto, response);
         return ResponseEntity.ok(updateUsersDto);
     }
