@@ -1,0 +1,75 @@
+.updateUsersPage {
+    text-align: center;
+    font-size: 40px;
+    font-weight: bold;
+    margin-top: 100px;
+}
+
+.updateUsersWrapper {
+    margin: 10px 500px;
+}
+
+.container {
+    max-width: 400px;
+    margin: 50px auto;
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+ .form-group {
+     margin-bottom: 20px;
+ }
+
+label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+  }
+
+#userName, #userId, #text, #password, #email, #phoneNumber {
+   width: 100%;
+   padding: 10px;
+   border-radius: 4px;
+   border: 1px solid #ccc;
+   }
+
+
+ .updateUsersButton {
+     width: 400px;
+     height: 48px;
+     border-radius: 6px;
+     margin-top: 50px;
+     background-color: #ffb056;
+     color: white;
+     border: none;
+     font-size: 20px;
+     cursor: pointer;
+}
+
+.updateUsersButton:hover {
+         background-color: #ff8c00;
+}
+
+.users-image-container {
+  margin-top: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.users-image {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  overflow: hidden;
+}
+
+.users-image img {
+  width: 100%;
+  height: auto;
+}

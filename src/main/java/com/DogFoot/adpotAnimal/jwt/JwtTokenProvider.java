@@ -86,9 +86,6 @@ public class JwtTokenProvider {
 
         long now = (new Date()).getTime();
 
-        /* Access Token 생성
-         *  복호화 하여 인증 벙보를 생성
-         */
         Date accessTokenExpiresln = new Date(now + ACCESS_TOKEN_EXPIRE_TIME);
         String accessToken = Jwts.builder()
             .setSubject(authentication.getName())
