@@ -82,7 +82,7 @@ class OrderTest {
     @Test
     void testCreateOrderItem() {
         Product product = new Product();
-        product.setProduct_name("Test Product");
+        product.setProductName("Test Product");
         product.setProduct_price(10000);
         product.setProduct_stock(5);
 
@@ -105,7 +105,7 @@ class OrderTest {
     void testOrderItemCancel() {
 
         Product product = new Product();
-        product.setProduct_name("Test Product");
+        product.setProductName("Test Product");
         product.setProduct_price(10000);
         product.setProduct_stock(10);
 

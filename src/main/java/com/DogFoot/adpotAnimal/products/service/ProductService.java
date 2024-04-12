@@ -20,10 +20,10 @@ public class ProductService {
 
     public Product createProduct(ProductDto productDto) {
         Product product = new Product();
-        product.setProduct_price(productDto.getProduct_price());
-        product.setProduct_name(productDto.getProduct_name());
-        product.setProduct_stock(productDto.getProduct_stock());
-        product.setProduct_like(productDto.getProduct_like());
+        product.setProductPrice(productDto.getProductPrice());
+        product.setProductName(productDto.getProductName());
+        product.setProductStock(productDto.getProductStock());
+        product.setProductLike(productDto.getProductLike());
 
         // 카테고리 정보가 있다면 설정
         return productRepository.save(product);
@@ -49,11 +49,10 @@ public class ProductService {
     public Product updateProduct(Long id, ProductDto updatedProductDto) {
         Product existingProduct = productRepository.findById(id)
             .orElseThrow(() -> new IllegalArgumentException("상품을 찾을 수 없습니다."));
-        existingProduct.setProduct_price(updatedProductDto.getProduct_price());
-        existingProduct.setProduct_name(updatedProductDto.getProduct_name());
-        existingProduct.setProduct_stock(updatedProductDto.getProduct_stock());
-
-        existingProduct.setProduct_like(updatedProductDto.getProduct_like());
+        existingProduct.setProductPrice(updatedProductDto.getProductPrice());
+        existingProduct.setProductName(updatedProductDto.getProductName());
+        existingProduct.setProductStock(updatedProductDto.getProductStock());
+        existingProduct.setProductLike(updatedProductDto.getProductLike());
 
         return productRepository.save(existingProduct);
     }
