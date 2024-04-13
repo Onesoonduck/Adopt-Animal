@@ -2,6 +2,8 @@ package com.DogFoot.adpotAnimal.users.repository;
 
 import com.DogFoot.adpotAnimal.users.entity.Users;
 import java.util.Optional;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -19,4 +21,7 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
     boolean existsById(Long id);
 
     void deleteById(Long id);
+
+    Page<Users> findAll(Pageable pageable);
+
 }
