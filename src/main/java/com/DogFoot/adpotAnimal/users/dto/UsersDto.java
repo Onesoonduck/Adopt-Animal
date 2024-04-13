@@ -1,6 +1,7 @@
 package com.DogFoot.adpotAnimal.users.dto;
 
 import com.DogFoot.adpotAnimal.users.entity.UsersRole;
+import java.time.LocalDateTime;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -10,16 +10,16 @@ public class UsersTableDto {
     private String userName;
     private String email;
     private String phoneNumber;
-    private LocalDateTime created_at;
+    private LocalDateTime createdAt;
     private int orderCount;
 
     @Builder
-    public UsersTableDto(String userId, String userName, String email, String phoneNumber, LocalDateTime created_at, int orderCount) {
+    public UsersTableDto(String userId, String userName, String email, String phoneNumber, LocalDateTime createdAt, int orderCount) {
         this.userId = userId;
         this.userName = userName;
         this.email = email;
         this.phoneNumber = phoneNumber;
-        this.created_at = created_at;
+        this.createdAt = createdAt;
         this.orderCount = orderCount;
     }
 }
