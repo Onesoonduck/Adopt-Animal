@@ -15,14 +15,26 @@ public class DataInit {
 
     @PostConstruct
     public void init() {
-        SignUpDto user = SignUpDto.builder()
-            .userId("eliceuser")
-            .userName("eliceuser")
-            .password("Eliceuser1234!")
-            .email("eliceuser1234@example.com")
-            .phoneNumber("01012345678")
-            .userRole(UsersRole.USER)
-            .build();
+        //가상 유저 데이터
+
+        for (int i = 1; i <= 84; i++) {
+            String userId = "test" + i;
+            String userName = "test" + i;
+            String password = "Testuser" + i + "!";
+            String email = "testuser" + i + "@example.com";
+            String phoneNumber = "010123456" + (i < 10 ? "0" + i : i);
+
+            SignUpDto user = SignUpDto.builder()
+                .userId(userId)
+                .userName(userName)
+                .password(password)
+                .email(email)
+                .phoneNumber(phoneNumber)
+                .userRole(UsersRole.USER)
+                .build();
+
+            usersService.signUp(user);
+        }
 
         SignUpDto admin = SignUpDto.builder()
             .userId("eliceadmin")
@@ -33,7 +45,7 @@ public class DataInit {
             .userRole(UsersRole.ADMIN)
             .build();
 
-        usersService.signUp(user);
+
         usersService.signUp(admin);
     }
 }

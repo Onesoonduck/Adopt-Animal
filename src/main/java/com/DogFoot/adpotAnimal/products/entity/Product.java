@@ -1,6 +1,5 @@
 package com.DogFoot.adpotAnimal.products.entity;
 
-import com.DogFoot.adpotAnimal.cart.entity.CartEntity;
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -8,8 +7,6 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
@@ -43,7 +40,6 @@ public class Product {
     private int product_like;
 
     // product 연관 관계
-
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
