@@ -6,20 +6,18 @@ import com.DogFoot.adpotAnimal.cart.repository.CartRepository;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.repository.ProductRepository;
 import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 @Service
 public class CartService {
     private CartRepository cartRepository;
     private ProductRepository productRepository;
-
     private UsersRepository userRepository;
+
     @Autowired
     public CartService(CartRepository cartRepository,ProductRepository productRepository,
                        UsersRepository userRepository){
@@ -39,7 +37,7 @@ public class CartService {
                 .map(cartEntity -> {
                     Product productEntity = productRepository.findById(cartEntity.getProductId()).orElse(null);
                     if (productEntity != null) {
-                        return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProduct_price());
+                        return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
                     } else {
                         return null;
                     }

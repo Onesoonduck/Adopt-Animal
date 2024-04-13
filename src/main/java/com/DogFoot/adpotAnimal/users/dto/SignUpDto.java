@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 public class SignUpDto {
+
     private String userId;
     private String userName;
     private String password;
@@ -17,7 +18,8 @@ public class SignUpDto {
     private UsersRole userRole;
 
     @Builder
-    public SignUpDto(String userId, String userName, String password, String email, String phoneNumber, UsersRole userRole) {
+    public SignUpDto(String userId, String userName, String password, String email,
+        String phoneNumber, UsersRole userRole) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;

@@ -41,7 +41,6 @@ public class Product {
 
     // product 연관 관계
 
-
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
