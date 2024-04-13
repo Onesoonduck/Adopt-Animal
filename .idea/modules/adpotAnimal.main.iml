@@ -98,5 +98,7 @@
     <orderEntry type="library" name="all" level="application" />
     <orderEntry type="library" name="axios" level="application" />
     <orderEntry type="library" name="bootstrap" level="application" />
+    <orderEntry type="library" name="bootstrap-icons" level="application" />
+    <orderEntry type="library" name="jquery-latest" level="application" />
   </component>
 </module>

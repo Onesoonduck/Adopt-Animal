@@ -29,7 +29,7 @@ public class OrderItemController {
     public ResponseEntity<Long> createOrderItem(@RequestBody OrderItemRequest request) {
         Product product = productService.findProductById(request.getProductId());
 
-        OrderItem createdOrderItem = orderItemService.create(product, product.getProduct_price(), request.getCount());
+        OrderItem createdOrderItem = orderItemService.create(product, product.getProductPrice(), request.getCount());
 
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderItem.getId());
     }
@@ -40,7 +40,7 @@ public class OrderItemController {
 
         for (OrderItemRequest request : requests) {
             Product product = productService.findProductById(request.getProductId());
-            OrderItem createdOrderItem = orderItemService.create(product, product.getProduct_price(), request.getCount());
+            OrderItem createdOrderItem = orderItemService.create(product, product.getProductPrice(), request.getCount());
             orderItemIds.add(createdOrderItem.getId());
         }
 
