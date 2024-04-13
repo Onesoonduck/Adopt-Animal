@@ -7,6 +7,7 @@ import lombok.Getter;
 
 @Getter
 public class UpdateUsersDto {
+
     private String userId;
     private String userName;
     private String password;
@@ -15,24 +16,25 @@ public class UpdateUsersDto {
     private UsersRole userRole;
 
     @Builder
-    public UpdateUsersDto(String userId, String userName, String password, String email, String phoneNumber, UsersRole userRole) {
+    public UpdateUsersDto(String userId, String userName, String password, String email,
+        String phoneNumber, UsersRole userRole) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.userRole = userRole;
-        }
+    }
 
     public Users toEntity(String usersId, String encodedPassword, UsersRole role) {
-            Users users = Users.builder()
-                .userId(usersId)
-                .userName(userName)
-                .password(encodedPassword)
-                .email(email)
-                .phoneNumber(phoneNumber)
-                .userRole(role)
-                .build();
-            return users;
-        }
+        Users users = Users.builder()
+            .userId(usersId)
+            .userName(userName)
+            .password(encodedPassword)
+            .email(email)
+            .phoneNumber(phoneNumber)
+            .userRole(role)
+            .build();
+        return users;
+    }
 }

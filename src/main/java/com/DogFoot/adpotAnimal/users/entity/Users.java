@@ -50,12 +50,13 @@ public class Users extends BaseEntity {
     private UsersRole userRole;
 
     // Users 연관관계
-    @OneToMany(mappedBy = "users", cascade =  CascadeType.ALL)
+    @OneToMany(mappedBy = "users", cascade = CascadeType.ALL)
     private List<Order> orders = new ArrayList<>();
 
 
     @Builder
-    public Users(String userId, String userName, String password, String email, String phoneNumber, UsersRole userRole) {
+    public Users(String userId, String userName, String password, String email, String phoneNumber,
+        UsersRole userRole) {
         this.userId = userId;
         this.userName = userName;
         this.password = password;

@@ -32,7 +32,8 @@ public class UsersController {
 
     // 로그인
     @PostMapping("/login")
-    public ResponseEntity<JwtToken> login(@RequestBody LoginDto loginDto, HttpServletResponse response) {
+    public ResponseEntity<JwtToken> login(@RequestBody LoginDto loginDto,
+        HttpServletResponse response) {
         return ResponseEntity.ok(usersService.login(loginDto, response));
     }
 
@@ -49,8 +50,10 @@ public class UsersController {
         return usersService.logout(request, response);
     }
 
+    // 회원 정보 수정
     @PostMapping("/usersEdit")
-    public ResponseEntity<UsersDto> updateUsers(@Valid @RequestBody UpdateUsersDto updateDto,  HttpServletResponse response) {
+    public ResponseEntity<UsersDto> updateUsers(@Valid @RequestBody UpdateUsersDto updateDto,
+        HttpServletResponse response) {
         Users users = usersService.getUsers();
         UsersDto updateUsersDto = usersService.update(users.getId(), updateDto, response);
         return ResponseEntity.ok(updateUsersDto);
@@ -58,16 +61,11 @@ public class UsersController {
 
     // 회원 정보 삭제
     @DeleteMapping("/usersDelete")
-    public ResponseEntity deleteUsers(HttpServletResponse response, HttpServletRequest request) throws IOException {
+    public ResponseEntity deleteUsers(HttpServletResponse response, HttpServletRequest request)
+        throws IOException {
         usersService.logout(request, response);
         Users users = usersService.getUsers();
         usersService.deleteUsers(users.getId());
         return ResponseEntity.ok().build();
-    }
-
-    // 회원 로그인 체크
-    @GetMapping
-    public boolean IsLogin(String accessToken){
-        return true;
     }
 }

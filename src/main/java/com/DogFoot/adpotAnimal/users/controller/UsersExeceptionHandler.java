@@ -6,6 +6,7 @@ import com.DogFoot.adpotAnimal.users.exhandler.InvalidSignUpException;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+
 @RestControllerAdvice
 public class UsersExeceptionHandler {
 
