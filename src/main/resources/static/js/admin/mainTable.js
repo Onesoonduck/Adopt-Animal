@@ -29,7 +29,7 @@ async function getOrderCount() {
 
 async function getProductCount() {
   try {
-    const response = await axios.get('/products/api/orderCount');
+    const response = await axios.get('/products/api/productCount');
     return response.data;
   } catch (error) {
     console.error(error);
@@ -78,7 +78,7 @@ function callUserTable(page, size) {
         <td class="align-middle">${userTableDto.userName}</td>
         <td class="align-middle">${userTableDto.email}</td>
         <td class="align-middle">${userTableDto.phoneNumber}</td>
-        <td class="align-middle">${userTableDto.createdAt}</td>
+        <td class="align-middle">${formattedDate}</td>
         <td class="align-middle">${userTableDto.orderCount}</td>
       `;
       tbody.appendChild(row);

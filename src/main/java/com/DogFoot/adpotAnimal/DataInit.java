@@ -20,7 +20,7 @@ public class DataInit {
     public void init() {
         //가상 유저 데이터
 
-        for (int i = 1; i <= 84; i++) {
+        for (int i = 1; i <= 64; i++) {
             String userId = "test" + i;
             String userName = "test" + i;
             String password = "Testuser" + i + "!";
