@@ -11,6 +11,7 @@ public class ProductDto {
     private String productName;
     private int productStock;
     private int productLike;
+    private String productImg;
 
     public static Product toEntity(ProductDto productDto) {
         Product product = new Product();
@@ -18,6 +19,7 @@ public class ProductDto {
         product.setProductName(productDto.getProductName());
         product.setProductStock(productDto.getProductStock());
         product.setProductLike(productDto.getProductLike());
+        product.setProductImg(productDto.getProductImg());
         return product;
     }
 
@@ -27,6 +29,7 @@ public class ProductDto {
         productDto.setProductName(product.getProductName());
         productDto.setProductStock(product.getProductStock());
         productDto.setProductLike(product.getProductLike());
+        product.setProductImg(productDto.getProductImg());
         return productDto;
     }
 }
