@@ -11,8 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/products")
 public class ProductController {
@@ -31,10 +29,10 @@ public class ProductController {
     }
 
     // 모든 상품 조회
-    @GetMapping
-    public ResponseEntity<List<Product>> getAllProducts() {
-        List<Product> products = productService.findAll();
-        return new ResponseEntity<>(products, HttpStatus.OK);
+    @GetMapping("/lists")
+    public Page<ProductDto> getAllProducts(Pageable pageable) {
+        Page<Product> productPage = productService.findAll(pageable);
+        return productPage.map(ProductDto::fromDto);
     }
 
     // 특정 ID의 상품 조회
@@ -59,12 +57,9 @@ public class ProductController {
     }
 
     // 상품수 조회
-    @GetMapping("/api/orderCount")
+    @GetMapping("/api/productCount")
     public ResponseEntity<Long> getUsersCount(HttpServletResponse response) {
         Long productCount = productService.getProductCount();
         return ResponseEntity.ok(productCount);
     }
-
-    // 페이지 네이션 상품 조회
-
 }

@@ -1,6 +1,7 @@
 package com.DogFoot.adpotAnimal;
 
 import com.DogFoot.adpotAnimal.products.dto.ProductDto;
+import com.DogFoot.adpotAnimal.products.service.ProductService;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
 import com.DogFoot.adpotAnimal.users.entity.UsersRole;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class DataInit {
 
     private final UsersService usersService;
+    private final ProductService productService;
 
     @PostConstruct
     public void init() {
@@ -45,6 +47,16 @@ public class DataInit {
             .phoneNumber("01023456789")
             .userRole(UsersRole.ADMIN)
             .build();
+
+
+        ProductDto productDto = new ProductDto(10000, "강아지 단추", 10, 0, null);
+        productService.createProduct(productDto);
+
+        productDto = new ProductDto(20000, "강아지 스티커", 10, 0, null);
+        productService.createProduct(productDto);
+
+        productDto = new ProductDto(30000, "고양이 단추", 10, 0, null);
+        productService.createProduct(productDto);
 
 
         usersService.signUp(admin);
