@@ -20,7 +20,7 @@ public class OrderItemResponse {
     private final int orderPrice;
     private final int totalPrice;
 
-    public OrderItemResponse (OrderItem orderItem) {
+    public OrderItemResponse(OrderItem orderItem) {
         this.count = orderItem.getCount();
         this.orderPrice = orderItem.getOrderPrice();
         this.totalPrice = orderItem.getTotalPrice();
