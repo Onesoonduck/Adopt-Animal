@@ -57,4 +57,9 @@ public class ProductService {
         return productRepository.save(existingProduct);
     }
 
+    // 상품 총 개수 조회
+    public long getProductCount() {
+        return productRepository.count();
+    }
+
 }

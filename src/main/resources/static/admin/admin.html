@@ -14,14 +14,6 @@
   <link rel="stylesheet" href=/static/css/admin.css>
 </head>
 <body>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-
-<body>
 <!-- 네비바 -->
 <nav class="navbar navbar-expand-md navbar-light">
   <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#sidebar">
@@ -196,10 +188,10 @@
       <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
         <div class="row">
           <div class="col-12">
-            <h2 class="text-muted text-center mb-3">회원 목록</h2>
+            <h2 class="text-muted text-center mb-3" id="table-title">회원 목록</h2>
           </div>
           <table class="table bg-light text-center">
-            <thead>
+            <thead id="table-header">
             <tr class="text-muted">
               <th>idx</th>
               <th>아이디</th>
@@ -210,7 +202,7 @@
               <th>주문 수</th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="table-body">
             <tr>
               <th>1</th>
               <td>elice9876</td>
@@ -223,20 +215,16 @@
             </tbody>
           </table>
           <!-- 페이지네이션 -->
-          <nav>
+          <nav id="pagination">
             <ul class="pagination justify-content-center">
               <li class="page-item">
                 <a href="#" class="page-link py-2 px-3">
                   <span>&laquo;</span>
                 </a>
               </li>
-
               <!-- 페이지 정보를 추가 -->
               <li class="page-item active my">
                 <a href="#" class="page-link py-2 px-3">1</a>
-              </li>
-              <li class="page-item my">
-                <a href="#" class="page-link py-2 px-3">2</a>
               </li>
               <li class="page-item">
                 <a href="#" class="page-link py-2 px-3">
@@ -254,7 +242,7 @@
 
 <script src="/static/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script type="module" src="/js/common.js"></script>
 <script src="/static/js/form-validation.js"></script>
-
+<script type="module" src="/static/js/common.js"></script>
+<script type="module" src="/static/js/admin/mainTable.js"></script>
 </html>

@@ -83,7 +83,7 @@ public class Users extends BaseEntity {
             .userName(userName)
             .email(email)
             .phoneNumber(phoneNumber)
-            .createdAt(getCreatedAt())
+            .createdAt(this.getCreatedAt())
             .orderCount(orders.toArray().length)
             .build();
         return usersTableDto;

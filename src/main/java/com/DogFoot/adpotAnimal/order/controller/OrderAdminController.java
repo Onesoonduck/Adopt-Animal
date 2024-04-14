@@ -7,6 +7,7 @@ import com.DogFoot.adpotAnimal.order.service.DeliveryService;
 import com.DogFoot.adpotAnimal.order.service.OrderItemService;
 import com.DogFoot.adpotAnimal.order.service.OrderService;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -75,6 +76,13 @@ public class OrderAdminController {
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
+    }
+
+    // 총 주문 수 조회
+    @GetMapping("/api/orderCount")
+    public ResponseEntity<Long> getUsersCount() {
+        Long orderCount = orderService.getOrderCount();
+        return ResponseEntity.ok(orderCount);
     }
 
 }

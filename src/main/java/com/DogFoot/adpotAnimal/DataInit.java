@@ -1,5 +1,6 @@
 package com.DogFoot.adpotAnimal;
 
+import com.DogFoot.adpotAnimal.products.dto.ProductDto;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
 import com.DogFoot.adpotAnimal.users.entity.UsersRole;
 import com.DogFoot.adpotAnimal.users.service.UsersService;

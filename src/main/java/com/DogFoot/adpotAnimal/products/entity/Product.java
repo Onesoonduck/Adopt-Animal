@@ -39,6 +39,8 @@ public class Product {
     @Column(name = "productLike")
     private int productLike;
 
+
+
     // product 연관 관계
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
