@@ -208,6 +208,10 @@ public class UsersService {
         return users;
     }
 
+    public Users findUserById(Long id) {
+        return usersRepository.findById(id).get();
+    }
+
     public Page<UsersTableDto> getUserTable(Pageable pageable) {
         Page<Users> usersPage = usersRepository.findAll(pageable);
         return usersPage.map(Users::toTableDto);

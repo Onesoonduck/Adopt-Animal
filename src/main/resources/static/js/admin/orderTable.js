@@ -31,7 +31,9 @@ function callTable(page, size) {
           orderTableDto.orderDate).toLocaleDateString();
       let ordertitle;
       if(orderTableDto.orderCount>1){
-        ordertitle = orderTableDto.firstOrderItem + ' 외 ' + orderTableDto.orderCount;
+        ordertitle = orderTableDto.firstOrderItem + ' 외 ' + orderTableDto.orderCount-1;
+      } else {
+        ordertitle = orderTableDto.firstOrderItem;
       }
       row.innerHTML = `
         <th class="align-middle">${i}</th>
@@ -51,3 +53,30 @@ function callTable(page, size) {
     console.log(error);
   });
 }
+
+function pageClickEvent(event) {
+  event.preventDefault();
+  let pageText = event.target.textContent;
+  let page = Number(pageText);
+  if (!isNaN(page)) {
+    pagination.currentPage = page;
+  } else if (pageText === '«') {
+    if (pagination.currentPage > 1) {
+      pagination.currentPage = pagination.currentPage - 1;
+    }
+  } else if (pageText === '»') {
+    if (pagination.currentPage < pagination.totalPage) {
+      pagination.currentPage = pagination.currentPage + 1;
+    }
+  }
+  pagination.renderPagination(pagination.currentPage);
+  callTable(pagination.currentPage-1,pagination.dataPerPage);
+}
+
+function renderPage() {
+  pagination = new Pagination(10,5, Math.ceil(orderCnt/10), pageClickEvent);
+  pagination.renderPagination(1);
+  callTable(0, 10);
+}
+
+renderPage();

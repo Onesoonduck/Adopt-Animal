@@ -1,6 +1,7 @@
 package com.DogFoot.adpotAnimal.order.entity;
 
 import jakarta.persistence.Embeddable;
+import lombok.Builder;
 import lombok.Getter;
 
 @Embeddable
@@ -13,6 +14,7 @@ public class Address {
 
     protected Address() {}
 
+    @Builder
     public Address(String city, String street, String zipcode) {
         this.city = city;
         this.street = street;
