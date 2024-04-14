@@ -1,15 +1,16 @@
-/*!
-* Start Bootstrap - Shop Homepage v5.0.6 (https://startbootstrap.com/template/shop-homepage)
-* Copyright 2013-2023 Start Bootstrap
-* Licensed under MIT (https://github.com/StartBootstrap/startbootstrap-shop-homepage/blob/master/LICENSE)
-*/
-// This file is intentionally blank
-// Use this file to add JavaScript to your project
 
 import {Pagination} from "/static/js/pagination/pagination.js";
 let pagination;
 
-renderPage();
+function getProductCount() {
+    try {
+        const response = axios.get('/products/api/productCount');
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return -1; // or throw an error, or return a default value
+    }
+}
 
 function callProductTable(page, size) {
     axios.get('/products/lists', {
@@ -24,7 +25,7 @@ function callProductTable(page, size) {
             tbody.innerHTML = ''; // 초기화.
             let length = productDtos.length;
             for (let i = 0; i < length; i++) {
-                const productDto = productDto[i];
+                const productDto = productDtos[i];
                 const divCard = document.createElement('div');
                 divCard.className = 'col mb-5';
                 divCard.innerHTML = `
@@ -74,20 +75,11 @@ function pageClickEvent(event) {
     callProductTable(pagination.currentPage - 1, pagination.dataPerPage);
 }
 
-let productCnt = await getProductCount();
-
-function renderPage() {
+async function renderPage() {
+    let productCnt = await getProductCount();
     pagination = new Pagination(6,5, Math.ceil(productCnt/10), pageClickEvent);
     pagination.renderPagination(1);
     callProductTable(0, 6);
 }
 
-async function getProductCount() {
-    try {
-        const response = await axios.get('/products/api/productCount');
-        return response.data;
-    } catch (error) {
-        console.error(error);
-        return -1; // or throw an error, or return a default value
-    }
-}
+renderPage();
