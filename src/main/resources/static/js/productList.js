@@ -9,6 +9,8 @@
 import {Pagination} from "/static/js/pagination/pagination.js";
 let pagination;
 
+renderPage();
+
 function callProductTable(page, size) {
     axios.get('/products/lists', {
         params: {
@@ -70,4 +72,22 @@ function pageClickEvent(event) {
     }
     pagination.renderPagination(pagination.currentPage);
     callProductTable(pagination.currentPage - 1, pagination.dataPerPage);
+}
+
+let productCnt = await getProductCount();
+
+function renderPage() {
+    pagination = new Pagination(6,5, Math.ceil(productCnt/10), pageClickEvent);
+    pagination.renderPagination(1);
+    callProductTable(0, 6);
+}
+
+async function getProductCount() {
+    try {
+        const response = await axios.get('/products/api/productCount');
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return -1; // or throw an error, or return a default value
+    }
 }

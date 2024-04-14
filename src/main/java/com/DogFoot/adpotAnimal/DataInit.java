@@ -52,10 +52,10 @@ public class DataInit {
         ProductDto productDto = new ProductDto(10000, "productName1", 10, 0, null);
         productService.createProduct(productDto);
 
-        productDto = new ProductDto(10000, "productName", 10, 0, null);
+        productDto = new ProductDto(20000, "productName2", 10, 0, null);
         productService.createProduct(productDto);
 
-        productDto = new ProductDto(10000, "productName", 10, 0, null);
+        productDto = new ProductDto(30000, "productName3", 10, 0, null);
         productService.createProduct(productDto);
 
 

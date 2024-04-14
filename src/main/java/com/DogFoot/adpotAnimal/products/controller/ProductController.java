@@ -3,13 +3,12 @@ package com.DogFoot.adpotAnimal.products.controller;
 import com.DogFoot.adpotAnimal.products.dto.ProductDto;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.service.ProductService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/products")
@@ -54,5 +53,12 @@ public class ProductController {
     public ResponseEntity<Void> deleteProduct(@PathVariable Long id) {
         productService.deleteProduct(id);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    }
+
+    // 상품수 조회
+    @GetMapping("/api/productCount")
+    public ResponseEntity<Long> getUsersCount(HttpServletResponse response) {
+        Long productCount = productService.getProductCount();
+        return ResponseEntity.ok(productCount);
     }
 }
