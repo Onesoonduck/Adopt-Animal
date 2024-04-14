@@ -15,7 +15,7 @@ public class OrderResponse {
     private final LocalDateTime orderDate;
     private final String orderStatus;
 
-    public OrderResponse (Order order) {
+    public OrderResponse(Order order) {
         this.id = order.getId();
         this.orderItems = order.getOrderItems()
             .stream()

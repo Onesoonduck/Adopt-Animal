@@ -11,6 +11,6 @@ import lombok.NoArgsConstructor;
 public class DeliveryAddressRequest {
 
     private Address address;
-    private String deliveryName;
-    private String deliveryPhoneNumber;
+    private String receiverName;
+    private String receiverPhoneNumber;
 }

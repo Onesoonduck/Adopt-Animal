@@ -25,3 +25,11 @@ axios.interceptors.response.use(function (response) {
 }, function (error) {
   return Promise.reject(error);
 });
+
+//TODO : jwt 토큰을 보관하는 함수
+function jwtCloser() {
+  let token = null;
+
+  function setToken(jwtToken) {
+  }
+}

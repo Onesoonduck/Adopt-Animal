@@ -7,9 +7,10 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
+
     private Users user;
 
-    public CustomUserDetails(Users user){
+    public CustomUserDetails(Users user) {
         this.user = user;
     }
 
