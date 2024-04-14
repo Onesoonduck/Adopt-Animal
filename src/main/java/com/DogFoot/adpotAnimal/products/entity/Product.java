@@ -1,6 +1,8 @@
 package com.DogFoot.adpotAnimal.products.entity;
 
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
+import com.DogFoot.adpotAnimal.products.dto.ProductDto;
+import com.DogFoot.adpotAnimal.users.dto.UsersTableDto;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -12,6 +14,7 @@ import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -39,6 +42,11 @@ public class Product {
     @Column(name = "productLike")
     private int productLike;
 
+    @Column(name = "product_img")
+    private String productImg;
+
+
+
     // product 연관 관계
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
@@ -48,13 +56,29 @@ public class Product {
 //    @JoinColumn(name = "category_id")
 //    private Category category;
 
-    public Product(Integer category_id, int productPrice, String productName, int productStock,
-        int productLike) {
+    @Builder
+    public Product(int productPrice, String productName, int productStock,
+        int productLike, String productImg) {
 //        this.category = category;
         this.productPrice = productPrice;
         this.productName = productName;
         this.productStock = productStock;
         this.productLike = productLike;
+        this.productImg = productImg;
+    }
+
+    public ProductDto toProductTableDto() {
+
+        ProductDto productDto;
+        productDto = new ProductDto();
+
+        productDto.setProductPrice(productDto.getProductPrice());
+        productDto.setProductName(productDto.getProductName());
+        productDto.setProductStock(productDto.getProductStock());
+        productDto.setProductLike(productDto.getProductLike());
+        productDto.setProductImg(productDto.getProductImg());
+
+        return productDto;
     }
 
     public void removeStock(int count) {

@@ -1,5 +1,6 @@
 package com.DogFoot.adpotAnimal.order.entity;
 
+import com.DogFoot.adpotAnimal.order.dto.OrderTableDto;
 import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -138,4 +139,16 @@ public class Order {
         return totalPrice;
     }
 
+    public OrderTableDto toTableDto() {
+        OrderTableDto orderTableDto = OrderTableDto.builder()
+            .id(id)
+            .orderDate(orderDate)
+            .firstOrderItem(orderItems.get(0).getProduct().getProductName())
+            .orderCount(orderItems.size())
+            .totalPrice((long) getTotalPrice())
+            .orderUserId(getUsers().getUserId())
+            .orderStatus(getOrderStatus())
+            .build();
+        return orderTableDto;
+    }
 }

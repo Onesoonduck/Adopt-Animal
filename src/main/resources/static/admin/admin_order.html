@@ -14,14 +14,6 @@
   <link rel="stylesheet" href=/static/css/admin.css>
 </head>
 <body>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-
-<body>
 <!-- 네비바 -->
 <nav class="navbar navbar-expand-md navbar-light">
   <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#sidebar">
@@ -138,7 +130,7 @@
               <th class="align-middle"></th>
             </tr>
             </thead>
-            <tbody>
+            <tbody id="table-orders">
             <tr>
               <th class="align-middle">1</th>
               <td class="align-middle">12342123455</td>
@@ -195,14 +187,14 @@
               <td class="align-middle">
                 <div class="dropdown">
                   <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    입금 전
+                    ORDER
                   </button>
                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">입금 전</a></li>
-                    <li><a class="dropdown-item" href="#">입금 완료</a></li>
-                    <li><a class="dropdown-item" href="#">발송</a></li>
-                    <li><a class="dropdown-item" href="#">배송 중</a></li>
-                    <li><a class="dropdown-item" href="#">배송 완료</a></li>
+                    <li><a class="dropdown-item" href="#">ORDER</a></li>
+                    <li><a class="dropdown-item" href="#">DELIVERY</a></li>
+                    <li><a class="dropdown-item" href="#">COMPLETE</a></li>
+                    <li><a class="dropdown-item" href="#">CANCEL</a></li>
+                    <li><a class="dropdown-item" href="#">REFUND</a></li>
                   </ul>
                 </div>
               </td>
