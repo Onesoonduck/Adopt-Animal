@@ -49,13 +49,13 @@ public class DataInit {
             .build();
 
 
-        ProductDto productDto = new ProductDto(10000, "productName1", 10, 0, null);
+        ProductDto productDto = new ProductDto(10000, "강아지 단추", 10, 0, null);
         productService.createProduct(productDto);
 
-        productDto = new ProductDto(20000, "productName2", 10, 0, null);
+        productDto = new ProductDto(20000, "강아지 스티커", 10, 0, null);
         productService.createProduct(productDto);
 
-        productDto = new ProductDto(30000, "productName3", 10, 0, null);
+        productDto = new ProductDto(30000, "고양이 단추", 10, 0, null);
         productService.createProduct(productDto);
 
 

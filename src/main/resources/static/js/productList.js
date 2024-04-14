@@ -1,10 +1,10 @@
-
 import {Pagination} from "/static/js/pagination/pagination.js";
 let pagination;
+let productCnt = await getProductCount();
 
-function getProductCount() {
+async function getProductCount() {
     try {
-        const response = axios.get('/products/api/productCount');
+        const response = await axios.get('/products/api/productCount');
         return response.data;
     } catch (error) {
         console.error(error);
@@ -75,8 +75,7 @@ function pageClickEvent(event) {
     callProductTable(pagination.currentPage - 1, pagination.dataPerPage);
 }
 
-async function renderPage() {
-    let productCnt = await getProductCount();
+function renderPage() {
     pagination = new Pagination(6,5, Math.ceil(productCnt/10), pageClickEvent);
     pagination.renderPagination(1);
     callProductTable(0, 6);
