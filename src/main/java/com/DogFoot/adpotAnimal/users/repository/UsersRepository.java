@@ -23,6 +23,8 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
     void deleteById(Long id);
 
+    boolean existsByPhoneNumber(String phoneNumber);
+
     @Query("SELECT u FROM Users u WHERE u.userRole = 0")
     Page<Users> findAllUsers(Pageable pageable);
 
