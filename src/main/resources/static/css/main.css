@@ -1,0 +1,89 @@
+.DogFoot_main {
+    font-size: 34px;
+    margin-right: 200px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.header_menu {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+}
+
+.header_list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+}
+
+.header_category {
+    margin-right: 40px;
+    font-size: 28px;
+    white-space: nowrap;
+}
+
+.header_category a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.cart_button {
+    font-size: 20px;
+    width: 140px;
+    height: 50px;
+    border-radius: 5px;
+}
+
+.banner_one {
+    height: 600px;
+    background-color: #fbbdc5;
+}
+
+.banner_text {
+    font-size: 40px;
+    font-weight: bold;
+    margin: 200px 400px 0 470px;
+}
+
+.subBanner_text {
+    margin-left: 470px;
+    margin-top: 50px;
+    font-size: 25px;
+}
+
+.banner_text2 {
+    margin-left: 1420px;
+    font-weight: bold;
+    font-size: 40px;
+    margin-top: 400px;
+}
+
+.subBanner_text2 {
+    margin-left: 1420px;
+    margin-top: 50px;
+    font-size: 25px;
+}
+
+.current_donate_text {
+    text-align: center;
+    margin-top: 400px;
+    font-size: 40px;
+    font-weight: bold;
+}
+
+.box_list {
+    display: flex;
+    justify-content: center;
+}
+
+.box {
+    width: 600px;
+    height: 200px;
+    background-color: white;
+    border: 1px solid black;
+    margin: 100px 50px;
+    border-radius: 7px;
+    text-align: center;
+}
