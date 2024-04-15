@@ -1,6 +1,7 @@
 package com.DogFoot.adpotAnimal;
 
 import com.DogFoot.adpotAnimal.order.controller.OrderController;
+import com.DogFoot.adpotAnimal.order.dto.OrderRequest;
 import com.DogFoot.adpotAnimal.order.entity.Address;
 import com.DogFoot.adpotAnimal.order.entity.Delivery;
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
@@ -18,6 +19,7 @@ import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -27,8 +29,10 @@ public class DataInit {
     private final UsersService usersService;
     private final ProductService productService;
     private final OrderItemService orderItemService;
-    private final OrderService orderService;
     private final DeliveryService deliveryService;
+    private final OrderService orderService;
+
+    @Autowired
     private OrderController orderController;
 
     @PostConstruct
@@ -74,19 +78,23 @@ public class DataInit {
         productService.createProduct(productDto);
 
         // 주문 추가
-        Product product1 = productService.findProductById(1L);
-        Product product2 = productService.findProductById(2L);
-        List<OrderItem> orderItems = new ArrayList<>();
-        orderItems.add(orderItemService.create(product1, product1.getProductPrice(), 3));
-        orderItems.add(orderItemService.create(product2, product2.getProductPrice(), 3));
-        Users user = usersService.findUserById(1L);
-        Address address = Address.builder()
-            .city("Seoul")
-            .street("Gangnam-daero 10-gil")
-            .zipcode("109")
-            .build();
-        Delivery delivery = deliveryService.create(address,"elice1234", "01045821235");
-
-        orderController.addOrder()
+//        Product product1 = productService.findProductById(1L);
+//        Product product2 = productService.findProductById(2L);
+//        List<OrderItem> orderItems = new ArrayList<>();
+//        orderItems.add(orderItemService.create(product1, product1.getProductPrice(), 3));
+//        orderItems.add(orderItemService.create(product2, product2.getProductPrice(), 3));
+//        List<Long> orderItemId = new ArrayList<>();
+//        orderItemId.add(orderItems.get(0).getId());
+//        orderItemId.add(orderItems.get(1).getId());
+//
+//        Users user = usersService.findUserById(1L);
+//        Address address = Address.builder()
+//            .city("Seoul")
+//            .street("Gangnam-daero 10-gil")
+//            .zipcode("109")
+//            .build();
+//        Delivery delivery = deliveryService.create(address,"elice1234", "01045821235");
+//
+//        orderService.create(user, delivery, orderItems);
     }
 }

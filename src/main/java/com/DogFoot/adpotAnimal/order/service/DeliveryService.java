@@ -20,8 +20,11 @@ public class DeliveryService {
 
     // 배송 상태 생성
     public Delivery create(Address address, String receiverName, String receiverPhoneNumber) {
-        Delivery delivery = Delivery.createDelivery(address, receiverName, receiverPhoneNumber);
-
+        Delivery delivery = Delivery.builder()
+            .address(address)
+            .receiverName(receiverName)
+            .receiverPhoneNumber(receiverPhoneNumber)
+            .build();
         return deliveryRepository.save(delivery);
     }
 
