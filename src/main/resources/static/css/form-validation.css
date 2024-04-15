@@ -1,0 +1,43 @@
+.container {
+  max-width: 960px;
+}
+
+.header{
+  user-select: none;
+}
+
+.nav-item:focus {
+  outline: none !important;
+}
+.navbar{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.navbar-brand{
+  margin:auto;
+  color:orange;
+  font-size:30px;
+}
+.navbar-brand:hover{
+  color:orange;
+}
+.navbar-content{
+
+}
+.navbar-content ul li{
+  margin-left:30px;
+}
+.account{
+  margin:auto;
+}
+.navbar button{
+  background-color:orange;
+  border-style:none;
+  color:white;
+  border-radius: 5px;
+  padding: 5px 10px;
+}
+.login{
+  margin-top:5px;
+}

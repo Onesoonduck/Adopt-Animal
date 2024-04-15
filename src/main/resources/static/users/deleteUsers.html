@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원 탈퇴</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href=/static/css/deleteUsers.css>
+
+</head>
+<body>
+<div class="container">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">회원 탈퇴</h5>
+            <p class="card-text">정말로 회원 탈퇴를 하시겠습니까?</p>
+            <button id="confirmButton" class="btn btn-danger">확인</button>
+            <a href="users.html" class="btn btn-secondary">취소</a>
+        </div>
+    </div>
+</div>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script type="module" src="/js/common.js"></script>
+    <script src="/static/js/form-validation.js"></script>
+    <script src="/static/js/deleteUsers.js"></script>
+</body>
+</html>
