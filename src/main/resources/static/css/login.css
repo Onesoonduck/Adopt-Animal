@@ -1,11 +1,4 @@
 
-.login {
-    font-size: 20px;
-    margin: 20px;
-    text-decoration: none;
-    color: inherit;
-}
-
 .cart_button {
     font-size: 20px;
     width: 140px;
@@ -19,8 +12,6 @@
     font-weight: bold;
     margin-top: 100px;
 }
-
-
 
 .login_wrapper{
     width: 400px;

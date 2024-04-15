@@ -30,7 +30,7 @@
           </div>
           <ul class="navbar-nav flex-column mt-4">
             <li class="nav-item">
-              <a href="#" class="nav-link text-white p-3 mb-2 current">
+              <a href="/static/admin/admin.html" class="nav-link text-white p-3 mb-2 current">
                 <i class="fas fa-home text-white fa-lg mr-3"></i>DashBoard
               </a>
             </li>
@@ -40,12 +40,12 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
+              <a href="/static/admin/admin_order.html" class="nav-link text-white p-3 mb-2 sidebar-link">
                 <i class="fas fa-shopping-cart text-white fa-lg mr-3"></i>주문 관리
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
+              <a href="/static/admin/admin_product.html" class="nav-link text-white p-3 mb-2 sidebar-link">
                 <i class="fas fa-box-open text-white fa-lg mr-3"></i>상품 관리
               </a>
             </li>
@@ -71,6 +71,18 @@
             </div>
             <div class="col-md-3">
               <ul class="navbar-nav">
+                <!--                <li class="nav-item icon-parent">-->
+                <!--                  <a href="#" class="nav-link icon-bullet">-->
+                <!--                    <i class="fas fa-comments text-muted fa-lg">-->
+                <!--                    </i>-->
+                <!--                  </a>-->
+                <!--                </li>-->
+                <!--                <li class="nav-item icon-parent">-->
+                <!--                  <a href="#" class="nav-link icon-bullet">-->
+                <!--                    <i class="fas fa-bell text-muted fa-lg">-->
+                <!--                    </i>-->
+                <!--                  </a>-->
+                <!--                </li>-->
                 <li class="nav-item ml-md-auto">
                   <a href="#" class="nav-link">
                     <i class="fas fa-sign-out-alt text-danger fa-lg">
@@ -132,52 +144,6 @@
             </thead>
             <tbody id="table-orders">
             <tr>
-              <th class="align-middle">1</th>
-              <td class="align-middle">12342123455</td>
-              <td class="align-middle">2024/04/02</td>
-              <td class="align-middle">강아지 스티커</td>
-              <td class="align-middle">25,300원</td>
-              <td class="align-middle">엘리스(userId)</td>
-              <td class="align-middle">
-                <div class="dropdown">
-                  <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    입금 전
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">입금 전</a></li>
-                    <li><a class="dropdown-item" href="#">입금 완료</a></li>
-                    <li><a class="dropdown-item" href="#">발송</a></li>
-                    <li><a class="dropdown-item" href="#">배송 중</a></li>
-                    <li><a class="dropdown-item" href="#">배송 완료</a></li>
-                  </ul>
-                </div>
-              </td>
-              <td><button type="button" class="btn btn-danger btn-sm">삭제</button></td>
-            </tr>
-            <tr>
-              <th class="align-middle">2</th>
-              <td class="align-middle">12342123455</td>
-              <td class="align-middle">2024/04/02</td>
-              <td class="align-middle">강아지 스티커</td>
-              <td class="align-middle">25,300원</td>
-              <td class="align-middle">엘리스(userId)</td>
-              <td class="align-middle">
-                <div class="dropdown">
-                  <button class="btn btn-sm btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    입금 전
-                  </button>
-                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                    <li><a class="dropdown-item" href="#">입금 전</a></li>
-                    <li><a class="dropdown-item" href="#">입금 완료</a></li>
-                    <li><a class="dropdown-item" href="#">발송</a></li>
-                    <li><a class="dropdown-item" href="#">배송 중</a></li>
-                    <li><a class="dropdown-item" href="#">배송 완료</a></li>
-                  </ul>
-                </div>
-              </td>
-              <td><button type="button" class="btn btn-danger btn-sm">삭제</button></td>
-            </tr>
-            <tr>
               <th class="align-middle">3</th>
               <td class="align-middle">12342123455</td>
               <td class="align-middle">2024/04/02</td>
@@ -203,7 +169,7 @@
             </tbody>
           </table>
           <!-- 페이지네이션 -->
-          <nav>
+          <nav id="pagination">
             <ul class="pagination justify-content-center">
               <li class="page-item">
                 <a href="#" class="page-link py-2 px-3">
@@ -230,11 +196,13 @@
     </div>
   </div>
 </section>
-</body>
 
 <script src="/static/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-<script type="module" src="/static/js/common.js"></script>
 <script src="/static/js/form-validation.js"></script>
+<script type="module" src="/static/js/common.js"></script>
+<script type="module" src="/static/js/admin/orderTable.js"></script>
+<script src="/static/js/admin/sidebar.js"></script>
+</body>
 
 </html>

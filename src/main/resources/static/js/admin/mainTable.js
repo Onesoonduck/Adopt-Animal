@@ -19,7 +19,7 @@ async function getUserCount() {
 
 async function getOrderCount() {
   try {
-    const response = await axios.get('/order/admin/api/orderCount');
+    const response = await axios.get('/order/api/orderCount');
     return response.data;
   } catch (error) {
     console.error(error);

@@ -1,11 +1,11 @@
 import {Pagination} from "/static/js/pagination/pagination.js";
 
-let orderCnt = await getOrderCount();
+let productCnt = await getProductCount();
 let pagination;
 
-async function getOrderCount() {
+async function getProductCount() {
   try {
-    const response = await axios.get('/order/api/orderCount');
+    const response = await axios.get('/products/api/productCount');
     return response.data;
   } catch (error) {
     console.error(error);
@@ -14,35 +14,26 @@ async function getOrderCount() {
 }
 
 function callTable(page, size) {
-  axios.get('/order/api/orderTable', {
+  axios.get('/products/lists', {
     params: {
       page: page,  // 페이지 번호
       size: size  // 페이지 크기
     }
   }).then(function (response) {
-    const orderTableDtos = response.data.content;
-    const tbody = document.getElementById('table-orders');
+    const productDtos = response.data.content;
+    const tbody = document.getElementById('table-products');
     tbody.innerHTML = ''; // 초기화.
-    let length = orderTableDtos.length;
+    let length = productDtos.length;
     for (let i = 0; i < length; i++) {
-      const orderTableDto = orderTableDtos[i];
+      const productDto = productDtos[i];
       const row = document.createElement('tr');
-      const formattedDate = new Date(
-          orderTableDto.orderDate).toLocaleDateString();
-      let ordertitle;
-      if(orderTableDto.orderCount>1){
-        ordertitle = orderTableDto.firstOrderItem + ' 외 ' + (orderTableDto.orderCount-1);
-      } else {
-        ordertitle = orderTableDto.firstOrderItem;
-      }
       row.innerHTML = `
         <th class="align-middle">${i}</th>
-        <td class="align-middle">${orderTableDto.id}</td>
-        <td class="align-middle">${formattedDate}</td>
-        <td class="align-middle">${ordertitle}</td>
-        <td class="align-middle">${orderTableDto.totalPrice.toLocaleString()}</td>
-        <td class="align-middle">${orderTableDto.orderUserId}</td>
-        <td class="align-middle">${orderTableDto.orderStatus}</td>
+        <td class="align-middle"></td>
+        <td class="align-middle">${productDto.productName}</td>
+        <td class="align-middle">${productDto.productPrice.toLocaleString()}</td>
+        <td class="align-middle">${productDto.Stock}</td>
+        <td class="align-middle">0</td>
         <td class="align-middle"><button type="button" class="btn btn-danger btn-sm">삭제</button></td>
       `;
 
@@ -74,7 +65,7 @@ function pageClickEvent(event) {
 }
 
 function renderPage() {
-  pagination = new Pagination(10,5, Math.ceil(orderCnt/10), pageClickEvent);
+  pagination = new Pagination(10,5, Math.ceil(productCnt/10), pageClickEvent);
   pagination.renderPagination(1);
   callTable(0, 10);
 }

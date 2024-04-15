@@ -1,6 +1,8 @@
 package com.DogFoot.adpotAnimal.order.entity;
 
 import com.DogFoot.adpotAnimal.order.dto.OrderTableDto;
+import com.DogFoot.adpotAnimal.order.dto.OrderResponse;
+import com.DogFoot.adpotAnimal.products.dto.ProductDto;
 import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
@@ -72,7 +74,10 @@ public class Order {
     public static Order createOrder(Users users, Delivery delivery, List<OrderItem> orderItems) {
         Order order = new Order();
         order.setUsers(users);
-        order.setDelivery(delivery);
+
+        if (delivery != null) {
+            order.setDelivery(delivery);
+        }
 
         for(OrderItem orderItem : orderItems) {
             order.addOrderItem(orderItem);
@@ -116,7 +121,7 @@ public class Order {
 
     // 주문 배송 완료
     public void complete() {
-        if (this.orderStatus == OrderStatus.COMPLETE) {
+        if (this.orderStatus == OrderStatus.CANCEL) {
             throw new IllegalStateException("이미 배송 완료 처리된 상품입니다.");
         }
         this.setOrderStatus(OrderStatus.COMPLETE);
