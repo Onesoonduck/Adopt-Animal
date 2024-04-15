@@ -20,7 +20,7 @@ function postUpdateUsers(data) {
 
     if (response.status === 200) {
       alert('회원정보 수정이 완료되었습니다.');
-      location.href = '/users.html';
+      location.href = '/static/users/users.html';
     } else {
       alert('회원정보 수정에 실패하였습니다.');
     }

@@ -31,7 +31,6 @@ public class DeliveryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(delivery.getId());
     }
 
-
     // 배송 정보 조회
     @GetMapping("/{id}")
     public ResponseEntity<DeliveryAddressResponse> getDelivery(@PathVariable(value = "id") Long id) {

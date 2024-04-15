@@ -3,6 +3,7 @@ package com.DogFoot.adpotAnimal.order.service;
 import com.DogFoot.adpotAnimal.order.entity.Address;
 import com.DogFoot.adpotAnimal.order.entity.Delivery;
 import com.DogFoot.adpotAnimal.order.repository.DeliveryRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -19,10 +20,9 @@ public class DeliveryService {
     }
 
     // 배송 상태 생성
-    public Delivery create(Address address, String receiverName, String receiverPhoneNumber) {
-        Delivery delivery = new Delivery();
-
-        return deliveryRepository.save(delivery);
+    @Transactional
+    public Delivery create(Address address, String deliveryName, String deliveryPhoneNumber) {
+        return deliveryRepository.save(Delivery.createDelivery(address, deliveryName, deliveryPhoneNumber));
     }
 
     // 배송 상태 수정

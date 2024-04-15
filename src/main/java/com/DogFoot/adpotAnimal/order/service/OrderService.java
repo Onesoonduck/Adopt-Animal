@@ -1,13 +1,17 @@
 package com.DogFoot.adpotAnimal.order.service;
 
+import com.DogFoot.adpotAnimal.order.dto.OrderTableDto;
 import com.DogFoot.adpotAnimal.order.entity.Delivery;
 import com.DogFoot.adpotAnimal.order.entity.Order;
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
+import com.DogFoot.adpotAnimal.order.repository.DeliveryRepository;
 import com.DogFoot.adpotAnimal.order.repository.OrderRepository;
 import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,13 +22,16 @@ public class OrderService {
 
     private final OrderRepository orderRepository;
     private final UsersRepository usersRepository;
+    private final DeliveryRepository deliveryRepository;
 
     // 주문 생성
+    @Transactional
     public Order create(Users users, Delivery delivery, List<OrderItem> orderItems) {
-        Order createOrder = Order.createOrder(users, delivery, orderItems);
+        Order createdOrder = Order.createOrder(users, delivery, orderItems);
 
-        return orderRepository.save(createOrder);
+        return orderRepository.save(createdOrder);
     }
+
 
     // 각 회원 주문 조회
     public Order findById(Long id) {
@@ -102,4 +109,14 @@ public class OrderService {
         order.refund();
     }
 
+    // 주문 수 조회
+    public long getOrderCount() {
+        return orderRepository.count();
+    }
+
+    // 관리자페이지 주문 목록 조회
+    public Page<OrderTableDto> getOrderTable(Pageable pageable) {
+        Page<Order> orderPage = orderRepository.findAll(pageable);
+        return orderPage.map(Order::toTableDto);
+    }
 }

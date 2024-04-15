@@ -1,6 +1,5 @@
 import {updateLogin} from './checkLogin.js';
-window.onload = updateLogin;
-
+window.addEventListener('load', updateLogin);
 // 모든 요청
 axios.interceptors.request.use(function (config) {
   const accessKey = sessionStorage.getItem('authorization');

@@ -9,15 +9,15 @@ import lombok.*;
 import java.util.List;
 
 
+@Builder
 @Data
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "cart")
 public class CartEntity {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long cartId;
 
     @Column(name = "user_id")
@@ -28,5 +28,4 @@ public class CartEntity {
 
     @Column(name="product_id")
     private Long productId;
-
 }

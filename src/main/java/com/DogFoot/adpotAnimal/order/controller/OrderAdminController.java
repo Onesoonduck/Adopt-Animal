@@ -77,4 +77,11 @@ public class OrderAdminController {
         }
     }
 
+    // 총 주문 수 조회
+    @GetMapping("/api/orderCount")
+    public ResponseEntity<Long> getUsersCount() {
+        Long orderCount = orderService.getOrderCount();
+        return ResponseEntity.ok(orderCount);
+    }
+
 }
