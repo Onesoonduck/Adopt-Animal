@@ -2,7 +2,7 @@ document.addEventListener('DOMContentLoaded', function () {
     loadProducts(); // 페이지가 로드될 때 상품을 로드
 
     function loadProducts() {
-        fetch('http://localhost:8080/cart/items/lyj')
+        fetch('http://localhost:8080/cart/items')
             .then(response => response.json())
             .then(data => {
                 const productTable = document.getElementById('table-body');

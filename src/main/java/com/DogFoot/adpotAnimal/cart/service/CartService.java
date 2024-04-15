@@ -44,7 +44,9 @@ public class CartService {
                     Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
                     Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found"));
                     if (productEntity != null) {
+
                         return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
+
                     } else {
                         return null;
                     }
