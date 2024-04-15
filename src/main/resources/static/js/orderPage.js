@@ -24,10 +24,10 @@ function submitOrder() {
     var address = document.getElementById("sample6_address").value;
     var detailAddress = document.getElementById("sample6_detailAddress").value;
     var postcode = document.getElementById("sample6_postcode").value;
-    var receiverName = document.getElementById("receiverName").value; // 수신자 이름 입력란의 ID를 확인해야 합니다.
-    var receiverPhoneNumber = document.getElementById("receiverPhoneNumber").value; // 수신자 전화번호 입력란의 ID를 확인해야 합니다.
+    var receiverName = document.getElementById("receiverName").value;
+    var receiverPhoneNumber = document.getElementById("receiverPhoneNumber").value;
 
-    axios.post('/order/delivery/add', {
+    axios.post('/order/delivery', {
         address: {
             city: address, // 주소 정보 중 city에는 전체 주소가 들어갈 수 있습니다.
             street: detailAddress, // 상세 주소 정보는 street에 들어갑니다.
@@ -46,3 +46,64 @@ function submitOrder() {
             alert("주문 정보 저장에 실패하였습니다.");
         });
 }
+
+
+let cartItemCount = 0;
+
+// 장바구니 아이템 가져오는 함수
+function fetchCartItems() {
+    axios.get('/cart/items')
+        .then(function (response) {
+            // API 호출 성공 시 실행되는 부분
+            const cartItems = response.data;
+            cartItemCount = cartItems.length; // 장바구니 아이템 개수 업데이트
+            // 여기서 cartItems를 이용하여 프론트엔드 요소들을 업데이트할 수 있습니다.
+            updateCartUI(cartItems);
+        })
+        .catch(function (error) {
+            // API 호출 실패 시 실행되는 부분
+            console.error('Error fetching cart items:', error);
+        });
+}
+
+// 장바구니 UI 업데이트하는 함수
+function updateCartUI(cartItems) {
+    const cartList = document.querySelector('.list-group');
+
+    // 기존 리스트 삭제
+    while (cartList.firstChild) {
+        cartList.removeChild(cartList.firstChild);
+    }
+
+    // 새로운 아이템 추가
+    cartItems.forEach(function (product) {
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item d-flex justify-content-between lh-sm';
+        listItem.innerHTML = `
+                <div>
+                    <h6 class="my-0">${product.productName}</h6>
+                    <small class="text-muted">${product.productStock}</small>
+                </div>
+                <span class="text-muted">${product.productPrice}</span>
+            `;
+        cartList.appendChild(listItem);
+    });
+
+    // 총합 업데이트
+    const totalPrice = cartItems.reduce((total, item) => total + (parseInt(item.productStock) * parseInt(item.productPrice)), 0);
+
+// 총 가격에 배송비 추가
+    const totalWithShipping = totalPrice + 3000; // 배송비가 3000원
+
+    const totalElement = document.querySelector('.list-group li:last-child strong');
+    totalElement.textContent = totalWithShipping;
+
+    // 장바구니 아이템 수 업데이트
+    const itemCountElement = document.querySelector('.badge.bg-warning.rounded-pill');
+    itemCountElement.textContent = cartItemCount;
+}
+
+// 페이지 로드 시 장바구니 아이템 가져오기
+document.addEventListener('DOMContentLoaded', function () {
+    fetchCartItems();
+});

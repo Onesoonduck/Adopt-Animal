@@ -11,8 +11,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
@@ -22,11 +27,17 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
     // 배송 정보 생성
-    @PostMapping("/add")
+    @PostMapping
     public ResponseEntity<?> addDelivery(@RequestBody @Validated DeliveryAddressRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
+            // 유효성 검사 실패 시 사용자 친화적인 오류 메시지 생성
+            List<String> errors = new ArrayList<>();
+            for (FieldError error : bindingResult.getFieldErrors()) {
+                errors.add(error.getField() + ": " + error.getDefaultMessage());
+            }
+            return ResponseEntity.badRequest().body(errors);
         }
+
         // 주소와 상세 주소를 합쳐서 Address 객체 생성
         Address address = Address.builder()
             .city(request.getAddress().getCity())
@@ -38,6 +49,7 @@ public class DeliveryController {
         Delivery delivery = deliveryService.create(address, request.getReceiverName(), request.getReceiverPhoneNumber());
         return ResponseEntity.status(HttpStatus.CREATED).body(delivery.getId());
     }
+
 
     // 배송 정보 조회
     @GetMapping("/{id}")

@@ -60,7 +60,7 @@
             <div class="col-md-5 col-lg-4 order-md-last">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-warning">장바구니</span>
-                    <span class="badge bg-warning rounded-pill">3</span>
+                    <span class="badge bg-warning rounded-pill"></span>
                 </h4>
                 <ul class="list-group mb-3">
                     <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -74,11 +74,11 @@
                         <div class="text-success">
                             <h6 class="my-0">배송비</h6>
                         </div>
-                        <span class="text-success">+가격</span>
+                        <span class="text-success">가격</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span>총합</span>
-                        <strong>가격</strong>
+                        <strong id="totalPrice">가격</strong>
                     </li>
                 </ul>
             </div>
@@ -88,16 +88,16 @@
                 <form class="needs-validation" novalidate action="/order" method="post">
                     <div class="row g-3">
                         <div class="col-sm-6">
-                            <label for="firstName" class="form-label">수령인</label>
-                            <input type="text" class="form-control" id="firstName" placeholder="" value="" required>
+                            <label for="receiverName" class="form-label">수령인</label>
+                            <input type="text" class="form-control" id="receiverName" placeholder="수령인 이름을 입력하세요" required>
                             <div class="invalid-feedback">
                                 수령인은 필수 항목입니다.
                             </div>
                         </div>
 
                         <div class="col-sm-6">
-                            <label for="lastName" class="form-label">전화번호</label>
-                            <input type="text" class="form-control" id="lastName" placeholder="" value="" required>
+                            <label for="receiverPhoneNumber" class="form-label">전화번호</label>
+                            <input type="text" class="form-control" id="receiverPhoneNumber" placeholder="전화번호를 입력하세요" required>
                             <div class="invalid-feedback">
                                 전화번호는 필수 항목입니다.
                             </div>
