@@ -27,9 +27,9 @@ public class DataInit {
 
     private final UsersService usersService;
     private final ProductService productService;
+    private final OrderService orderService;
     private final OrderItemService orderItemService;
     private final DeliveryService deliveryService;
-    private final OrderService orderService;
 
     @PostConstruct
     public void init() {
