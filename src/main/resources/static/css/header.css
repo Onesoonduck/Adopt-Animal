@@ -26,15 +26,41 @@
     margin-left:30px;
 }
 .account{
-    margin:auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 #login-div {
     display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #logout-div {
     display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-div .nav-link .login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 20px;
+    text-decoration: none;
+    color: inherit;
+}
+
+#logout-div .nav-link .logout {
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 20px;
+    text-decoration: none;
+    color: inherit;
 }
 
 .navbar button{

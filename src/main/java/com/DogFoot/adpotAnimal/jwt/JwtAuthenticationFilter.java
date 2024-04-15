@@ -35,7 +35,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 jwtTokenProvider.getIsAutoLogin(request));
         } else {
             logger.info("Invalid or expired token");
-            // refresh 토큰까지 만료되었다면 키 정보를 쿠키와 헤더에서 지워야함
         }
         filterChain.doFilter(request, response);
     }
