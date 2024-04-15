@@ -47,13 +47,12 @@
 <div class="container">
     <main>
         <div class="py-5 text-center">
-
         </div>
-        <div class="row g-5">
-            <div class="col-md-5 col-lg-4 order-md-last">
+        <div class="row g-5" id="cart-productItem">
+            <div class="col-md-5 col-lg-4 order-md-last" id="product-to-order">
                 <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-warning">장바구니</span>
-                    <span class="badge bg-warning rounded-pill">3</span>
+                    <span class="badge bg-warning rounded-pill">1</span>
                 </h4>
                 <ul class="list-group mb-3">
                     <li class="list-group-item d-flex justify-content-between lh-sm">
@@ -126,59 +125,59 @@
 
                     <hr class="my-4">
 
-<!--                    <h4 class="mb-3">Payment</h4>-->
+                    <!--                    <h4 class="mb-3">Payment</h4>-->
 
-<!--                    <div class="my-3">-->
-<!--                        <div class="form-check">-->
-<!--                            <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>-->
-<!--                            <label class="form-check-label" for="credit">신용카드</label>-->
-<!--                        </div>-->
-<!--                        <div class="form-check">-->
-<!--                            <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>-->
-<!--                            <label class="form-check-label" for="debit">무통장 입금</label>-->
-<!--                        </div>-->
-<!--                        <div class="form-check">-->
-<!--                            <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>-->
-<!--                            <label class="form-check-label" for="paypal">휴대폰 결제</label>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                    <div class="my-3">-->
+                    <!--                        <div class="form-check">-->
+                    <!--                            <input id="credit" name="paymentMethod" type="radio" class="form-check-input" checked required>-->
+                    <!--                            <label class="form-check-label" for="credit">신용카드</label>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="form-check">-->
+                    <!--                            <input id="debit" name="paymentMethod" type="radio" class="form-check-input" required>-->
+                    <!--                            <label class="form-check-label" for="debit">무통장 입금</label>-->
+                    <!--                        </div>-->
+                    <!--                        <div class="form-check">-->
+                    <!--                            <input id="paypal" name="paymentMethod" type="radio" class="form-check-input" required>-->
+                    <!--                            <label class="form-check-label" for="paypal">휴대폰 결제</label>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
-<!--                    <div class="row gy-3">-->
-<!--                        <div class="col-md-6">-->
-<!--                            <label for="cc-name" class="form-label">카드 영문 이름</label>-->
-<!--                            <input type="text" class="form-control" id="cc-name" placeholder="" required>-->
-<!--                            <small class="text-muted">영문으로 입력하세요.</small>-->
-<!--                            <div class="invalid-feedback">-->
-<!--                                영문 이름은 필수 항목입니다.-->
-<!--                            </div>-->
-<!--                        </div>-->
+                    <!--                    <div class="row gy-3">-->
+                    <!--                        <div class="col-md-6">-->
+                    <!--                            <label for="cc-name" class="form-label">카드 영문 이름</label>-->
+                    <!--                            <input type="text" class="form-control" id="cc-name" placeholder="" required>-->
+                    <!--                            <small class="text-muted">영문으로 입력하세요.</small>-->
+                    <!--                            <div class="invalid-feedback">-->
+                    <!--                                영문 이름은 필수 항목입니다.-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
 
-<!--                        <div class="col-md-6">-->
-<!--                            <label for="cc-number" class="form-label">카드 번호</label>-->
-<!--                            <input type="text" class="form-control" id="cc-number" placeholder="" required>-->
-<!--                            <div class="invalid-feedback">-->
-<!--                                카드 번호는 필수 항목입니다.-->
-<!--                            </div>-->
-<!--                        </div>-->
+                    <!--                        <div class="col-md-6">-->
+                    <!--                            <label for="cc-number" class="form-label">카드 번호</label>-->
+                    <!--                            <input type="text" class="form-control" id="cc-number" placeholder="" required>-->
+                    <!--                            <div class="invalid-feedback">-->
+                    <!--                                카드 번호는 필수 항목입니다.-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
 
-<!--                        <div class="col-md-3">-->
-<!--                            <label for="cc-expiration" class="form-label">유효기간</label>-->
-<!--                            <input type="text" class="form-control" id="cc-expiration" placeholder="" required>-->
-<!--                            <div class="invalid-feedback">-->
-<!--                                유효기간은 필수 항목입니다.-->
-<!--                            </div>-->
-<!--                        </div>-->
+                    <!--                        <div class="col-md-3">-->
+                    <!--                            <label for="cc-expiration" class="form-label">유효기간</label>-->
+                    <!--                            <input type="text" class="form-control" id="cc-expiration" placeholder="" required>-->
+                    <!--                            <div class="invalid-feedback">-->
+                    <!--                                유효기간은 필수 항목입니다.-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
 
-<!--                        <div class="col-md-3">-->
-<!--                            <label for="cc-cvv" class="form-label">CVV</label>-->
-<!--                            <input type="text" class="form-control" id="cc-cvv" placeholder="" required>-->
-<!--                            <div class="invalid-feedback">-->
-<!--                                CVV는 필수 항목입니다.-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                    </div>-->
+                    <!--                        <div class="col-md-3">-->
+                    <!--                            <label for="cc-cvv" class="form-label">CVV</label>-->
+                    <!--                            <input type="text" class="form-control" id="cc-cvv" placeholder="" required>-->
+                    <!--                            <div class="invalid-feedback">-->
+                    <!--                                CVV는 필수 항목입니다.-->
+                    <!--                            </div>-->
+                    <!--                        </div>-->
+                    <!--                    </div>-->
 
-<!--                    <hr class="my-4">-->
+                    <!--                    <hr class="my-4">-->
 
                     <button class="w-100 btn btn-warning btn-lg text-white" type="submit">주문하기</button>
                 </form>

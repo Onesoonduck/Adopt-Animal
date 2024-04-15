@@ -1,4 +1,4 @@
-package com.DogFoot.adpotAnimal.order.controller;
+package com.DogFoot.adpotAnimal.order;
 
 
 import com.DogFoot.adpotAnimal.order.dto.DeliveryAddressRequest;
@@ -30,7 +30,6 @@ public class DeliveryController {
         Delivery delivery = deliveryService.create(request.getAddress(), request.getReceiverName(), request.getReceiverPhoneNumber());
         return ResponseEntity.status(HttpStatus.CREATED).body(delivery.getId());
     }
-
 
     // 배송 정보 조회
     @GetMapping("/{id}")

@@ -1,4 +1,4 @@
-package com.DogFoot.adpotAnimal.order.controller;
+package com.DogFoot.adpotAnimal.order;
 
 import com.DogFoot.adpotAnimal.order.dto.OrderRequest;
 import com.DogFoot.adpotAnimal.order.dto.OrderResponse;
@@ -70,6 +70,10 @@ public class OrderController {
 
         return ResponseEntity.ok().body(new OrderResponse(order));
     }
+
+    // 장바구니, 주문 상품 목록 가져오기
+
+
 
 
 }

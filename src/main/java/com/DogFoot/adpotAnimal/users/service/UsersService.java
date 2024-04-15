@@ -216,4 +216,8 @@ public class UsersService {
     public long getUsersCount() {
         return usersRepository.count();
     }
+
+    public Users findUserById(Long id) {
+        return usersRepository.findById(id).get();
+    }
 }
