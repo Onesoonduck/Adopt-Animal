@@ -27,11 +27,18 @@
                 font-size: 3.5rem;
             }
         }
+
+        .address-search {
+
+        }
+
     </style>
 
 
     <!-- Custom styles for this template -->
     <link href="/static/css/form-validation.css" rel="stylesheet">
+
+
 </head>
 <body class="bg-light">
 
@@ -105,22 +112,19 @@
                         </div>
 
                         <div class="col-12">
-                            <label for="address" class="form-label">주소</label>
-                            <input type="text" class="form-control" id="address" placeholder="서울시 성동구 아차산로17길 48" required>
-                            <div class="invalid-feedback">
-                                주소는 필수 항목입니다.
-                            </div>
+                            <label for="sample6_address" class="form-label">주소</label>
+                            <input type="text" class="form-control" id="sample6_address" placeholder="서울시 성동구 아차산로17길 48" required>
                         </div>
-                        <div class="col-12">
-                            <label for="address2" class="form-label">상세 주소</label>
-                            <input type="text" class="form-control" id="address2" placeholder="성수낙낙 2층 엘리스랩 성수점">
+                        <div class="col-9">
+                            <label for="sample6_detailAddress" class="form-label">상세 주소</label>
+                            <input type="text" class="form-control" id="sample6_detailAddress" placeholder="성수낙낙 2층 엘리스랩 성수점">
+                        </div>
+                        <div class="col-3 d-flex align-items-end justify-content-end">
+                            <input type="button" onclick="sample6_execDaumPostcode()" class="btn btn-warning text-white address-search" value="우편번호 찾기">
                         </div>
                         <div class="col-md-3">
-                            <label for="zip" class="form-label">우편번호</label>
-                            <input type="text" class="form-control" id="zip" placeholder="" required>
-                            <div class="invalid-feedback">
-                                우편번호는 필수 항목입니다.
-                            </div>
+                            <label for="sample6_postcode" class="form-label">우편번호</label>
+                            <input type="text" class="form-control" id="sample6_postcode" placeholder="" required>
                         </div>
                     </div>
 
@@ -203,6 +207,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="module" src="/static/js/common.js"></script>
 <script src="/static/js/orderPage.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 </body>
 </html>
