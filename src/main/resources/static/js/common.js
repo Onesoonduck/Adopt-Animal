@@ -6,6 +6,8 @@ axios.interceptors.request.use(function (config) {
   const accessKey = sessionStorage.getItem('authorization');
   if (accessKey) {
     config.headers.authorization = accessKey;
+  }else {
+    config.headers.authorization = '';
   }
   return config;
 }, function (error) {
