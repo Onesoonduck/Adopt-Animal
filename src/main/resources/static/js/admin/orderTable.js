@@ -5,7 +5,7 @@ let pagination;
 
 async function getOrderCount() {
   try {
-    const response = await axios.get('/order/admin/api/orderCount');
+    const response = await axios.get('/order/api/orderCount');
     return response.data;
   } catch (error) {
     console.error(error);
@@ -14,7 +14,7 @@ async function getOrderCount() {
 }
 
 function callTable(page, size) {
-  axios.get('/orders/api/orderTable', {
+  axios.get('/order/api/orderTable', {
     params: {
       page: page,  // 페이지 번호
       size: size  // 페이지 크기
@@ -31,7 +31,7 @@ function callTable(page, size) {
           orderTableDto.orderDate).toLocaleDateString();
       let ordertitle;
       if(orderTableDto.orderCount>1){
-        ordertitle = orderTableDto.firstOrderItem + ' 외 ' + orderTableDto.orderCount-1;
+        ordertitle = orderTableDto.firstOrderItem + ' 외 ' + (orderTableDto.orderCount-1);
       } else {
         ordertitle = orderTableDto.firstOrderItem;
       }

@@ -1,6 +1,5 @@
 package com.DogFoot.adpotAnimal;
 
-import com.DogFoot.adpotAnimal.order.controller.OrderController;
 import com.DogFoot.adpotAnimal.order.dto.OrderRequest;
 import com.DogFoot.adpotAnimal.order.entity.Address;
 import com.DogFoot.adpotAnimal.order.entity.Delivery;
@@ -31,9 +30,6 @@ public class DataInit {
     private final OrderItemService orderItemService;
     private final DeliveryService deliveryService;
     private final OrderService orderService;
-
-    @Autowired
-    private OrderController orderController;
 
     @PostConstruct
     public void init() {
@@ -78,23 +74,24 @@ public class DataInit {
         productService.createProduct(productDto);
 
         // 주문 추가
-//        Product product1 = productService.findProductById(1L);
-//        Product product2 = productService.findProductById(2L);
-//        List<OrderItem> orderItems = new ArrayList<>();
-//        orderItems.add(orderItemService.create(product1, product1.getProductPrice(), 3));
-//        orderItems.add(orderItemService.create(product2, product2.getProductPrice(), 3));
-//        List<Long> orderItemId = new ArrayList<>();
-//        orderItemId.add(orderItems.get(0).getId());
-//        orderItemId.add(orderItems.get(1).getId());
-//
-//        Users user = usersService.findUserById(1L);
-//        Address address = Address.builder()
-//            .city("Seoul")
-//            .street("Gangnam-daero 10-gil")
-//            .zipcode("109")
-//            .build();
-//        Delivery delivery = deliveryService.create(address,"elice1234", "01045821235");
-//
-//        orderService.create(user, delivery, orderItems);
+        Users users = usersService.findUserById(1L);
+
+        List<OrderItem> list = new ArrayList<>();
+        list.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        list.add(OrderItem.createOrderItem(productService.findProductById(2L), 50000, 10));
+        list.add(OrderItem.createOrderItem(productService.findProductById(3L), 10000, 10));
+        List<OrderItem> orderItems = list;
+
+        Address address = new Address("서울", "123", "58067");
+        Delivery delivery = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(users, delivery, orderItems);
+
+        //
+        List<OrderItem> list2 = new ArrayList<>();
+        list2.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        orderItems = list2;
+
+        Delivery delivery2 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(usersService.findUserById(2L), delivery2, orderItems);
     }
 }
