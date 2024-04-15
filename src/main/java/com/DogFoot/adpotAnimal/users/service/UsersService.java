@@ -84,6 +84,8 @@ public class UsersService {
             throw new InvalidSignUpException("이미 사용 중인 아이디입니다.");
         } else if (usersRepository.existsByEmail(signUpDto.getEmail())) {
             throw new InvalidSignUpException("이미 사용 중인 이메일입니다.");
+        } else if(usersRepository.existsByPhoneNumber(signUpDto.getPhoneNumber())) {
+            throw new InvalidSignUpException("이미 전화번호가 등록된 계정이 존재합니다.");
         }
 
         // 패스워드 검증
@@ -146,6 +148,9 @@ public class UsersService {
         if (usersRepository.existsByEmail(updateDto.getEmail()) && (!updateUsers.getEmail()
             .equals(updateDto.getEmail()))) {
             throw new InvalidSignUpException("이미 사용 중인 이메일입니다.");
+        } else if(usersRepository.existsByPhoneNumber(updateDto.getPhoneNumber()) && (!updateUsers.getPhoneNumber()
+            .equals(updateDto.getPhoneNumber()))) {
+            throw new InvalidSignUpException("이미 전화번호가 등록된 계정이 존재합니다.");
         }
 
         // 패스워드 검증
@@ -206,6 +211,10 @@ public class UsersService {
         Users users = userDetails.getUser();
 
         return users;
+    }
+
+    public Users findUserById(Long id) {
+        return usersRepository.findById(id).get();
     }
 
     public Page<UsersTableDto> getUserTable(Pageable pageable) {

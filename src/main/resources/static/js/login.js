@@ -16,8 +16,17 @@ function postLogin(data) {
       loginDiv.style.display = "none";
       logoutDiv.style.display = "flex";
 
-      const accesskey = response.headers['Authorization'];
-      location.href = '/main.html';
+      const accesskey = response.headers['authorization'];
+      const decodedToken = jwt_decode(accesskey);
+
+      const userRoles = decodedToken.auth;
+      console.log(userRoles);
+      if(userRoles === "ROLE_ADMIN"){
+        location.href = '/admin/admin.html';
+      } else {
+        location.href = '/main.html';
+      }
+
     } else {
       alert('로그인에 실패하였습니다.');
     }

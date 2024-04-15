@@ -12,20 +12,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/orderItem")
 public class OrderItemController {
 
     private final OrderItemService orderItemService;
     private final ProductService productService;
 
-    @PostMapping("/orderItem")
+    @PostMapping("")
     public ResponseEntity<Long> createOrderItem(@RequestBody OrderItemRequest request) {
         Product product = productService.findProductById(request.getProductId());
 
@@ -34,7 +31,7 @@ public class OrderItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdOrderItem.getId());
     }
 
-    @PostMapping("/orderItems")
+    @PostMapping("/lists")
     public ResponseEntity<List<Long>> createOrderItems(@RequestBody List<OrderItemRequest> requests) {
         List<Long> orderItemIds = new ArrayList<>();
 
@@ -47,14 +44,14 @@ public class OrderItemController {
         return ResponseEntity.status(HttpStatus.CREATED).body(orderItemIds);
     }
 
-    @GetMapping("/orderItem/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<OrderItemResponse> getOrderDetail(@PathVariable(value = "id") long id) {
         OrderItem orderItem = orderItemService.findById(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(new OrderItemResponse(orderItem));
     }
 
-    @DeleteMapping("/orderItem/{id}")
+    @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteOrderItem(@PathVariable(value = "id") long id) {
         orderItemService.deleteById(id);
 
