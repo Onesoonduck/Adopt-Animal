@@ -1,0 +1,76 @@
+.header{
+    user-select: none;
+}
+
+.nav-item:focus {
+    outline: none !important;
+}
+.navbar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.navbar-brand{
+    margin:auto;
+    color:orange;
+    font-size:30px;
+}
+.navbar-brand:hover{
+    color:orange;
+}
+.navbar-content{
+
+}
+
+.navbar-content ul li{
+    margin-left:30px;
+}
+.account{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+#login-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#logout-div {
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#login-div .nav-link .login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 20px;
+    text-decoration: none;
+    color: inherit;
+}
+
+#logout-div .nav-link .logout {
+    display: none;
+    justify-content: center;
+    align-items: center;
+
+    font-size: 20px;
+    text-decoration: none;
+    color: inherit;
+}
+
+.navbar button{
+    background-color:orange;
+    border-style:none;
+    color:white;
+    border-radius: 5px;
+    padding: 5px 10px;
+}
+
+.login{
+    margin-top:5px;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>메인 페이지</title>
+    <link rel="stylesheet" href="/static/css/main.css">
+</head>
+<body>
+
+<!-- include 함수 가져오기 -->
+<script src="/static/js/include.js"></script>
+<!-- 내비게이션 바 가져오기 시작 -->
+<div include="/static/header/index.html"></div>
+<script>includeHTML();</script>
+
+<div class="banner_one">
+    <img>
+</div>
+
+<h1 class="banner_text">도움이 필요한 유기동물들</h1>
+<h2 class="subBanner_text">풍요롭지 못한 보호소의 환경으로
+    <br>
+    유기동물은 늘 도움이 필요합니다
+</h2>
+
+<div>
+    <img>
+</div>
+
+<h1 class="banner_text2">유기동물 봉사</h1>
+<h2 class="subBanner_text2">여러분의 손재주로
+    <br>
+    유기동물 친구들에게 도움을 주세요
+</h2>
+
+<div class="current_donate">
+    <h1 class="current_donate_text">현재 기부 상황</h1>
+    <div class="box_list">
+        <div class="box">
+            저번 달 기부 통계
+        </div>
+        <div class="box">
+            이번 달 기부 통계
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="https://code.jquery.com/jquery-latest.min.js"></script>
+<script src="/static/js/bootstrap.bundle.min.js"></script>
+<script src="/static/js/form-validation.js"></script>
+<script type="module" src="/static/js/common.js"></script>
+<script type="module" src="/static/js/logout.js"></script>
+</body>
+</html>
