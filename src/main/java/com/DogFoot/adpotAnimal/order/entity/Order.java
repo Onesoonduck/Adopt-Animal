@@ -143,7 +143,6 @@ public class Order {
         }
         return totalPrice;
     }
-
     public OrderTableDto toTableDto() {
         OrderTableDto orderTableDto = OrderTableDto.builder()
             .id(id)

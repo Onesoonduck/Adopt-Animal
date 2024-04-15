@@ -56,6 +56,7 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
     }
 
+
     // 주문 목록 검색
     @GetMapping("")
     public ResponseEntity<List<OrderResponse>> findOrders(@RequestParam Long usersId) {
@@ -67,17 +68,15 @@ public class OrderController {
         return ResponseEntity.ok().body(orderResponses);
     }
 
+
     // 특정 주문 검색
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponse> findOrder(@PathVariable(value = "id") Long id) {
         Order order = orderService.findById(id);
-
         return ResponseEntity.ok().body(new OrderResponse(order));
     }
 
     // 장바구니, 주문 상품 목록 가져오기
-
-
     @GetMapping("/api/orderTable")
     public ResponseEntity<Page<OrderTableDto>> getUserTable(
         @RequestParam(name = "page", defaultValue = "0") int page,
