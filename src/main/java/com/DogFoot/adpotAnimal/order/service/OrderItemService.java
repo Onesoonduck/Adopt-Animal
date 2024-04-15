@@ -3,6 +3,7 @@ package com.DogFoot.adpotAnimal.order.service;
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
 import com.DogFoot.adpotAnimal.order.repository.OrderItemRepository;
 import com.DogFoot.adpotAnimal.products.entity.Product;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -13,6 +14,7 @@ public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
 
     // 주문 상품 추가
+    @Transactional
     public OrderItem create(Product product, int orderPrice, int count) {
         return orderItemRepository.save(OrderItem.createOrderItem(product, orderPrice, count));
     }

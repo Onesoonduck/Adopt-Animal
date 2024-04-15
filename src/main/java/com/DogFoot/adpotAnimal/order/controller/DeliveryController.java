@@ -31,7 +31,6 @@ public class DeliveryController {
         return ResponseEntity.status(HttpStatus.CREATED).body(delivery.getId());
     }
 
-
     // 배송 정보 조회
     @GetMapping("/{id}")
     public ResponseEntity<DeliveryAddressResponse> getDelivery(@PathVariable(value = "id") Long id) {
@@ -44,13 +43,13 @@ public class DeliveryController {
     @PostMapping("/{id}")
     public ResponseEntity<Long> updateDelivery(@PathVariable(value = "id") Long id, @RequestBody DeliveryAddressRequest request) {
         deliveryService.update(id, request.getAddress(), request.getReceiverName(), request.getReceiverPhoneNumber());
-
         return ResponseEntity.status(HttpStatus.OK).body(id);
     }
 
     // 배송 정보 삭제
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteDelivery(@PathVariable(value = "id") Long id) {
+
         deliveryService.deleteById(id);
 
         return ResponseEntity.ok().build();

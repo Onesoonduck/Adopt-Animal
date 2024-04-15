@@ -1,11 +1,12 @@
 import {updateLogin} from './checkLogin.js';
-window.onload = updateLogin;
-
+window.addEventListener('load', updateLogin);
 // 모든 요청
 axios.interceptors.request.use(function (config) {
   const accessKey = sessionStorage.getItem('authorization');
   if (accessKey) {
     config.headers.authorization = accessKey;
+  }else {
+    config.headers.authorization = '';
   }
   return config;
 }, function (error) {
@@ -32,4 +33,8 @@ function jwtCloser() {
 
   function setToken(jwtToken) {
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> b354bfa3f5c403542e3288530d3fdd49154531b0

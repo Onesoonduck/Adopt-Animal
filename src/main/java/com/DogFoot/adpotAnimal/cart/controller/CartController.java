@@ -4,6 +4,8 @@ import com.DogFoot.adpotAnimal.cart.dto.CartDto;
 import com.DogFoot.adpotAnimal.cart.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,13 +22,19 @@ public class CartController {
 
     @PostMapping
     public ResponseEntity<CartDto> addCart(@RequestBody CartDto cartDto){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserId = authentication.getName();
+
+        cartDto.setUserId(currentUserId);
         cartService.addCart(cartDto);
         return ResponseEntity.ok(cartDto);
     }
-    @CrossOrigin(origins = "http://localhost:63342")
-    @GetMapping("/{user-id}")
-    public ResponseEntity <List<CartDto>> getCartItemsByUserId(@PathVariable("user-id") String userId){
-        List<CartDto> cartItems = cartService.getCartItemsByUserId(userId);
+    @GetMapping
+    public ResponseEntity<List<CartDto>> getCartItemsByCurrentUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserId = authentication.getName();
+
+        List<CartDto> cartItems = cartService.getCartItemsByUserId(currentUserId);
         return ResponseEntity.ok(cartItems);
     }
 

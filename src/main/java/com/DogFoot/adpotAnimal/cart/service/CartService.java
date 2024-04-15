@@ -7,14 +7,20 @@ import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.repository.ProductRepository;
 import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> f56752c3da1721b92436613a04e1fe3b8c52977d
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 import java.util.Collections;
+<<<<<<< HEAD
 =======
 >>>>>>> cc072727447ace72d723a46d4311bad18e8e3ac9
+=======
+>>>>>>> f56752c3da1721b92436613a04e1fe3b8c52977d
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -47,7 +53,9 @@ public class CartService {
                     Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
                     Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found"));
                     if (productEntity != null) {
+
                         return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
+
                     } else {
                         return null;
                     }

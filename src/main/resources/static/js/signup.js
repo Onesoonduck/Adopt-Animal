@@ -22,7 +22,7 @@ function postSignUp(data) {
   .then(function(response) {
     if (response.status === 200) {
         alert('회원가입이 완료되었습니다.');
-        location.href = '/login.html';
+        location.href = '/static/users/login.html';
     } else {
         alert('회원가입에 실패하였습니다.');
     }

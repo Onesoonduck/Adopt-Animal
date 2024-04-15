@@ -1,11 +1,3 @@
-
-.header {
-    display: flex;
-    align-items: center;
-    padding: 10px 20px;
-    margin: 50px 200px;
-}
-
 .DogFoot_main {
     font-size: 34px;
     margin-right: 200px;
@@ -33,13 +25,6 @@
 }
 
 .header_category a {
-    text-decoration: none;
-    color: inherit;
-}
-
-.login {
-    font-size: 20px;
-    margin: 20px;
     text-decoration: none;
     color: inherit;
 }

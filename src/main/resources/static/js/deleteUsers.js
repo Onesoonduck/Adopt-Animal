@@ -4,7 +4,7 @@ function deleteUsers() {
   .then(function(response) {
     if (response.status === 200) {
       alert('회원 탈퇴가 완료되었습니다.');
-      location.href = '/login.html';
+      location.href = '/static/users/login.html';
     } else {
       alert('회원 탈퇴에 실패하였습니다.');
     }
