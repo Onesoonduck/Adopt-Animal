@@ -1,4 +1,4 @@
-package com.DogFoot.adpotAnimal.order.controller;
+package com.DogFoot.adpotAnimal.order;
 
 import com.DogFoot.adpotAnimal.order.dto.OrderResponse;
 import com.DogFoot.adpotAnimal.order.entity.Order;

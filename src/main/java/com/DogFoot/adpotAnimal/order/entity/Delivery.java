@@ -1,15 +1,15 @@
 package com.DogFoot.adpotAnimal.order.entity;
 
-import com.DogFoot.adpotAnimal.users.entity.UsersRole;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.*;
 
 @Entity
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Delivery {
 
     @Id
@@ -17,7 +17,7 @@ public class Delivery {
     @Column(name="delivery_id")
     private Long id;
 
-    @OneToOne(mappedBy = "delivery", fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     private Order order;
 
     @Embedded
@@ -28,13 +28,6 @@ public class Delivery {
 
     @Column(name = "receiver_phoneNumber", nullable = false)
     private String receiverPhoneNumber;
-
-    @Builder
-    public Delivery(Address address, String receiverName, String receiverPhoneNumber) {
-        this.address = address;
-        this.receiverName = receiverName;
-        this.receiverPhoneNumber = receiverPhoneNumber;
-    }
 
     public void setOrder(Order order) {
         this.order = order;
@@ -51,6 +44,23 @@ public class Delivery {
 
     protected void setReceiverPhoneNumber(String receiverPhoneNumber) {
         this.receiverPhoneNumber = receiverPhoneNumber;
+    }
+
+//    @Builder
+//    public Delivery(Address address, String receiverName, String receiverPhoneNumber) {
+//        this.address = address;
+//        this.receiverName = receiverName;
+//        this.receiverPhoneNumber = receiverPhoneNumber;
+//    }
+
+    public static Delivery createDelivery(Address address, String receiverName, String receiverPhoneNumber) {
+
+        Delivery delivery = new Delivery();
+        delivery.setAddress(address);
+        delivery.setReceiverName(receiverName);
+        delivery.setReceiverPhoneNumber(receiverPhoneNumber);
+
+        return delivery;
     }
 
     public Delivery update(Address address, String receiverName, String receiverPhoneNumber) {
