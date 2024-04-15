@@ -3,6 +3,7 @@ package com.DogFoot.adpotAnimal.order.controller;
 
 import com.DogFoot.adpotAnimal.order.dto.DeliveryAddressRequest;
 import com.DogFoot.adpotAnimal.order.dto.DeliveryAddressResponse;
+import com.DogFoot.adpotAnimal.order.entity.Address;
 import com.DogFoot.adpotAnimal.order.entity.Delivery;
 import com.DogFoot.adpotAnimal.order.service.DeliveryService;
 import lombok.RequiredArgsConstructor;
@@ -21,13 +22,20 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
     // 배송 정보 생성
-    @PostMapping("")
+    @PostMapping("/add")
     public ResponseEntity<?> addDelivery(@RequestBody @Validated DeliveryAddressRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             return ResponseEntity.badRequest().body(bindingResult.getAllErrors());
         }
+        // 주소와 상세 주소를 합쳐서 Address 객체 생성
+        Address address = Address.builder()
+            .city(request.getAddress().getCity())
+            .street(request.getAddress().getStreet())
+            .zipcode(request.getAddress().getZipcode())
+            .build();
 
-        Delivery delivery = deliveryService.create(request.getAddress(), request.getReceiverName(), request.getReceiverPhoneNumber());
+        // DeliveryService의 create 메서드에 Address 객체 전달
+        Delivery delivery = deliveryService.create(address, request.getReceiverName(), request.getReceiverPhoneNumber());
         return ResponseEntity.status(HttpStatus.CREATED).body(delivery.getId());
     }
 
