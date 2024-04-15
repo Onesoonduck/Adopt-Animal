@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -22,6 +23,9 @@ public interface UsersRepository extends JpaRepository<Users, Long> {
 
     void deleteById(Long id);
 
-    Page<Users> findAll(Pageable pageable);
+    boolean existsByPhoneNumber(String phoneNumber);
+
+    @Query("SELECT u FROM Users u WHERE u.userRole = 0")
+    Page<Users> findAllUsers(Pageable pageable);
 
 }

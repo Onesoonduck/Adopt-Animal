@@ -1,5 +1,6 @@
 package com.DogFoot.adpotAnimal.order.service;
 
+import com.DogFoot.adpotAnimal.order.dto.OrderTableDto;
 import com.DogFoot.adpotAnimal.order.entity.Delivery;
 import com.DogFoot.adpotAnimal.order.entity.Order;
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
@@ -8,6 +9,8 @@ import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -102,4 +105,14 @@ public class OrderService {
         order.refund();
     }
 
+    // 주문 수 조회
+    public long getOrderCount() {
+        return orderRepository.count();
+    }
+
+    // 관리자페이지 주문 목록 조회
+    public Page<OrderTableDto> getOrderTable(Pageable pageable) {
+        Page<Order> orderPage = orderRepository.findAll(pageable);
+        return orderPage.map(Order::toTableDto);
+    }
 }

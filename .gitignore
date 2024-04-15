@@ -153,5 +153,5 @@ node_modules/
 HELP.md
 .gradle
 build/
-.idea/
+.idea
 .DS_Store

@@ -17,7 +17,7 @@ function postLogin(data) {
       logoutDiv.style.display = "flex";
 
       const accesskey = response.headers['Authorization'];
-      location.href = '/main.html';
+      location.href = '/static/main.html';
     } else {
       alert('로그인에 실패하였습니다.');
     }

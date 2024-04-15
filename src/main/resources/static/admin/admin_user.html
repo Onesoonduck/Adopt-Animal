@@ -14,14 +14,6 @@
   <link rel="stylesheet" href=/static/css/admin.css>
 </head>
 <body>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-  <meta charset="UTF-8">
-  <title>Title</title>
-</head>
-
-<body>
 <!-- 네비바 -->
 <nav class="navbar navbar-expand-md navbar-light">
   <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#sidebar">
@@ -34,7 +26,7 @@
           <a href="#" class="navbar-brand text-white text-center d-block mx-auto py-3 mb-4 bottom-border">DogFoot</a>
           <div class="bottom-border pb-3">
             <img src="https://api.dicebear.com/8.x/bottts/svg?seed=621" alt="" width="50" class="rounded-circle mr-3">
-            <a href="#" class="text-white">Admin</a>
+            <a href="/static/admin/admin.html" class="text-white">Admin</a>
           </div>
           <ul class="navbar-nav flex-column mt-4">
             <li class="nav-item">
@@ -43,7 +35,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
+              <a href="/static/admin/admin_user.html" class="nav-link text-white p-3 mb-2 sidebar-link">
                 <i class="fas fa-user text-white fa-lg mr-3"></i>회원 관리
               </a>
             </li>
@@ -180,5 +172,5 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/static/js/form-validation.js"></script>
 <script type="module" src="/static/js/common.js"></script>
-<script type="module" src="/static/js/pagination/getUsersTable.js"></script>
+<script type="module" src="/js/admin/usersTable.js"></script>
 </html>
