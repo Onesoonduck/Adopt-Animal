@@ -28,7 +28,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/order")
 public class OrderController {
