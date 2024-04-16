@@ -8,6 +8,9 @@ import com.DogFoot.adpotAnimal.products.repository.ProductRepository;
 import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 
@@ -22,14 +25,11 @@ import org.springframework.stereotype.Service;
 public class CartService {
     private CartRepository cartRepository;
     private ProductRepository productRepository;
-    private UsersRepository userRepository;
 
     @Autowired
-    public CartService(CartRepository cartRepository,ProductRepository productRepository,
-                       UsersRepository userRepository){
+    public CartService(CartRepository cartRepository,ProductRepository productRepository){
         this.cartRepository=cartRepository;
         this.productRepository=productRepository;
-        this.userRepository=userRepository;
     }
 
     public void addCart(CartDto cartDto) {
@@ -37,22 +37,23 @@ public class CartService {
         cartRepository.save(cartEntity);
     }
 
-    public List<CartDto> getCartItemsByUserId(String userId) {
-        List<CartEntity> cartEntities = cartRepository.findByUserId(userId);
-        return cartEntities.stream()
-                .map(cartEntity -> {
-                    Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
-                    Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found"));
-                    if (productEntity != null) {
+    public Page<CartDto> getCartItemsByUserId(String userId, int page, int size) {
+        // 페이지 번호와 사이즈가 음수인 경우를 처리
+        if (page <= 0 || size <= 0) {
+            throw new IllegalArgumentException("Invalid page or size value");
+        }
 
-                        return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<CartEntity> cartEntitiesPage = cartRepository.findByUserId(userId, pageable);
 
-                    } else {
-                        return null;
-                    }
-                })
-                .collect(Collectors.toList());
+        // 카트 아이템을 페이지로 반환
+        return cartEntitiesPage.map(cartEntity -> {
+            Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
+            Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found for ID: " + cartEntity.getProductId()));
+            return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
+        });
     }
+
 
     public void deleteCartItems(List<Long> itemId){
         for(Long itemIds:itemId){
