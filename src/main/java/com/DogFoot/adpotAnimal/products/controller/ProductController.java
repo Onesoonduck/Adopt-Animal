@@ -62,4 +62,5 @@ public class ProductController {
         Long productCount = productService.getProductCount();
         return ResponseEntity.ok(productCount);
     }
+
 }

@@ -27,7 +27,7 @@
     <body>
 
     <!-- include 함수 가져오기 -->
-    <script src="/static/js/include.js"></script>
+    <script src="/js/include.js"></script>
 
     <!-- 내비게이션 바 가져오기 시작 -->
     <div include="/static/header/index.html"></div>
@@ -56,23 +56,25 @@
             <div class="container px-4 px-lg-5 mt-5">
                 <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="product-card">
                     <div class="col mb-5">
-                        <div class="card h-100"  >
-                            <!-- Product image-->
-                            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
-                            <!-- Product details-->
-                            <div class="card-body p-4">
-                                <div class="text-center">
-                                    <!-- Product name-->
-                                    <h5 class="fw-bolder">상품 1</h5>
-                                    <!-- Product price-->
-                                    10,000원
+                            <div class="card h-100">
+                                <a href="#" class="card-link">
+                                <!-- Product image-->
+                                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                        <h5 class="fw-bolder">상품 1</h5>
+                                        <!-- Product price-->
+                                        10,000원
+                                    </div>
                                 </div>
+                                <!-- Product actions-->
+                                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                                    <div class="text-center"><a class="btn btn-outline-warning mt-auto" href="#">장바구니 담기</a></div>
+                                </div>
+                                </a>
                             </div>
-                            <!-- Product actions-->
-                            <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                                <div class="text-center"><a class="btn btn-outline-warning mt-auto" href="#">장바구니 담기</a></div>
-                            </div>
-                        </div>
                     </div>
                     <div class="col mb-5">
                         <div class="card h-100">
@@ -294,9 +296,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
     <script src="https://code.jquery.com/jquery-latest.min.js"></script>
-    <script src="/static/js/bootstrap.bundle.min.js"></script>
-    <script src="/static/js/form-validation.js"></script>
-    <script type="module" src="/static/js/common.js"></script>
-    <script type="module" src="/static/js/logout.js"></script>
-    <script type="module" src="/static/js/productList.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/form-validation.js"></script>
+    <script type="module" src="/js/common.js"></script>
+    <script type="module" src="/js/logout.js"></script>
+    <script type="module" src="/js/productList.js"></script>
 </html>

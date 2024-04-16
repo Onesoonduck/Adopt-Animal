@@ -33,8 +33,5 @@ function jwtCloser() {
 
   function setToken(jwtToken) {
   }
-<<<<<<< HEAD
+
 }
-=======
-}
->>>>>>> b354bfa3f5c403542e3288530d3fdd49154531b0

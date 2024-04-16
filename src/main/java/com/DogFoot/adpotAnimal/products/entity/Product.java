@@ -46,11 +46,9 @@ public class Product {
     private String productImg;
 
 
-
-    // product 연관 관계
-
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<OrderItem> orderItems = new ArrayList<>();
+//    // product 연관 관계
+//    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
+//    private List<OrderItem> orderItems = new ArrayList<>();
 
 //    @ManyToOne
 //    @JoinColumn(name = "category_id")
