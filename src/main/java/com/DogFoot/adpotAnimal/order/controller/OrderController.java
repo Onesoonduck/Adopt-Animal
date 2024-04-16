@@ -100,4 +100,9 @@ public class OrderController {
     public String orderPage() {
         return "orderPage";
     }
+
+    @GetMapping("/orderComplete")
+    public String orderComplete() {
+        return "orderComplete";
+    }
 }

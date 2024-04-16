@@ -1,4 +1,4 @@
-
+// 우편 주소 검색
 function sample6_execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
@@ -19,52 +19,57 @@ function sample6_execDaumPostcode() {
     }).open();
 }
 
-function submitOrder() {
-    // 주문 정보를 서버로 전송하는 로직
+// 배송 정보 저장
+function saveDeliveryInfo() {
+    // 입력된 값 가져오기
     var address = document.getElementById("sample6_address").value;
     var detailAddress = document.getElementById("sample6_detailAddress").value;
     var postcode = document.getElementById("sample6_postcode").value;
     var receiverName = document.getElementById("receiverName").value;
     var receiverPhoneNumber = document.getElementById("receiverPhoneNumber").value;
 
-    axios.post('/order/delivery', {
+    // API 요청을 위한 데이터 구성
+    var requestData = {
         address: {
-            city: address, // 주소 정보 중 city에는 전체 주소가 들어갈 수 있습니다.
-            street: detailAddress, // 상세 주소 정보는 street에 들어갑니다.
-            zipcode: postcode // 우편번호 정보는 zipcode에 들어갑니다.
+            city: address,
+            street: detailAddress,
+            zipcode: postcode
         },
-        receiverName: receiverName, // 수신자 이름 정보
-        receiverPhoneNumber: receiverPhoneNumber // 수신자 전화번호 정보
-    })
+        receiverName: receiverName,
+        receiverPhoneNumber: receiverPhoneNumber
+    };
+
+    // Axios를 사용하여 POST 요청 보내기
+    axios.post('/api/addDelivery', requestData)
         .then(function (response) {
-            // 주문 성공 시 처리
-            alert("주문 정보가 성공적으로 저장되었습니다.");
+            // 성공적으로 저장된 경우
+            console.log('Delivery info saved successfully:', response.data);
+            alert('배송 정보가 성공적으로 저장되었습니다.');
         })
         .catch(function (error) {
-            // 주문 실패 시 처리
-            console.error('Error:', error);
-            alert("주문 정보 저장에 실패하였습니다.");
+            // 오류 발생 시
+            console.error('Error saving delivery info:', error);
+            alert('배송 정보를 저장하는 동안 오류가 발생했습니다.');
         });
 }
 
 
-let cartItemCount = 0;
-
-// 장바구니 아이템 가져오는 함수
+// 장바구니에서 상품 ID 목록을 가져오는 함수
 function fetchCartItems() {
     axios.get('/cart/items')
         .then(function (response) {
             // API 호출 성공 시 실행되는 부분
             const cartItems = response.data;
-            cartItemCount = cartItems.length; // 장바구니 아이템 개수 업데이트
-            // 여기서 cartItems를 이용하여 프론트엔드 요소들을 업데이트할 수 있습니다.
-            updateCartUI(cartItems);
+            const orderItemIds = cartItems.map(item => item.productId); // 장바구니에 담긴 각 상품의 ID 추출
+            submitOrder(orderItemIds); // 주문하기 함수 호출하여 상품 ID 목록 전달
         })
         .catch(function (error) {
             // API 호출 실패 시 실행되는 부분
             console.error('Error fetching cart items:', error);
         });
 }
+
+let cartItemCount = 0;
 
 // 장바구니 UI 업데이트하는 함수
 function updateCartUI(cartItems) {
@@ -101,6 +106,60 @@ function updateCartUI(cartItems) {
     // 장바구니 아이템 수 업데이트
     const itemCountElement = document.querySelector('.badge.bg-warning.rounded-pill');
     itemCountElement.textContent = cartItemCount;
+}
+
+// orderItem 으로 추가
+function createOrderItem(productId, count) {
+    const requestData = {
+        productId: productId,
+        count: count
+    };
+
+    axios.post('/order/createOrderItem', requestData)
+        .then(function (response) {
+            // 주문 상품 생성 성공 시 실행되는 부분
+            console.log('주문 상품이 성공적으로 생성되었습니다.');
+            const orderItemId = response.data;
+            // 필요한 추가 작업 수행 가능
+        })
+        .catch(function (error) {
+            // 주문 상품 생성 실패 시 실행되는 부분
+            console.error('주문 상품 생성에 실패하였습니다.', error);
+        });
+}
+
+// 주문하기 버튼 누를 때 호출되는 함수
+function submitOrder(orderItemIds) {
+    // 입력된 정보 가져오기
+    var receiverName = document.getElementById("receiverName").value;
+    var receiverPhoneNumber = document.getElementById("receiverPhoneNumber").value;
+    var email = document.getElementById("email").value;
+    var address = document.getElementById("sample6_address").value;
+    var detailAddress = document.getElementById("sample6_detailAddress").value;
+    var postcode = document.getElementById("sample6_postcode").value;
+
+    // API 요청을 위한 데이터 구성
+    var requestData = {
+        deliveryId: 1, // 배송 ID 또는 필요한 정보에 따라 수정
+        orderItemId: orderItemIds // 주문 상품 ID 목록
+        // 필요한 경우 주문 생성에 필요한 다른 정보들도 추가할 수 있습니다.
+    };
+
+    // Axios를 사용하여 POST 요청 보내기
+    axios.post('/order', requestData)
+        .then(function (response) {
+            // 주문 성공 시 처리
+            console.log('Order created successfully:', response.data);
+            alert('주문이 성공적으로 생성되었습니다.');
+            location.href = "/static/order/orderComplete";
+            // 주문 생성 후 추가적인 작업을 수행할 수 있습니다.
+        })
+        .catch(function (error) {
+            // 오류 발생 시 처리
+            console.error('Error creating order:', error);
+            alert('주문을 생성하는 동안 오류가 발생했습니다.');
+            location.href="/redicrect:/orderPage.html";
+        });
 }
 
 // 페이지 로드 시 장바구니 아이템 가져오기

@@ -85,7 +85,7 @@
 
             <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">주문하기</h4>
-                <form class="needs-validation" novalidate action="/order" method="post">
+                <form class="needs-validation" novalidate action="/order/orderComplete" method="get">
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <label for="receiverName" class="form-label">수령인</label>
@@ -105,7 +105,7 @@
 
                         <div class="col-12">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="you@example.com">
+                            <input type="email" class="form-control" id="email" placeholder="">
                             <div class="invalid-feedback">
                                 Email은 필수 항목입니다.
                             </div>
@@ -113,11 +113,11 @@
 
                         <div class="col-12">
                             <label for="sample6_address" class="form-label">주소</label>
-                            <input type="text" class="form-control" id="sample6_address" placeholder="서울시 성동구 아차산로17길 48" required>
+                            <input type="text" class="form-control" id="sample6_address" placeholder="" required>
                         </div>
                         <div class="col-9">
                             <label for="sample6_detailAddress" class="form-label">상세 주소</label>
-                            <input type="text" class="form-control" id="sample6_detailAddress" placeholder="성수낙낙 2층 엘리스랩 성수점">
+                            <input type="text" class="form-control" id="sample6_detailAddress" placeholder="">
                         </div>
                         <div class="col-3 d-flex align-items-end justify-content-end">
                             <input type="button" onclick="sample6_execDaumPostcode()" class="btn btn-warning text-white address-search" value="우편번호 찾기">

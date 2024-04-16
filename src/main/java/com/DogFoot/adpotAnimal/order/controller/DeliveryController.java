@@ -27,7 +27,7 @@ public class DeliveryController {
     private final DeliveryService deliveryService;
 
     // 배송 정보 생성
-    @PostMapping
+    @PostMapping("/api")
     public ResponseEntity<?> addDelivery(@RequestBody @Validated DeliveryAddressRequest request, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             // 유효성 검사 실패 시 사용자 친화적인 오류 메시지 생성
