@@ -29,19 +29,29 @@ async function callProductTable(page, size) {
             const divCard = document.createElement('div');
             divCard.className = 'col mb-5';
             divCard.innerHTML = `
-                <div class="card h-100 card-link">
+            <div class="col mb-5"> 
+                <a href="#" class="card-link">
+                    <!-- Product image-->
+                    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="..." />
+                    <!-- Product details-->
                     <div class="card-body p-4">
                         <div class="text-center">
+                            <!-- Product name-->
                             <h5 class="fw-bolder">${productDto.productName}</h5>
-                            ${productDto.productPrice}
+                            <!-- Product price-->
+                            ${productDto.productPrice}원
                         </div>
                     </div>
+                    <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><a class="btn btn-outline-warning mt-auto" href="#" onclick="getProductById(${productDto.productId})">장바구니 담기</a></div>
+                        <div class="text-center"><a class="btn btn-outline-warning mt-auto" href="#">장바구니 담기</a></div>
                     </div>
-                </div>
+                </a>
+            </div>
             `;
-
+            divCard.addEventListener('click',function () {
+                window.location.href = '/productDetailPage?id=' + productDto.productId;
+            })
             tbody.appendChild(divCard);
         });
     } catch (error) {
@@ -53,39 +63,11 @@ function getProductById(id) {
     axios.get(`/products/${id}`)
         .then(function (response) {
             const product = response.data;
-            // 상품 정보를 이용하여 productDetail.html 파일을 보여줌
-            showProductDetail(product);
+            console.log(product);
         })
         .catch(function (error) {
             console.error(error);
         });
-}
-
-async function showProductDetail(product) {
-    try {
-        const response = await fetch('/productDetail.html');
-        const html = await response.text();
-        const parser = new DOMParser();
-        const doc = parser.parseFromString(html, 'text/html');
-
-        // product 정보를 페이지에 삽입
-        const productIdElement = doc.querySelector('.small');
-        productIdElement.textContent = `상품아이디: ${product.productId}`;
-
-        const productNameElement = doc.querySelector('h1.display-5');
-        productNameElement.textContent = product.productName;
-
-        const productPriceElement = doc.querySelector('.fs-5 span');
-        productPriceElement.textContent = `${product.productPrice}원`;
-
-        const productDescriptionElement = doc.querySelector('p.lead');
-        productDescriptionElement.textContent = product.productDescription;
-
-        // 페이지를 보여줌
-        document.body.innerHTML = doc.body.innerHTML;
-    } catch (error) {
-        console.error('Error fetching productDetail.html:', error);
-    }
 }
 
 function pageClickEvent(event) {
