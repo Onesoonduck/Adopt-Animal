@@ -34,7 +34,6 @@ public class CartService {
     }
 
     public Page<CartDto> getCartItemsByUserId(String userId, int page, int size) {
-        // 페이지 번호와 사이즈가 음수인 경우를 처리
         if (page <= 0 || size <= 0) {
             throw new IllegalArgumentException("Invalid page or size value");
         }
@@ -42,7 +41,6 @@ public class CartService {
         Pageable pageable = PageRequest.of(page - 1, size);
         Page<CartEntity> cartEntitiesPage = cartRepository.findByUserId(userId, pageable);
 
-        // 카트 아이템을 페이지로 반환
         return cartEntitiesPage.map(cartEntity -> {
             Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
             Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found for ID: " + cartEntity.getProductId()));

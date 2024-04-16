@@ -3,26 +3,25 @@ import jwtSingleton from "/static/js/jwtCloser.js";
 
 document.addEventListener('DOMContentLoaded', function () {
     let pagination;
-    let allProductsData = []; // 모든 페이지의 상품 데이터를 저장하는 배열
+    let allProductsData = [];
 
     loadProducts();
 
     function loadProducts(page = 1) {
         const accessToken = sessionStorage.getItem('authorization');
-        const pageSize = 10; // 페이지 크기 설정
+        const pageSize = 10;
 
         axios.get(`http://localhost:8080/cart/items?page=${page}&size=${pageSize}`)
             .then(response => {
                 const data = response.data.content;
-                allProductsData = allProductsData.concat(data); // 현재 페이지의 데이터를 배열에 추가
+                allProductsData = allProductsData.concat(data);
 
                 const productTable = document.getElementById('table-body');
 
-                productTable.innerHTML = ''; // 기존 테이블 내용 지우기
+                productTable.innerHTML = '';
 
-                let totalPrice = 0; // 전체 상품의 총 가격
+                let totalPrice = 0;
 
-                // 데이터 가져와서 행 생성
                 data.forEach(product => {
                     const row = document.createElement('tr');
                     const productPrice = parseFloat(product.productPrice);
@@ -41,14 +40,12 @@ document.addEventListener('DOMContentLoaded', function () {
                         <td class="totalPriceCell">${productTotalPrice}</td>
                     `;
                     productTable.appendChild(row);
-                    totalPrice += productTotalPrice; // 전체 상품의 총 가격에 현재 상품의 가격을 추가
+                    totalPrice += productTotalPrice;
                 });
 
-                // 총 가격 업데이트
                 const priceDiv = document.querySelector('.price');
                 priceDiv.textContent = `총 금액: ${totalPrice}원`;
 
-                // 전체 선택 체크박스 이벤트 핸들러
                 const selectAllCheckbox = document.getElementById('selectAllCheckbox');
                 selectAllCheckbox.addEventListener('change', function() {
                     const checkboxes = document.querySelectorAll('.itemCheckbox');
@@ -57,18 +54,15 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
 
-                // 페이지네이션 렌더링
                 if (!pagination) {
                     pagination = new Pagination(pageSize, 5, response.data.totalPages, onPageChange);
                 }
                 pagination.renderPagination(page);
 
-                // 페이지 변경 이벤트 핸들러
                 function onPageChange(newPage) {
                     loadProducts(newPage);
                 }
 
-                // 페이지네이션의 각 페이지 클릭 이벤트 핸들러 추가
                 document.querySelectorAll('.page-item').forEach(item => {
                     item.addEventListener('click', () => {
                         const newPage = parseInt(item.textContent);
@@ -76,13 +70,12 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
 
-                // 수량 증가 버튼 클릭 이벤트 핸들러
                 document.querySelectorAll('.increment-btn').forEach(button => {
                     button.addEventListener('click', (event) => {
                         const cartId = event.target.closest('tr').querySelector('.itemCheckbox').getAttribute('data-cartId');
                         axios.patch(`http://localhost:8080/cart/items/${cartId}/increase`)
                             .then(response => {
-                                totalPrice = 0; // 전체 상품의 총 가격 초기화
+                                totalPrice = 0;
                                 loadProducts(page);
                             })
                             .catch(error => {
@@ -91,7 +84,6 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
 
-                // 수량 감소 버튼 클릭 이벤트 핸들러
                 document.querySelectorAll('.decrement-btn').forEach(button => {
                     button.addEventListener('click', (event) => {
                         const cntElement = event.target.closest('tr').querySelector('.cnt');

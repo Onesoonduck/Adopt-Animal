@@ -30,26 +30,15 @@ public class CartController {
         cartService.addCart(cartDto);
         return ResponseEntity.ok(cartDto);
     }
-//    @GetMapping
-//    public ResponseEntity<List<CartDto>> getCartItemsByCurrentUser() {
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        String currentUserId = authentication.getName();
-//
-//        List<CartDto> cartItems = cartService.getCartItemsByUserId(currentUserId);
-//        return ResponseEntity.ok(cartItems);
-//    }
-
-    //테스트용
-        @GetMapping
-        public ResponseEntity<Page<CartDto>> getCartItemsByUserId(@RequestParam(defaultValue = "1") int page,
+    @GetMapping
+    public ResponseEntity<Page<CartDto>> getCartItemsByUserId(@RequestParam(defaultValue = "1") int page,
                                                                   @RequestParam(defaultValue = "10") int size) {
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            String currentUserId = authentication.getName();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentUserId = authentication.getName();
 
-            // 사용자의 ID로 장바구니 항목 가져오기
-            Page<CartDto> cartItems = cartService.getCartItemsByUserId(currentUserId, page, size);
-            return ResponseEntity.ok(cartItems);
-        }
+        Page<CartDto> cartItems = cartService.getCartItemsByUserId(currentUserId, page, size);
+        return ResponseEntity.ok(cartItems);
+    }
 
     @DeleteMapping
     public ResponseEntity<String> deleteCartItems(@RequestBody List<Long> itemIds){
