@@ -45,8 +45,6 @@ public class Product {
     @Column(name = "product_img")
     private String productImg;
 
-
-
     // product 연관 관계
 
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)

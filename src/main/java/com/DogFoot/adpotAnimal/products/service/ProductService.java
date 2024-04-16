@@ -4,6 +4,7 @@ import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.dto.ProductDto;
 import com.DogFoot.adpotAnimal.products.repository.ProductRepository;
 import jakarta.transaction.Transactional;
+import org.antlr.v4.runtime.ParserRuleContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class ProductService {
         product.setProductName(productDto.getProductName());
         product.setProductStock(productDto.getProductStock());
         product.setProductLike(productDto.getProductLike());
-
+        product.setProductImg(productDto.getProductImg());
         // 카테고리 정보가 있다면 설정
         return productRepository.save(product);
     }
