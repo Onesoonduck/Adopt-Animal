@@ -71,7 +71,7 @@ public class OrderController {
 
 
     // 특정 주문 검색
-    @GetMapping("/{id}")
+    @GetMapping("/list/{id}")
     public ResponseEntity<OrderResponse> findOrder(@PathVariable(value = "id") Long id) {
         Order order = orderService.findById(id);
         return ResponseEntity.ok().body(new OrderResponse(order));
@@ -93,5 +93,11 @@ public class OrderController {
     public ResponseEntity<Long> getOrderCount(HttpServletResponse response) {
         Long orderCount = orderService.getOrderCount();
         return ResponseEntity.ok(orderCount);
+    }
+
+    // 주문 페이지
+    @GetMapping("/orderPage")
+    public String orderPage() {
+        return "orderPage";
     }
 }
