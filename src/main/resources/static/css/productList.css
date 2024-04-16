@@ -1,0 +1,25 @@
+.page-link span {
+  color: #ff8000;
+}
+
+.my.page-item.active .page-link {
+  z-index: 3;
+  color: #ffffff;
+  border-color: #ff8000;
+  background-color: #ff8000;
+}
+
+.my.page-item .page-link {
+  z-index: 3;
+  color: #ff8000;
+}
+
+.my.btn-primary {
+  background-color: #ffa500;
+  border-color: #ffa500;
+}
+
+.my.btn-primary:hover {
+  background-color: #ff8000;
+  border-color: #ff8000;
+}

@@ -68,7 +68,6 @@ public class UsersService {
             throw new InvalidLoginException("아이디나 비밀번호가 잘못되었습니다.");
         }
 
-
         JwtToken jwtToken = jwtTokenProvider.generateToken(authentication);
         jwtTokenProvider.storeTokens(response, jwtToken.getAccessToken(),
             jwtToken.getRefreshToken(), false);
