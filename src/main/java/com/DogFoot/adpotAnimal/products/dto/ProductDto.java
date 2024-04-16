@@ -29,7 +29,7 @@ public class ProductDto {
         productDto.setProductName(product.getProductName());
         productDto.setProductStock(product.getProductStock());
         productDto.setProductLike(product.getProductLike());
-        product.setProductImg(productDto.getProductImg());
+        productDto.setProductImg(product.getProductImg());
         return productDto;
     }
 }
