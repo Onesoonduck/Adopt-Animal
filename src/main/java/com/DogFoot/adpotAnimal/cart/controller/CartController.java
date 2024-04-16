@@ -40,14 +40,16 @@ public class CartController {
 //    }
 
     //테스트용
-    @GetMapping("/{user-id}")
-    public ResponseEntity<Page<CartDto>> getCartItemsByUserId(@PathVariable("user-id") String userId,
-                                                              @RequestParam(defaultValue = "1") int page,
-                                                              @RequestParam(defaultValue = "10") int size) {
-        Page<CartDto> cartItems = cartService.getCartItemsByUserId(userId, page, size);
-        return ResponseEntity.ok(cartItems);
-    }
+        @GetMapping
+        public ResponseEntity<Page<CartDto>> getCartItemsByUserId(@RequestParam(defaultValue = "1") int page,
+                                                                  @RequestParam(defaultValue = "10") int size) {
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            String currentUserId = authentication.getName();
 
+            // 사용자의 ID로 장바구니 항목 가져오기
+            Page<CartDto> cartItems = cartService.getCartItemsByUserId(currentUserId, page, size);
+            return ResponseEntity.ok(cartItems);
+        }
 
     @DeleteMapping
     public ResponseEntity<String> deleteCartItems(@RequestBody List<Long> itemIds){

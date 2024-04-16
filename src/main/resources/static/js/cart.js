@@ -1,4 +1,5 @@
 import { Pagination } from "/static/js/pagination/pagination.js";
+import jwtSingleton from "/static/js/jwtCloser.js";
 
 document.addEventListener('DOMContentLoaded', function () {
     let pagination;
@@ -10,7 +11,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const accessToken = sessionStorage.getItem('authorization');
         const pageSize = 10; // 페이지 크기 설정
 
-        axios.get(`http://localhost:8080/cart/items/lyj20812?page=${page}&size=${pageSize}`)
+        axios.get(`http://localhost:8080/cart/items?page=${page}&size=${pageSize}`)
             .then(response => {
                 const data = response.data.content;
                 allProductsData = allProductsData.concat(data); // 현재 페이지의 데이터를 배열에 추가
