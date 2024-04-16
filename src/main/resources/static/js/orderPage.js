@@ -1,3 +1,5 @@
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 // 우편 주소 검색
 function sample6_execDaumPostcode() {
     new daum.Postcode({
@@ -151,14 +153,12 @@ function submitOrder(orderItemIds) {
             // 주문 성공 시 처리
             console.log('Order created successfully:', response.data);
             alert('주문이 성공적으로 생성되었습니다.');
-            location.href = "/static/order/orderComplete";
             // 주문 생성 후 추가적인 작업을 수행할 수 있습니다.
         })
         .catch(function (error) {
             // 오류 발생 시 처리
             console.error('Error creating order:', error);
             alert('주문을 생성하는 동안 오류가 발생했습니다.');
-            location.href="/redicrect:/orderPage.html";
         });
 }
 

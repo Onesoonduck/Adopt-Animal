@@ -8,6 +8,7 @@
     <meta name="generator" content="Hugo 0.84.0">
     <title>Checkout example · Bootstrap v5.0</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/checkout/">
+    <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 
 
     <!-- Bootstrap core CSS -->
@@ -105,7 +106,7 @@
 
                         <div class="col-12">
                             <label for="email" class="form-label">Email</label>
-                            <input type="email" class="form-control" id="email" placeholder="">
+                            <input type="email" class="form-control" id="email" placeholder="elice@gmail.com" required>
                             <div class="invalid-feedback">
                                 Email은 필수 항목입니다.
                             </div>
@@ -113,18 +114,18 @@
 
                         <div class="col-12">
                             <label for="sample6_address" class="form-label">주소</label>
-                            <input type="text" class="form-control" id="sample6_address" placeholder="" required>
+                            <input type="text" class="form-control" id="sample6_address" placeholder="서울시 성동구 아차산로 17길 48" required>
                         </div>
                         <div class="col-9">
                             <label for="sample6_detailAddress" class="form-label">상세 주소</label>
-                            <input type="text" class="form-control" id="sample6_detailAddress" placeholder="">
+                            <input type="text" class="form-control" id="sample6_detailAddress" placeholder="성수낙낙 2층" required>
                         </div>
                         <div class="col-3 d-flex align-items-end justify-content-end">
                             <input type="button" onclick="sample6_execDaumPostcode()" class="btn btn-warning text-white address-search" value="우편번호 찾기">
                         </div>
                         <div class="col-md-3">
                             <label for="sample6_postcode" class="form-label">우편번호</label>
-                            <input type="text" class="form-control" id="sample6_postcode" placeholder="" required>
+                            <input type="text" class="form-control" id="sample6_postcode" placeholder="00000" required>
                         </div>
                     </div>
 
@@ -153,7 +154,7 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="module" src="/static/js/common.js"></script>
 <script src="/static/js/orderPage.js"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 
 </body>
 </html>
