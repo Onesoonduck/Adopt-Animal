@@ -64,13 +64,13 @@ public class DataInit {
             .build();
         usersService.signUp(admin);
 
-        ProductDto productDto = new ProductDto(10000, "강아지 단추", 10, 0, null);
+        ProductDto productDto = new ProductDto(10000, "강아지 단추", 10, 0, "/images/2024-04-16/456fa6f6-6098-44a4-92a4-a9923a11e20a.jpg");
         productService.createProduct(productDto);
 
-        productDto = new ProductDto(20000, "강아지 스티커", 10, 0, null);
+        productDto = new ProductDto(20000, "강아지 스티커", 10, 0, "/images/2024-04-16/d6b0222b-c664-4bdd-8eb7-aba64cf75bdb.jpg");
         productService.createProduct(productDto);
 
-        productDto = new ProductDto(30000, "고양이 단추", 10, 0, null);
+        productDto = new ProductDto(30000, "고양이 단추", 10, 0, "/images/2024-04-16/ed596cc4-a361-4a94-9d04-269135471928.png");
         productService.createProduct(productDto);
 
         // 주문 추가

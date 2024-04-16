@@ -1,6 +1,8 @@
+import jwtSingleton from "./jwtCloser.js";
 
 function isLogIn() {
-  const accesskey = sessionStorage.getItem('authorization');
+  const jwt= jwtSingleton.getInstance();
+  const accesskey = jwt.getToken();
 
   if(accesskey){
     return true;
