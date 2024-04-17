@@ -1,11 +1,6 @@
-
 function sample6_execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
-            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-            // 각 주소의 노출 규칙에 따라 주소를 조합한다.
-            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
             var addr = ''; // 주소 변수
             var extraAddr = ''; // 참고항목 변수
 
@@ -43,143 +38,161 @@ function sample6_execDaumPostcode() {
     }).open();
 }
 
-
 // 배송 정보 저장
 function saveDeliveryInfo() {
-    // 우편번호와 주소 정보를 해당 필드에 넣는다.
     var sample6_detailAddress = document.getElementById("sample6_detailAddress").value;
-    var sample6_postcode = document.getElementById('sample6_postcode').value = data.zonecode;
+    var sample6_postcode = document.getElementById('sample6_postcode').value; // 수정: data 객체의 zonecode를 가져오는 부분 수정
     var receiverName = document.getElementById("receiverName").value;
     var receiverPhoneNumber = document.getElementById("receiverPhoneNumber").value;
     var sample6_address = document.getElementById("sample6_address").value;
 
-    // API에 데이터 전송
     var deliveryData = {
         address: {
-            city: sample6_address, // 시/도 정보
-            street: sample6_detailAddress, // 시/군/구 정보
-            zipcode: sample6_postcode // 우편번호 정보
+            city: sample6_address,
+            street: sample6_detailAddress,
+            zipcode: sample6_postcode
         },
         receiverName: receiverName,
         receiverPhoneNumber: receiverPhoneNumber
     };
 
-    // axios를 사용하여 API에 POST 요청 보내기
     axios.post('/order/delivery/api', deliveryData)
         .then(function(response) {
-            // 성공적으로 저장되었을 때의 처리
             console.log("Delivery information successfully saved.");
         })
         .catch(function(error) {
-            // 오류 발생 시 처리
             console.error("Error occurred while saving delivery information:", error);
         });
 }
 
-// 장바구니에서 상품 가져오기
-function getCart() {
-    axios.get('/cart/items')
-        .then(function(response) {
-            const cartItems = response.data;
 
-            // 장바구니에 담긴 상품 개수 표시
-            const cartItemCountElement = document.getElementById('cartItemCount');
-            cartItemCountElement.textContent = cartItems.length;
+document.addEventListener('DOMContentLoaded', function () {
+    getCart();
+    // 장바구니에서 상품 가져오기
+    function getCart() {
+        axios.get('/cart/items')
+            .then(function(response) {
+                const cartItems = response.data;
 
-            // 장바구니 리스트 테이블
-            const cartList = document.getElementById('cartList');
-            cartList.innerHTML = ''; // 이전 내용 초기화
+                const cartItemCountElement = document.getElementById('cartItemCount');
+                cartItemCountElement.textContent = cartItems.length;
 
-            // 장바구니에 담긴 상품이 없을 경우
-            if (cartItems.length === 0) {
-                let tr = document.createElement('tr');
-                let td = document.createElement('td');
-                td.colSpan = 5;
-                td.innerText = '장바구니에 담긴 상품이 없습니다.';
-                tr.appendChild(td);
-                cartList.appendChild(tr);
-                return;
-            }
+                const cartList = document.getElementById('cartList');
+                cartList.innerHTML = '';
 
-            // 장바구니에 담긴 상품이 있을 경우
-            cartItems.forEach(item => {
-                let li = document.createElement('li');
-                li.className = 'list-group-item d-flex justify-content-between lh-sm';
+                if (cartItems.length === 0) {
+                    let tr = document.createElement('tr');
+                    let td = document.createElement('td');
+                    td.colSpan = 5;
+                    td.innerText = '장바구니에 담긴 상품이 없습니다.';
+                    tr.appendChild(td);
+                    cartList.appendChild(tr);
+                    return;
+                }
 
-                // 상품 이름 및 개수
-                let divLeft = document.createElement('div');
-                let h6 = document.createElement('h6');
-                h6.className = 'my-0';
-                h6.textContent = item.productName;
-                let small = document.createElement('small');
-                small.className = 'text-muted';
-                small.textContent = '개수: ' + item.productStock
-                divLeft.appendChild(h6);
-                divLeft.appendChild(small);
+                cartItems.forEach(item => {
+                    let li = document.createElement('li');
+                    li.className = 'list-group-item d-flex justify-content-between lh-sm';
 
-                // 상품 가격
-                let spanPrice = document.createElement('span');
-                spanPrice.className = 'text-muted';
-                spanPrice.textContent = item.productPrice;
+                    let divLeft = document.createElement('div');
+                    let h6 = document.createElement('h6');
+                    h6.className = 'my-0';
+                    h6.textContent = item.productName;
+                    let small = document.createElement('small');
+                    small.className = 'text-muted';
+                    small.textContent = '개수: ' + item.productStock
+                    divLeft.appendChild(h6);
+                    divLeft.appendChild(small);
 
-                li.appendChild(divLeft);
-                li.appendChild(spanPrice);
+                    let spanPrice = document.createElement('span');
+                    spanPrice.className = 'text-muted';
+                    spanPrice.textContent = item.productPrice;
 
-                cartList.appendChild(li);
+                    li.appendChild(divLeft);
+                    li.appendChild(spanPrice);
+
+                    cartList.appendChild(li);
+                });
+
+                updateTotalPrice(cartItems);
+            })
+            .catch(function(error) {
+                console.error(error);
             });
-
-            // 총합 가격 업데이트
-            updateTotalPrice(cartItems);
-        })
-        .catch(function(error) {
-            console.error(error);
+    }
+    // 총합 가격 업데이트
+    function updateTotalPrice(cartItems) {
+        let totalPrice = 0;
+        cartItems.forEach(item => {
+            totalPrice += item.productPrice * item.productStock + 3000;
         });
-}
+        document.getElementById('totalPrice').textContent = totalPrice;
+    }
+});
 
-// 총합 가격 업데이트
-function updateTotalPrice(cartItems) {
-    let totalPrice = 0;
-    cartItems.forEach(item => {
-        totalPrice += item.productPrice * item.productStock + 3000;
-    });
-    document.getElementById('totalPrice').textContent = totalPrice;
-}
-
-// orderItem 추가
+// 주문 항목 추가
 function addOrderItemsToCart(cartItems) {
     const orderItemRequests = cartItems.map(item => {
         return {
-            productId: item.productId, // 상품 ID
-            price: item.productPrice, // 상품 가격
-            count: item.productStock // 상품 수량
+            productId: item.productId,
+            price: item.productPrice,
+            count: item.productStock
         };
     });
 
-    axios.post('/orderItem/lists', orderItemRequests)
+    return axios.post('/orderItem/lists', orderItemRequests)
         .then(function(response) {
-            // 주문 목록에 상품 추가 성공
             console.log("Order items added successfully:", response.data);
+            // 추가된 주문 항목의 ID를 반환
+            return response.data.map(orderItem => orderItem.id);
         })
         .catch(function(error) {
-            // 오류 발생 시 처리
             console.error("Error occurred while adding order items:", error);
+            throw error; // 오류 처리를 위해 에러를 다시 던집니다.
         });
 }
 
 // 주문 생성
-function createOrder(userId, deliveryId, orderItemIds) {
-    const orderRequest = {
-        usersId: userId,
-        deliveryId: deliveryId,
-        orderItemId: orderItemIds
-    };
+function createOrder() {
+    let deliveryId; // 배송 정보 ID를 저장할 변수 선언
 
-    axios.post('/order', orderRequest)
-        .then(function(response) {
+    // 주문 항목 추가
+    addOrderItemsToCart(cartItems)
+        .then((orderItemIds) => { // 추가된 주문 항목의 ID를 받아옴
+            // 배송 정보 저장
+            return saveDeliveryInfo()
+                .then((savedDeliveryId) => {
+                    deliveryId = savedDeliveryId; // 저장된 배송 정보 ID를 변수에 저장
+                    // 유저 ID 가져오기
+                    return getUsersIdFromAPI();
+                })
+                .then((usersId) => {
+                    const orderRequest = {
+                        usersId: usersId,
+                        deliveryId: deliveryId,
+                        orderItemIds: orderItemIds // 추가된 주문 항목의 ID 사용
+                    };
+                    // 주문 생성
+                    return axios.post('/order', orderRequest);
+                });
+        })
+        .then((response) => {
             console.log("Order created successfully. Order ID:", response.data);
             location.href = '/static/order/orderComplete.html';
         })
-        .catch(function(error) {
+        .catch((error) => {
             console.error("Error occurred while creating order:", error);
+        });
+}
+
+// 사용자 ID 가져오기 API 호출
+function getUsersIdFromAPI() {
+    return axios.get('/users/api/usersId')
+        .then((response) => {
+            return response.data;
+        })
+        .catch((error) => {
+            console.error("Error occurred while getting users ID:", error);
+            throw error; // 오류 처리를 위해 에러를 다시 던집니다.
         });
 }

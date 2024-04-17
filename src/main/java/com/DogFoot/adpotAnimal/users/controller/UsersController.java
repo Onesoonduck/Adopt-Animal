@@ -91,4 +91,11 @@ public class UsersController {
         Long userCount = usersService.getUsersCount();
         return ResponseEntity.ok(userCount);
     }
+
+    @GetMapping("/api/usersId")
+    public Long getUsersId() {
+        Users users = usersService.getUsers();
+
+        return users.getId();
+    }
 }
