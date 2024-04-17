@@ -75,7 +75,6 @@ function pageClickEvent(event) {
   event.preventDefault();
   let pageText = event.target.textContent;
   let page = Number(pageText);
-  let currentPage;
   if (!isNaN(page)) {
     pagination.currentPage = page;
   } else if (pageText === '«') {
