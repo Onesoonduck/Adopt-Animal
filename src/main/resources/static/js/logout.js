@@ -1,11 +1,13 @@
+import jwtSingleton from "/static/js/jwtCloser.js";
 
 function postLogout() {
-  sessionStorage.removeItem('authorization');
   axios.post('/users/logout')
   .then(function(response) {
     if (response.status === 200) {
+      const jwt= jwtSingleton.getInstance();
+      jwt.removeToken();
       alert('로그아웃에 성공하였습니다.');
-      location.href = '/static/main.html';
+      location.href = '/main.html';
     } else {
       alert('로그아웃에 실패하였습니다.');
     }

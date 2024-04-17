@@ -30,7 +30,7 @@ public class CartController {
         return ResponseEntity.ok(cartDto);
     }
     @GetMapping
-    public ResponseEntity<List<CartDto>> getCartItemsByCurrentUser() {
+    public ResponseEntity<List<CartDto>> getCartItemsByUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserId = authentication.getName();
 
@@ -38,19 +38,18 @@ public class CartController {
         return ResponseEntity.ok(cartItems);
     }
 
-    @CrossOrigin(origins = "http://localhost:63342")
     @DeleteMapping
     public ResponseEntity<String> deleteCartItems(@RequestBody List<Long> itemIds){
         cartService.deleteCartItems(itemIds);
         return ResponseEntity.ok("선택한 물품이 삭제되었습니다.");
     }
-    @CrossOrigin(origins = "http://localhost:63342")
+
     @PatchMapping("/{cartId}/increase")
     public ResponseEntity<CartDto> increaseItemCount(@PathVariable Long cartId) {
         CartDto updatedCartDto = cartService.increaseItemCount(cartId);
         return ResponseEntity.ok(updatedCartDto);
     }
-    @CrossOrigin(origins = "http://localhost:63342")
+
     @PatchMapping("/{cartId}/decrease")
     public ResponseEntity<CartDto> decreaseItemCount(@PathVariable Long cartId) {
         CartDto updatedCartDto = cartService.decreaseItemCount(cartId);
