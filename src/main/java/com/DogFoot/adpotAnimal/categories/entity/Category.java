@@ -28,7 +28,7 @@ public class Category {
         this.categoryImg = categoryImg;
     }
 
-    public CategoryDto toCategoryTableDto() {
+    public CategoryDto toDto() {
         CategoryDto categoryDto;
         categoryDto = new CategoryDto();
 

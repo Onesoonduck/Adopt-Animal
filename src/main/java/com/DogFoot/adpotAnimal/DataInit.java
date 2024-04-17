@@ -3,14 +3,12 @@ package com.DogFoot.adpotAnimal;
 import com.DogFoot.adpotAnimal.categories.dto.CategoryDto;
 import com.DogFoot.adpotAnimal.categories.entity.Category;
 import com.DogFoot.adpotAnimal.categories.service.CategoryService;
-import com.DogFoot.adpotAnimal.order.dto.OrderRequest;
 import com.DogFoot.adpotAnimal.order.entity.Address;
 import com.DogFoot.adpotAnimal.order.entity.Delivery;
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
 import com.DogFoot.adpotAnimal.order.service.DeliveryService;
 import com.DogFoot.adpotAnimal.order.service.OrderItemService;
 import com.DogFoot.adpotAnimal.order.service.OrderService;
-import com.DogFoot.adpotAnimal.products.dto.ProductDto;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.service.ProductService;
 import com.DogFoot.adpotAnimal.users.dto.SignUpDto;
@@ -21,8 +19,6 @@ import jakarta.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -71,31 +67,34 @@ public class DataInit {
         usersService.signUp(admin);
 
         // 카테고리 추가
-        Category category1 = Category.builder()
+        CategoryDto categoryDto = CategoryDto.builder()
             .categoryName("문구")
             .categoryImg(null)
             .build();
-        categoryService.createCategory(CategoryDto.fromDto(category1));
-        Category category2 = Category.builder()
+        categoryService.createCategory(categoryDto);
+        categoryDto = CategoryDto.builder()
             .categoryName("폰")
             .categoryImg(null)
             .build();
-        categoryService.createCategory(CategoryDto.fromDto(category2));
-        Category category3 = Category.builder()
+        categoryService.createCategory(categoryDto);
+        categoryDto = CategoryDto.builder()
             .categoryName("이어폰")
             .categoryImg(null)
             .build();
-        categoryService.createCategory(CategoryDto.fromDto(category3));
+        categoryService.createCategory(categoryDto);
 
         // 상품 추가
         Product product = new Product(10000, "강아지 단추", 10, 0,
-            "/images/2024-04-16/456fa6f6-6098-44a4-92a4-a9923a11e20a.jpg", categoryService.findByCategoryId(0L));
+            "/images/2024-04-16/456fa6f6-6098-44a4-92a4-a9923a11e20a.jpg",
+            categoryService.findByCategoryId(0L));
         productService.createProduct(product.toDto());
         product = new Product(20000, "강아지 스티커", 10, 0,
-            "/images/2024-04-16/d6b0222b-c664-4bdd-8eb7-aba64cf75bdb.jpg", categoryService.findByCategoryId(0L));
+            "/images/2024-04-16/d6b0222b-c664-4bdd-8eb7-aba64cf75bdb.jpg",
+            categoryService.findByCategoryId(0L));
         productService.createProduct(product.toDto());
         product = new Product(30000, "고양이 단추", 10, 0,
-            "/images/2024-04-16/ed596cc4-a361-4a94-9d04-269135471928.png", categoryService.findByCategoryId(1L));
+            "/images/2024-04-16/ed596cc4-a361-4a94-9d04-269135471928.png",
+            categoryService.findByCategoryId(1L));
         productService.createProduct(product.toDto());
 
         // 주문 추가

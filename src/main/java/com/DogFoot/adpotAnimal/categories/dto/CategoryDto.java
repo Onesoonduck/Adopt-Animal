@@ -2,6 +2,7 @@ package com.DogFoot.adpotAnimal.categories.dto;
 
 import com.DogFoot.adpotAnimal.categories.entity.Category;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -13,6 +14,12 @@ public class CategoryDto {
     private Long id;
     private String categoryName;
     private String categoryImg;
+
+    @Builder
+    public CategoryDto(String categoryName, String categoryImg) {
+        this.categoryName = categoryName;
+        this.categoryImg = categoryImg;
+    }
 
     public static Category toEntity(CategoryDto categoryDto) {
         Category category = new Category();

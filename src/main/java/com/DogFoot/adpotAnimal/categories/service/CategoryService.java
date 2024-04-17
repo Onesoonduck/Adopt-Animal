@@ -31,9 +31,10 @@ public class CategoryService {
     }
 
     public Category createCategory(CategoryDto categoryDto) {
-        Category category = new Category();
-        category.setCategoryName(categoryDto.getCategoryName());
-        category.setCategoryImg(categoryDto.getCategoryImg());
+        Category category = Category.builder()
+            .categoryName(categoryDto.getCategoryName())
+            .categoryImg(categoryDto.getCategoryImg())
+            .build();
 
         return categoryRepository.save(category);
     }
