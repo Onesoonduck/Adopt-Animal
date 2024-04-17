@@ -1,5 +1,3 @@
-const header = new Headers();
-header.append('Content-Type', 'application/json');
 
 function sample6_execDaumPostcode() {
     new daum.Postcode({
@@ -169,16 +167,17 @@ function addOrderItemsToCart(cartItems) {
 }
 
 // 주문 생성
-function createOrder(deliveryId, orderItemIds) {
+function createOrder(userId, deliveryId, orderItemIds) {
     const orderRequest = {
+        usersId: userId,
         deliveryId: deliveryId,
-        orderItemIds: orderItemIds
+        orderItemId: orderItemIds
     };
 
     axios.post('/order', orderRequest)
         .then(function(response) {
             console.log("Order created successfully. Order ID:", response.data);
-            window.location.href = '/order/orderComplete.html';
+            location.href = '/static/order/orderComplete.html';
         })
         .catch(function(error) {
             console.error("Error occurred while creating order:", error);

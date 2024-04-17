@@ -40,12 +40,13 @@ public class OrderController {
 
     // 주문 생성
     @PostMapping("")
-    public ResponseEntity<Long> addOrder(@RequestBody OrderRequest request) {
+    @ResponseBody
+    public ResponseEntity<Long> addOrder(@ModelAttribute OrderRequest request) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
             CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            Users users = userDetails.getUser();
+            Users users = usersService.getUsers();
 
             Delivery delivery = deliveryService.findById(request.getDeliveryId());
 
