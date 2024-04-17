@@ -3,7 +3,6 @@ package com.DogFoot.adpotAnimal.cart.controller;
 import com.DogFoot.adpotAnimal.cart.dto.CartDto;
 import com.DogFoot.adpotAnimal.cart.service.CartService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -31,12 +30,11 @@ public class CartController {
         return ResponseEntity.ok(cartDto);
     }
     @GetMapping
-    public ResponseEntity<Page<CartDto>> getCartItemsByUserId(@RequestParam(defaultValue = "1") int page,
-                                                                  @RequestParam(defaultValue = "10") int size) {
+    public ResponseEntity<List<CartDto>> getCartItemsByUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentUserId = authentication.getName();
 
-        Page<CartDto> cartItems = cartService.getCartItemsByUserId(currentUserId, page, size);
+        List<CartDto> cartItems = cartService.getCartItemsByUserId(currentUserId);
         return ResponseEntity.ok(cartItems);
     }
 
