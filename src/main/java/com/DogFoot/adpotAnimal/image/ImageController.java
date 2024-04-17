@@ -50,7 +50,7 @@ public class ImageController {
             fileOutputStream.close();
 
             imageDto.setImageUrl("/images/" + now + "/" + storeFileName);
-            return new ResponseEntity<>("이미지가 성공적으로 저장되었습니다.", HttpStatus.OK);
+            return new ResponseEntity<>(imageDto.getImageUrl(), HttpStatus.OK);
         } catch (IOException e){
             return new ResponseEntity("이미지 저장에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }

@@ -184,29 +184,52 @@
       <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
         <div class="row pt-md-5 mt-md-3 mb-5">
           <div class="col-12 d-flex justify-content-between">
-            <h2 class="text-muted text-center mb-3">상품 추가</h2>
+            <h2 class="text-muted text-center mb-3">상품 등록</h2>
           </div>
           <div class="col-12 row justify-content-end">
             <div class="row gx-4 gx-lg-5 align-items-center product_box">
-              <div class="product_div col-md-6">
+              <div class="product_div col-md-5">
                 <img class="card-img-top mb-6" src="" alt="" id="product-img"
                      onerror="this.onerror=null; this.src='https://www.dummyimage.com/600x600/808080/ffffff&text=No+Image';">
               </div>
               <div class="product_div col-md-6">
-                <form class="col-md-6" id="product_form">
-                  <label for="product-id"></label>
-                  <input type="text" id="product-id" class="signupInput" placeholder="아이디">
-                  <label for="password"></label>
-                  <input type="password" id="password" class="signupInput" placeholder="비밀번호">
-                  <label for="userName"></label>
-                  <input type="text" id="userName" class="signupInput" placeholder="이름">
-                  <label for="email"></label>
-                  <input type="email" id="email" class="signupInput" placeholder="이메일">
-                  <label for="phoneNumber"></label>
-                  <input type="text" id="phoneNumber" class="signupInput" placeholder="전화번호">
-                  <div>
-                    <button class="product_button" type="submit">회원가입</button>
+                <form class="product_form" id="product_form">
+
+                  <div class="mb-3">
+                    <label for="product-name" class="form-label">상품 이름</label>
+                    <input type="text" class="form-control" id="product-name">
                   </div>
+                  <!--이미지-->
+                  <div class="mb-3">
+                    <label for="product-image" class="form-label">상품 이미지</label>
+                    <input type="file" class="form-control" id="product-image" accept="image/*">
+                  </div>
+                  <!--카테고리-->
+                  <div class="mb-3">
+                    <label for="product-category" class="form-label">상품 카테고리</label>
+                    <select class="form-control" id="product-category">
+                      <option value="">카테고리 선택</option>
+                      <option value="category1">카테고리1</option>
+                      <option value="category2">카테고리2</option>
+                      <!-- 필요한 만큼의 카테고리를 추가 -->
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="product-price" class="form-label">상품 가격</label>
+                    <input type="text" class="form-control" id="product-price">
+                  </div>
+                  <div class="mb-3">
+                    <label for="product-stock" class="form-label">상품 재고</label>
+                    <input type="text" class="form-control" id="product-stock">
+                  </div>
+                  <div class="mb-3 custom-description">
+                    <label for="product-description" class="form-label">상품 설명</label>
+                    <textarea class="form-control custom-textarea" id="product-description"></textarea>
+                  </div>
+                  <div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+
                 </form>
               </div>
             </div>

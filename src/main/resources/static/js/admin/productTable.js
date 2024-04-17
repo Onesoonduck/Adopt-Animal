@@ -84,6 +84,55 @@ function controlSection() {
   }
 }
 
+function uploadImage(data) {
+  return axios.post('/image/upload', data)
+  .then(function (response) {
+    if (response.status === 200) {
+      alert('이미지 등록이 완료되었습니다.');
+      return response.data;
+    } else {
+      alert('이미지 등록이 실패하였습니다.');
+      return null;
+    }
+  }).catch(function (error) {
+    alert(error.response.data);
+  })
+}
+
+async function getProductData() {
+  const image = document.getElementById('product-image').files[0];
+  // image를 업로드 하고 image의 경로를 가져와야 한다.
+
+  const productName = document.getElementById('product-name').value;
+  const productImage = await uploadImage(image);
+  const productCategory = document.getElementById('product-category').value;
+  const productPrice = document.getElementById('product-price').value;
+  const productStock = document.getElementById('product-stock').value;
+  const productDescription = document.getElementById(
+      'product-description').value;
+
+  return {
+    productName,
+    productImage,
+    productCategory,
+    productPrice,
+    productStock,
+  };
+}
+
+function postProductRegister(data) {
+  axios.post('/products', data)
+  .then(function (response){
+    if(response.status===200) {
+      location.href = '/static/admin/admin-product.html';
+    } else {
+      alert('상품 등록이 실패했습니다.');
+    }
+  }).catch(function (error) {
+    alert(error.response.data);
+  })
+}
+
 function renderPage() {
   pagination = new Pagination(10, 5, Math.ceil(productCnt / 10),
       pageClickEvent);
