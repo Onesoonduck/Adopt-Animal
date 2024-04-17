@@ -39,32 +39,32 @@ function sample6_execDaumPostcode() {
 }
 
 // 배송 정보 저장
-function saveDeliveryInfo() {
-    var sample6_detailAddress = document.getElementById("sample6_detailAddress").value;
-    var sample6_postcode = document.getElementById('sample6_postcode').value; // 수정: data 객체의 zonecode를 가져오는 부분 수정
-    var receiverName = document.getElementById("receiverName").value;
-    var receiverPhoneNumber = document.getElementById("receiverPhoneNumber").value;
-    var sample6_address = document.getElementById("sample6_address").value;
+async function saveDeliveryInfo() {
+    try {
+        var sample6_detailAddress = document.getElementById("sample6_detailAddress").value;
+        var sample6_postcode = document.getElementById('sample6_postcode').value; // 수정: data 객체의 zonecode를 가져오는 부분 수정
+        var receiverName = document.getElementById("receiverName").value;
+        var receiverPhoneNumber = document.getElementById("receiverPhoneNumber").value;
+        var sample6_address = document.getElementById("sample6_address").value;
 
-    var deliveryData = {
-        address: {
-            city: sample6_address,
-            street: sample6_detailAddress,
-            zipcode: sample6_postcode
-        },
-        receiverName: receiverName,
-        receiverPhoneNumber: receiverPhoneNumber
-    };
+        var deliveryData = {
+            address: {
+                city: sample6_address,
+                street: sample6_detailAddress,
+                zipcode: sample6_postcode
+            },
+            receiverName: receiverName,
+            receiverPhoneNumber: receiverPhoneNumber
+        };
 
-    axios.post('/order/delivery/api', deliveryData)
-        .then(function(response) {
-            console.log("Delivery information successfully saved.");
-        })
-        .catch(function(error) {
-            console.error("Error occurred while saving delivery information:", error);
-        });
+        const response = await axios.post('/order/delivery/api', deliveryData);
+        console.log("Delivery information successfully saved.");
+        return response.data.deliveryId; // deliveryId를 반환
+    } catch (error) {
+        console.error("Error occurred while saving delivery information:", error);
+        throw error;
+    }
 }
-
 
 document.addEventListener('DOMContentLoaded', function () {
     getCart();
@@ -153,37 +153,35 @@ function addOrderItemsToCart(cartItems) {
 }
 
 // 주문 생성
-function createOrder() {
-    let deliveryId; // 배송 정보 ID를 저장할 변수 선언
+// 주문 생성
+async function createOrder() {
+    try {
+        // 사용자 ID 가져오기
+        const usersId = await getUsersIdFromAPI();
+        // 배송 정보 ID 가져오기
+        const deliveryId = await saveDeliveryInfo();
+        // 주문 상품 ID 가져오기
+        const cartItemId = await addOrderItemsToCart();
 
-    // 주문 항목 추가
-    addOrderItemsToCart(cartItems)
-        .then((orderItemIds) => { // 추가된 주문 항목의 ID를 받아옴
-            // 배송 정보 저장
-            return saveDeliveryInfo()
-                .then((savedDeliveryId) => {
-                    deliveryId = savedDeliveryId; // 저장된 배송 정보 ID를 변수에 저장
-                    // 유저 ID 가져오기
-                    return getUsersIdFromAPI();
-                })
-                .then((usersId) => {
-                    const orderRequest = {
-                        usersId: usersId,
-                        deliveryId: deliveryId,
-                        orderItemIds: orderItemIds // 추가된 주문 항목의 ID 사용
-                    };
-                    // 주문 생성
-                    return axios.post('/order', orderRequest);
-                });
-        })
-        .then((response) => {
-            console.log("Order created successfully. Order ID:", response.data);
-            location.href = '/static/order/orderComplete.html';
-        })
-        .catch((error) => {
-            console.error("Error occurred while creating order:", error);
-        });
+        // 주문 요청 객체 생성
+        const orderRequest = {
+            usersId: usersId,
+            deliveryId: deliveryId,
+            orderItemIds: cartItemId
+        };
+
+        // 주문 생성
+        const response = await axios.post('/order', orderRequest);
+
+        // 주문 완료 페이지로 리다이렉트
+        console.log("주문이 성공적으로 생성되었습니다. 주문 ID:", response.data);
+        location.href = '/static/order/orderComplete.html';
+    } catch (error) {
+        console.error("주문 생성 중 오류가 발생했습니다:", error);
+    }
 }
+
+
 
 // 사용자 ID 가져오기 API 호출
 function getUsersIdFromAPI() {

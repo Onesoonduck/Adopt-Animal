@@ -37,25 +37,34 @@ public class OrderController {
     private final OrderService orderService;
     private final OrderItemService orderItemService;
     private final DeliveryService deliveryService;
-    private final UsersService usersService;
+    private final UsersService userService;
 
     // 주문 생성
     @PostMapping("")
     @ResponseBody
     public ResponseEntity<Long> addOrder(@ModelAttribute OrderRequest request) {
-       Users user = usersService.getUsers();
-
-        if (user==null) {
+//       Users user = usersService.getUsers();
+//
+        String UserId = String.valueOf(1L);
+        if (UserId==null) {
             // 사용자가 로그인되어 있지 않은 경우에 대한 처리
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+        Users user = userService.findUserById(Long.valueOf(UserId));
 
-        Delivery delivery = deliveryService.findById(request.getDeliveryId());
+        Long deliveryId = request.getDeliveryId();
+        if (deliveryId == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        Delivery delivery = deliveryService.findById(1L);
+
 
         List<OrderItem> orderItems = new ArrayList<>();
-
         for (Long orderItemId : request.getOrderItemId()) {
-            orderItems.add(orderItemService.findById(orderItemId));
+            if (orderItemId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+            orderItems.add(orderItemService.findById(1L));
         }
 
         Order order = orderService.create(user, delivery, orderItems);
