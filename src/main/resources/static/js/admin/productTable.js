@@ -3,9 +3,9 @@ import {Pagination} from "/static/js/pagination/pagination.js";
 let productCnt = await getProductCount();
 let pagination;
 
-const tableSection = document.getElementById("productTable")
-const addSection = document.getElementById("productAdd")
-const infoSection = document.getElementById("productInfo")
+let tableSection = document.getElementById("productTable")
+let addSection = document.getElementById("productAdd")
+let infoSection = document.getElementById("productInfo")
 
 async function getProductCount() {
   try {
@@ -158,8 +158,19 @@ function showSection(section) {
       getCategoryList();
       break
     default:
-      renderPage();
+      break
   }
 }
 
+// "추가" 버튼을 선택합니다.
+let addButton = document.querySelector('#product-add');
+
+// 클릭 이벤트를 추가합니다.
+addButton.addEventListener('click', function() {
+  // 이곳에 클릭 시 실행할 코드를 작성합니다.
+  showSection(addSection);
+});
+
+renderPage();
 showSection(tableSection);
+
