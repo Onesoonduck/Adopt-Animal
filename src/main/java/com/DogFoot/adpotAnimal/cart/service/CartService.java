@@ -5,12 +5,8 @@ import com.DogFoot.adpotAnimal.cart.entity.CartEntity;
 import com.DogFoot.adpotAnimal.cart.repository.CartRepository;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.repository.ProductRepository;
-import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
@@ -33,19 +29,16 @@ public class CartService {
         cartRepository.save(cartEntity);
     }
 
-    public Page<CartDto> getCartItemsByUserId(String userId, int page, int size) {
-        if (page <= 0 || size <= 0) {
-            throw new IllegalArgumentException("Invalid page or size value");
-        }
+    public List<CartDto> getCartItemsByUserId(String userId) {
+        List<CartEntity> cartEntities = cartRepository.findByUserId(userId);
 
-        Pageable pageable = PageRequest.of(page - 1, size);
-        Page<CartEntity> cartEntitiesPage = cartRepository.findByUserId(userId, pageable);
-
-        return cartEntitiesPage.map(cartEntity -> {
-            Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
-            Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found for ID: " + cartEntity.getProductId()));
-            return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
-        });
+        return cartEntities.stream()
+            .map(cartEntity -> {
+                Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
+                Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found for ID: " + cartEntity.getProductId()));
+                return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
+            })
+            .collect(Collectors.toList());
     }
 
 
