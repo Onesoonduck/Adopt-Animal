@@ -103,14 +103,5 @@ public class OrderController {
         return ResponseEntity.ok(orderCount);
     }
 
-    // 주문 페이지
-    @GetMapping("/orderPage")
-    public String orderPage() {
-        return "orderPage";
-    }
 
-    @GetMapping("/orderComplete")
-    public String orderComplete() {
-        return "orderComplete";
-    }
 }

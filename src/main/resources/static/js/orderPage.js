@@ -1,6 +1,6 @@
+const header = new Headers();
+header.append('Content-Type', 'application/json');
 
-// 우편 주소 검색
-// 배송 정보 저장
 function sample6_execDaumPostcode() {
     new daum.Postcode({
         oncomplete: function(data) {
@@ -11,7 +11,7 @@ function sample6_execDaumPostcode() {
             var addr = ''; // 주소 변수
             var extraAddr = ''; // 참고항목 변수
 
-            //사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
+            // 사용자가 선택한 주소 타입에 따라 해당 주소 값을 가져온다.
             if (data.userSelectedType === 'R') { // 사용자가 도로명 주소를 선택했을 경우
                 addr = data.roadAddress;
             } else { // 사용자가 지번 주소를 선택했을 경우(J)
@@ -29,47 +29,53 @@ function sample6_execDaumPostcode() {
                 if(data.buildingName !== '' && data.apartment === 'Y'){
                     extraAddr += (extraAddr !== '' ? ', ' + data.buildingName : data.buildingName);
                 }
-                // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-                if(extraAddr !== ''){
-                    extraAddr = ' (' + extraAddr + ')';
-                }
-                // 조합된 참고항목을 해당 필드에 넣는다.
-                document.getElementById("sample6_extraAddress").value = extraAddr;
+            }
 
-            } else {
-                document.getElementById("sample6_extraAddress").value = '';
+            // 참고항목이 있는 경우 괄호로 묶어준다.
+            if (extraAddr !== '') {
+                extraAddr = ' (' + extraAddr + ')';
             }
 
             // 우편번호와 주소 정보를 해당 필드에 넣는다.
-            var sample6_detailAddress = document.getElementById("sample6_detailAddress").value;
-            var sample6_postcode = document.getElementById('sample6_postcode').value = data.zonecode;
-            var receiverName = document.getElementById("receiverName").value;
-            var receiverPhoneNumber = document.getElementById("receiverPhoneNumber").value;
-            var sample6_address = document.getElementById("sample6_address").value;
-
-            // API에 데이터 전송
-            var deliveryData = {
-                address: {
-                    city: sample6_address, // 시/도 정보
-                    street: sample6_detailAddress, // 시/군/구 정보
-                    zipcode: sample6_postcode // 우편번호 정보
-                },
-                receiverName: receiverName,
-                receiverPhoneNumber: receiverPhoneNumber
-            };
-
-            // axios를 사용하여 API에 POST 요청 보내기
-            axios.post('/order/delivery/api', deliveryData)
-                .then(function(response) {
-                    // 성공적으로 저장되었을 때의 처리
-                    console.log("Delivery information successfully saved.");
-                })
-                .catch(function(error) {
-                    // 오류 발생 시 처리
-                    console.error("Error occurred while saving delivery information:", error);
-                });
+            document.getElementById('sample6_postcode').value = data.zonecode;
+            document.getElementById("sample6_address").value = addr + extraAddr;
+            // 커서를 상세주소 필드로 이동한다.
+            document.getElementById("sample6_detailAddress").focus();
         }
     }).open();
+}
+
+
+// 배송 정보 저장
+function saveDeliveryInfo() {
+    // 우편번호와 주소 정보를 해당 필드에 넣는다.
+    var sample6_detailAddress = document.getElementById("sample6_detailAddress").value;
+    var sample6_postcode = document.getElementById('sample6_postcode').value = data.zonecode;
+    var receiverName = document.getElementById("receiverName").value;
+    var receiverPhoneNumber = document.getElementById("receiverPhoneNumber").value;
+    var sample6_address = document.getElementById("sample6_address").value;
+
+    // API에 데이터 전송
+    var deliveryData = {
+        address: {
+            city: sample6_address, // 시/도 정보
+            street: sample6_detailAddress, // 시/군/구 정보
+            zipcode: sample6_postcode // 우편번호 정보
+        },
+        receiverName: receiverName,
+        receiverPhoneNumber: receiverPhoneNumber
+    };
+
+    // axios를 사용하여 API에 POST 요청 보내기
+    axios.post('/order/delivery/api', deliveryData)
+        .then(function(response) {
+            // 성공적으로 저장되었을 때의 처리
+            console.log("Delivery information successfully saved.");
+        })
+        .catch(function(error) {
+            // 오류 발생 시 처리
+            console.error("Error occurred while saving delivery information:", error);
+        });
 }
 
 // 장바구니에서 상품 가져오기
@@ -165,17 +171,16 @@ function addOrderItemsToCart(cartItems) {
 // 주문 생성
 function createOrder(deliveryId, orderItemIds) {
     const orderRequest = {
-        deliveryId: deliveryId, // 받아들인 배송 정보의 ID
-        orderItemIds: orderItemIds // 주문 상품들의 ID 배열
+        deliveryId: deliveryId,
+        orderItemIds: orderItemIds
     };
 
     axios.post('/order', orderRequest)
         .then(function(response) {
-            // 주문이 성공적으로 생성되었을 때의 처리
             console.log("Order created successfully. Order ID:", response.data);
+            window.location.href = '/order/orderComplete.html';
         })
         .catch(function(error) {
-            // 오류 발생 시 처리
             console.error("Error occurred while creating order:", error);
         });
 }

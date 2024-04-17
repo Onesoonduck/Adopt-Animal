@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/order/admin")
 public class OrderAdminController {
@@ -26,7 +26,7 @@ public class OrderAdminController {
     private final UsersService usersService;
 
 
-    // 회원 주문 정보 목록 조회
+    // 회원 주문 정보 목록 조회 (한 회원의 모든 주문)
     @GetMapping("")
     public ResponseEntity<List<OrderResponse>> findOrders(@RequestParam Long usersId) {
         List<OrderResponse> orderResponses = orderService.findAllByUsersId(usersId)
@@ -37,7 +37,7 @@ public class OrderAdminController {
         return ResponseEntity.ok().body(orderResponses);
     }
 
-    // 회원의 주문 정보 조회
+    // 회원의 주문 정보 조회 (각 주문)
     @GetMapping("/{id}")
     public ResponseEntity<OrderResponse> findOrder(@PathVariable(value = "id") Long id) {
         Order order = orderService.findById(id);

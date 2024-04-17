@@ -9,6 +9,8 @@
     <title>Checkout example · Bootstrap v5.0</title>
     <link rel="canonical" href="https://getbootstrap.com/docs/5.0/examples/checkout/">
     <script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
 
 
     <!-- Bootstrap core CSS -->
@@ -86,7 +88,7 @@
 
             <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">주문하기</h4>
-                <form class="needs-validation" novalidate action="/order/orderComplete" method="get">
+                <div class="needs-validation">
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <label for="receiverName" class="form-label">수령인</label>
@@ -131,8 +133,8 @@
 
                     <hr class="my-4">
 
-                    <button class="w-100 btn btn-warning btn-lg text-white" type="submit">주문하기</button>
-                </form>
+                    <button class="w-100 btn btn-warning btn-lg text-white order-button" type="submit">주문하기</button>
+                </div>
             </div>
         </div>
     </main>
