@@ -65,6 +65,17 @@ public class Product {
         this.productImg = productImg;
     }
 
+    public ProductDto toDto() {
+        ProductDto productDto = new ProductDto();
+        productDto.setId(productId);
+        productDto.setProductPrice(productPrice);
+        productDto.setProductName(productName);
+        productDto.setProductStock(productStock);
+        productDto.setProductLike(productLike);
+        productDto.setProductImg(productImg);
+        return productDto;
+    }
+
     public ProductDto toProductTableDto() {
 
         ProductDto productDto;
@@ -92,5 +103,7 @@ public class Product {
         }
         this.productStock += count;
     }
+
+
 
 }
