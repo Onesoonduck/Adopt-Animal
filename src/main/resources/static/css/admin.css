@@ -118,3 +118,56 @@
   background-color: #ff8000;
   border-color: #ff8000;
 }
+
+.row .product_box {
+  height: 600px;
+}
+
+/* 화면 크기가 1200px 이하일 때 높이 조절 */
+@media (max-width: 1200px) {
+  .row .product_box {
+    height: 500px;
+  }
+}
+
+/* 화면 크기가 992px 이하일 때 높이 조절 */
+@media (max-width: 992px) {
+  .row .product_box {
+    height: 400px;
+  }
+}
+
+/* 화면 크기가 768px 이하일 때 높이 조절 */
+@media (max-width: 768px) {
+  .row .product_box {
+    height: 300px;
+  }
+}
+
+.product_box .product_div {
+  height: 100%;
+}
+
+
+#product-img {
+  height: 100%;
+  width: 100%; /* 이미지의 너비를 설정 */
+  border: 1px solid #000;
+  object-fit: cover;
+}
+
+.signupInput {
+  display: block;
+  margin-bottom: 10px; /* 각 입력 필드 사이에 마진 추가 */
+}
+
+/*.custom-description {*/
+/*  height: 150px;*/
+/*}*/
+
+/*#product-description {*/
+/*  width: 100%;*/
+/*  height: 85%;*/
+/*  font-size: 13px;*/
+/*  color: #333;*/
+/*}*/

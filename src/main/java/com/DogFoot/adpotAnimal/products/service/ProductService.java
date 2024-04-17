@@ -1,5 +1,6 @@
 package com.DogFoot.adpotAnimal.products.service;
 
+import com.DogFoot.adpotAnimal.categories.service.CategoryService;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.dto.ProductDto;
 import com.DogFoot.adpotAnimal.products.repository.ProductRepository;
@@ -15,10 +16,11 @@ import java.util.List;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final CategoryService categoryService;
 
-
-    public ProductService(ProductRepository productRepository) {
+    public ProductService(ProductRepository productRepository, CategoryService categoryService) {
         this.productRepository = productRepository;
+        this.categoryService = categoryService;
     }
 
     public Product createProduct(ProductDto productDto) {
@@ -28,6 +30,7 @@ public class ProductService {
         product.setProductStock(productDto.getProductStock());
         product.setProductLike(productDto.getProductLike());
         product.setProductImg(productDto.getProductImg());
+        product.setCategory(categoryService.findByCategoryId(productDto.getCategoryId()));
         // 카테고리 정보가 있다면 설정
         return productRepository.save(product);
     }
