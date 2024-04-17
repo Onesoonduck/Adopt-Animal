@@ -20,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -42,27 +43,24 @@ public class OrderController {
     @PostMapping("")
     @ResponseBody
     public ResponseEntity<Long> addOrder(@ModelAttribute OrderRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+       Users user = usersService.getUsers();
 
-        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            Users users = usersService.getUsers();
-
-            Delivery delivery = deliveryService.findById(request.getDeliveryId());
-
-            List<OrderItem> orderItems = new ArrayList<>();
-
-            for (Long orderItemId : request.getOrderItemId()) {
-                orderItems.add(orderItemService.findById(orderItemId));
-            }
-
-            Order order = orderService.create(users, delivery, orderItems);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
-        } else {
+        if (user==null) {
             // 사용자가 로그인되어 있지 않은 경우에 대한 처리
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
+
+        Delivery delivery = deliveryService.findById(request.getDeliveryId());
+
+        List<OrderItem> orderItems = new ArrayList<>();
+
+        for (Long orderItemId : request.getOrderItemId()) {
+            orderItems.add(orderItemService.findById(orderItemId));
+        }
+
+        Order order = orderService.create(user, delivery, orderItems);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
     }
 
 
