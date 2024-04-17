@@ -14,61 +14,64 @@ async function getProductCount() {
 }
 
 function callProductTable(page, size) {
-  axios.get('/products/lists', {
-    params: {
-      page: page,  // 페이지 번호
-      size: size  // 페이지 크기
-    }
-  }) // 백엔드 API URL
-  .then(function (response) {
-    const productDtos = response.data.content;
-    const tbody = document.getElementById('product-card');
-    tbody.innerHTML = ''; // 초기화.
-    let length = productDtos.length;
-    for (let i = 0; i < length; i++) {
-      const productDto = productDtos[i];
-      const divCard = document.createElement('div');
-      divCard.className = 'col mb-5';
-      divCard.innerHTML = `
+    return axios.get('/products/lists', {
+        params: {
+            page: page,  // 페이지 번호
+            size: size  // 페이지 크기
+        }
+    }) // 백엔드 API URL
+        .then(function (response) {
+            const productDtos = response.data.content;
+            const tbody = document.getElementById('product-card');
+            tbody.innerHTML = ''; // 초기화.
+            let length = productDtos.length;
+            for (let i = 0; i < length; i++) {
+                const productDto = productDtos[i];
+                const divCard = document.createElement('div');
+                divCard.className = 'col mb-5';
+                divCard.innerHTML = `
             <div class="card h-100">
-                <!-- Product image-->
-                <img class="card-img-top" src=${productDto.productImg} alt="..." />
-                <!-- Product details-->
-                <div class="card-body p-4">
-                    <div class="text-center">
-                        <!-- Product name-->
-                        <h5 class="fw-bolder">${productDto.productName}</h5>
-                        <!-- Product price-->
-                        ${productDto.productPrice}
-                    </div>
-                </div>
-                <!-- Product actions-->
-                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center"><a class="btn btn-outline-warning mt-auto" href="#">장바구니 담기</a></div>
-                </div>
+                <a href="productdetail.html">
+                  <!-- Product image-->
+                  <img class="card-img-top" src=${productDto.productImg} alt="..." />
+                  <!-- Product details-->
+                  <div class="card-body p-4">
+                      <div class="text-center">
+                          <!-- Product name-->
+                          <h5 class="fw-bolder">${productDto.productName}</h5>
+                          <!-- Product price-->
+                          ${productDto.productPrice}
+                      </div>
+                  </div>
+                  </a>
+                  <!-- Product actions-->
+                  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                      <div class="text-center"><a class="btn btn-outline-warning mt-auto" href="#">장바구니 담기</a></div>
+                  </div>
             </div>
             `;
-      divCard.addEventListener('click', function () {
-        window.location.href = '/productDetailPage?id='
-            + productDto.productId;
-      })
-      tbody.appendChild(divCard);
-    }
-  })
-  .catch(function (error) {
-    console.error(error);
-  });
+                divCard.addEventListener('click', function () {
+                    window.location.href = '/product/productdetail.html?id=' + productDto.productId;
+                })
+                tbody.appendChild(divCard);
+            }
+        })
+        .catch(function (error) {
+            console.error(error);
+        });
 }
 
-function getProductById(id) {
-  axios.get(`/products/${id}`)
-  .then(function (response) {
-    const product = response.data;
-    console.log(product);
-  })
-  .catch(function (error) {
-    console.error(error);
-  });
+
+async function getProductById(id) {
+    try {
+        const response = await axios.get(`/products/${id}`);
+        const product = response.data;
+        console.log(product);
+        return product.data;
+    } catch (error) {
+        console.error(error);
+        throw error; // Re-throwing the error to propagate it to the calling function
+    }
 }
 
 function pageClickEvent(event) {
@@ -98,3 +101,4 @@ async function renderPage() {
 }
 
 renderPage();
+
