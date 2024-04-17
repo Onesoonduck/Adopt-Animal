@@ -61,13 +61,35 @@ function pageClickEvent(event) {
     }
   }
   pagination.renderPagination(pagination.currentPage);
-  callTable(pagination.currentPage-1,pagination.dataPerPage);
+  callTable(pagination.currentPage - 1, pagination.dataPerPage);
+}
+
+function controlSection() {
+  const tableSection = document.getElementById("productTable")
+  const addSection = document.getElementById("productAdd")
+  const infoSection = document.getElementById("productInfo")
+
+  tableSection.style.display = 'block';
+  addSection.style.display = 'none';
+  infoSection.style.display = 'none';
+
+  function showSection(section) {
+    // 모든 섹션을 숨깁니다.
+    tableSection.style.display = 'none';
+    addSection.style.display = 'none';
+    infoSection.style.display = 'none';
+
+    // 지정된 섹션만 보입니다.
+    section.style.display = 'block';
+  }
 }
 
 function renderPage() {
-  pagination = new Pagination(10,5, Math.ceil(productCnt/10), pageClickEvent);
+  pagination = new Pagination(10, 5, Math.ceil(productCnt / 10),
+      pageClickEvent);
   pagination.renderPagination(1);
   callTable(0, 10);
 }
 
+controlSection();
 renderPage();
