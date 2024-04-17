@@ -190,7 +190,7 @@ public class JwtTokenProvider {
 
     // Request Header에서 access 토큰 정보 추출
     public String resolveToken(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
+        String bearerToken = request.getHeader("authorization");
         if(StringUtils.hasText(bearerToken) && bearerToken.startsWith("Bearer")) {
             return bearerToken.substring(7);
         }
@@ -232,7 +232,7 @@ public class JwtTokenProvider {
     // accessToken은 헤더, refreshToken은 쿠키에 저장
     public void storeTokens(HttpServletResponse response, String accessToken, String refreshToken, boolean isAutoLogin) {
         // 헤더에 accessToken 저장
-        response.setHeader("Authorization", "Bearer " + accessToken);
+        response.setHeader("authorization", "Bearer " + accessToken);
 
         // 쿠키에 refreshToken 저장
         Cookie cookie = new Cookie("TOKEN", refreshToken);
