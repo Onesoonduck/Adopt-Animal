@@ -91,4 +91,12 @@ public class UsersController {
         Long userCount = usersService.getUsersCount();
         return ResponseEntity.ok(userCount);
     }
+
+    //회원 조회
+    @GetMapping("/api/users")
+    public ResponseEntity<UsersDto> getUserCount(HttpServletResponse response) {
+        Users users = usersService.getUsers();
+
+        return ResponseEntity.ok(users.toDto());
+    }
 }
