@@ -3,6 +3,10 @@ import {Pagination} from "/static/js/pagination/pagination.js";
 let productCnt = await getProductCount();
 let pagination;
 
+const tableSection = document.getElementById("productTable")
+const addSection = document.getElementById("productAdd")
+const infoSection = document.getElementById("productInfo")
+
 async function getProductCount() {
   try {
     const response = await axios.get('/products/api/productCount');
@@ -64,23 +68,17 @@ function pageClickEvent(event) {
   callTable(pagination.currentPage - 1, pagination.dataPerPage);
 }
 
-function controlSection() {
-  const tableSection = document.getElementById("productTable")
-  const addSection = document.getElementById("productAdd")
-  const infoSection = document.getElementById("productInfo")
-
-  tableSection.style.display = 'block';
+function showSection(section) {
+  // 모든 섹션을 숨깁니다.
+  tableSection.style.display = 'none';
   addSection.style.display = 'none';
   infoSection.style.display = 'none';
 
-  function showSection(section) {
-    // 모든 섹션을 숨깁니다.
-    tableSection.style.display = 'none';
-    addSection.style.display = 'none';
-    infoSection.style.display = 'none';
+  // 지정된 섹션만 보입니다.
+  section.style.display = 'block';
 
-    // 지정된 섹션만 보입니다.
-    section.style.display = 'block';
+  if(section===addSection){
+
   }
 }
 
@@ -133,6 +131,11 @@ function postProductRegister(data) {
   })
 }
 
+function getCategory() {
+  axios.get('/categories')
+  .then()
+}
+
 function renderPage() {
   pagination = new Pagination(10, 5, Math.ceil(productCnt / 10),
       pageClickEvent);
@@ -140,5 +143,5 @@ function renderPage() {
   callTable(0, 10);
 }
 
-controlSection();
+showSection(tableSection);
 renderPage();

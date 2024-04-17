@@ -32,6 +32,7 @@ public class Category {
         CategoryDto categoryDto;
         categoryDto = new CategoryDto();
 
+        categoryDto.setId(categoryDto.getId());
         categoryDto.setCategoryName(categoryDto.getCategoryName());
         categoryDto.setCategoryImg(categoryDto.getCategoryImg());
 

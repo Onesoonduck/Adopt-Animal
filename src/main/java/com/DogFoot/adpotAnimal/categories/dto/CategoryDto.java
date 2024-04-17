@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryDto {
-    private String categoryName;
 
+    private Long id;
+    private String categoryName;
     private String categoryImg;
 
     public static Category toEntity(CategoryDto categoryDto) {
@@ -22,6 +23,7 @@ public class CategoryDto {
     public static CategoryDto fromDto(Category category) {
         CategoryDto categoryDto = new CategoryDto();
         categoryDto.setCategoryName(category.getCategoryName());
+        categoryDto.setId(categoryDto.getId());
         return categoryDto;
     }
 }

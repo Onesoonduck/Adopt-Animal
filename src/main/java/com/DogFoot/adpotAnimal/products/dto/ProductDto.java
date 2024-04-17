@@ -1,5 +1,6 @@
 package com.DogFoot.adpotAnimal.products.dto;
 
+import com.DogFoot.adpotAnimal.categories.entity.Category;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import lombok.*;
 
@@ -15,6 +16,8 @@ public class ProductDto {
     private int productLike;
     private String productImg;
 
+    private Long categoryId;
+
     public static Product toEntity(ProductDto productDto) {
         Product product = new Product();
         product.setProductId(productDto.getId());
@@ -23,6 +26,7 @@ public class ProductDto {
         product.setProductStock(productDto.getProductStock());
         product.setProductLike(productDto.getProductLike());
         product.setProductImg(productDto.getProductImg());
+        product.setProductId(productDto.getCategoryId());
         return product;
     }
 
@@ -34,6 +38,7 @@ public class ProductDto {
         productDto.setProductStock(product.getProductStock());
         productDto.setProductLike(product.getProductLike());
         productDto.setProductImg(product.getProductImg());
+        productDto.setCategoryId(product.getCategory().getCategoryId());
         return productDto;
     }
 

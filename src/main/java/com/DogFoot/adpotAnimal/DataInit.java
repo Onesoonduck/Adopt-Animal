@@ -1,5 +1,8 @@
 package com.DogFoot.adpotAnimal;
 
+import com.DogFoot.adpotAnimal.categories.dto.CategoryDto;
+import com.DogFoot.adpotAnimal.categories.entity.Category;
+import com.DogFoot.adpotAnimal.categories.service.CategoryService;
 import com.DogFoot.adpotAnimal.order.dto.OrderRequest;
 import com.DogFoot.adpotAnimal.order.entity.Address;
 import com.DogFoot.adpotAnimal.order.entity.Delivery;
@@ -32,12 +35,13 @@ public class DataInit {
     private final OrderService orderService;
     private final OrderItemService orderItemService;
     private final DeliveryService deliveryService;
+    private final CategoryService categoryService;
 
     @PostConstruct
     public void init() {
         //가상 유저 데이터
 
-        for (int i = 1; i <= 14; i++) {
+        for (int i = 1; i <= 13; i++) {
             String userId = "test" + i;
             String userName = "test" + i;
             String password = "Testuser" + i + "!";
@@ -66,13 +70,32 @@ public class DataInit {
             .build();
         usersService.signUp(admin);
 
-        Product product = new Product(10000, "강아지 단추", 10, 0, "/images/2024-04-16/456fa6f6-6098-44a4-92a4-a9923a11e20a.jpg");
-        productService.createProduct(product.toDto());
+        // 카테고리 추가
+        Category category1 = Category.builder()
+            .categoryName("문구")
+            .categoryImg(null)
+            .build();
+        categoryService.createCategory(CategoryDto.fromDto(category1));
+        Category category2 = Category.builder()
+            .categoryName("폰")
+            .categoryImg(null)
+            .build();
+        categoryService.createCategory(CategoryDto.fromDto(category2));
+        Category category3 = Category.builder()
+            .categoryName("이어폰")
+            .categoryImg(null)
+            .build();
+        categoryService.createCategory(CategoryDto.fromDto(category3));
 
-        product = new Product(20000, "강아지 스티커", 10, 0, "/images/2024-04-16/d6b0222b-c664-4bdd-8eb7-aba64cf75bdb.jpg");
+        // 상품 추가
+        Product product = new Product(10000, "강아지 단추", 10, 0,
+            "/images/2024-04-16/456fa6f6-6098-44a4-92a4-a9923a11e20a.jpg", categoryService.findByCategoryId(0L));
         productService.createProduct(product.toDto());
-
-        product = new Product(30000, "고양이 단추", 10, 0, "/images/2024-04-16/ed596cc4-a361-4a94-9d04-269135471928.png");
+        product = new Product(20000, "강아지 스티커", 10, 0,
+            "/images/2024-04-16/d6b0222b-c664-4bdd-8eb7-aba64cf75bdb.jpg", categoryService.findByCategoryId(0L));
+        productService.createProduct(product.toDto());
+        product = new Product(30000, "고양이 단추", 10, 0,
+            "/images/2024-04-16/ed596cc4-a361-4a94-9d04-269135471928.png", categoryService.findByCategoryId(1L));
         productService.createProduct(product.toDto());
 
         // 주문 추가
@@ -88,7 +111,6 @@ public class DataInit {
         Delivery delivery = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
         orderService.create(users, delivery, orderItems);
 
-        //
         List<OrderItem> list2 = new ArrayList<>();
         list2.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
         orderItems = list2;
@@ -96,7 +118,6 @@ public class DataInit {
         Delivery delivery2 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
         orderService.create(usersService.findUserById(2L), delivery2, orderItems);
 
-        // 카테고리 추가
 
     }
 }
