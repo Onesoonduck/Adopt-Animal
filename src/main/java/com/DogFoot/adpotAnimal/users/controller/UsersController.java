@@ -70,6 +70,7 @@ public class UsersController {
         throws IOException {
         usersService.logout(request, response);
         Users users = usersService.getUsers();
+        users.getUserId();
         usersService.deleteUsers(users.getId());
         return ResponseEntity.ok().build();
     }
@@ -98,5 +99,13 @@ public class UsersController {
         Users users = usersService.getUsers();
 
         return ResponseEntity.ok(users.toDto());
+    }
+
+    // 회원 Id 조회
+    @GetMapping("/api/usersId")
+    public Long getUsersId() {
+        Users users = usersService.getUsers();
+
+        return users.getId();
     }
 }

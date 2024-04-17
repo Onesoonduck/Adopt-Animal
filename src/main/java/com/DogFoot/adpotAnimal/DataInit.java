@@ -88,12 +88,74 @@ public class DataInit {
         Delivery delivery = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
         orderService.create(users, delivery, orderItems);
 
-        //
         List<OrderItem> list2 = new ArrayList<>();
         list2.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
         orderItems = list2;
 
         Delivery delivery2 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
         orderService.create(usersService.findUserById(2L), delivery2, orderItems);
+
+        List<OrderItem> list3 = new ArrayList<>();
+        list3.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        orderItems = list3;
+
+        Delivery delivery3 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(users, delivery3, orderItems);
+
+
+        List<OrderItem> list4 = new ArrayList<>();
+        list4.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        orderItems = list4;
+        Delivery delivery4 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(users, delivery4, orderItems);
+
+        List<OrderItem> list5 = new ArrayList<>();
+        list5.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        orderItems = list5;
+        Delivery delivery5 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(users, delivery5, orderItems);
+
+        List<OrderItem> list6 = new ArrayList<>();
+        list6.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        orderItems = list6;
+        Delivery delivery6 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(users, delivery6, orderItems);
+
+        List<OrderItem> list7 = new ArrayList<>();
+        list7.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        orderItems = list7;
+        Delivery delivery7 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(users, delivery7, orderItems);
+
+        List<OrderItem> list8 = new ArrayList<>();
+        list8.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        orderItems = list8;
+        Delivery delivery8 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(users, delivery8, orderItems);
+
+        List<OrderItem> list9 = new ArrayList<>();
+        list9.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        orderItems = list9;
+        Delivery delivery9 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(users, delivery9, orderItems);
+
+        List<OrderItem> list10 = new ArrayList<>();
+        list10.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        orderItems = list10;
+        Delivery delivery10 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(users, delivery10, orderItems);
+
+        List<OrderItem> list11 = new ArrayList<>();
+        list11.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        orderItems = list11;
+        Delivery delivery11 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(users, delivery11, orderItems);
+
+        List<OrderItem> list12 = new ArrayList<>();
+        list12.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
+        orderItems = list12;
+        Delivery delivery12 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
+        orderService.create(users, delivery12, orderItems);
+        orderService.delivery(12L);
     }
 }
