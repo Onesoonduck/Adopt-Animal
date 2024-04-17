@@ -68,20 +68,6 @@ function pageClickEvent(event) {
   callTable(pagination.currentPage - 1, pagination.dataPerPage);
 }
 
-function showSection(section) {
-  // 모든 섹션을 숨깁니다.
-  tableSection.style.display = 'none';
-  addSection.style.display = 'none';
-  infoSection.style.display = 'none';
-
-  // 지정된 섹션만 보입니다.
-  section.style.display = 'block';
-
-  if(section===addSection){
-
-  }
-}
-
 function uploadImage(data) {
   return axios.post('/image/upload', data)
   .then(function (response) {
@@ -131,9 +117,25 @@ function postProductRegister(data) {
   })
 }
 
-function getCategory() {
+function getCategoryList() {
   axios.get('/categories')
-  .then()
+  .then(function (response) {
+    if(response.status===200) {
+      const selectBox = document.getElementById('product-category');
+      // 기존의 옵션을 모두 제거합니다.
+      selectBox.innerHTML = '';
+      // 새로운 옵션을 추가합니다.
+      response.data.forEach(category => {
+        const option = document.createElement('option');
+        option.value = category.categoryId;
+        option.text = category.categoryName;
+        selectBox.appendChild(option);
+      });
+    }
+  })
+  .catch(function (error) {
+    console.error(error);
+  })
 }
 
 function renderPage() {
@@ -143,5 +145,21 @@ function renderPage() {
   callTable(0, 10);
 }
 
+function showSection(section) {
+  // 모든 섹션을 숨깁니다.
+  tableSection.style.display = 'none';
+  addSection.style.display = 'none';
+  infoSection.style.display = 'none';
+
+  // 지정된 섹션만 보입니다.
+  section.style.display = 'block';
+  switch (section) {
+    case addSection:
+      getCategoryList();
+      break
+    default:
+      renderPage();
+  }
+}
+
 showSection(tableSection);
-renderPage();

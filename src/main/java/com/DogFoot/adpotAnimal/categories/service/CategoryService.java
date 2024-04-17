@@ -3,6 +3,7 @@ package com.DogFoot.adpotAnimal.categories.service;
 import com.DogFoot.adpotAnimal.categories.dto.CategoryDto;
 import com.DogFoot.adpotAnimal.categories.entity.Category;
 import com.DogFoot.adpotAnimal.categories.repository.CategoryRepository;
+import java.io.Console;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -35,7 +36,6 @@ public class CategoryService {
             .categoryName(categoryDto.getCategoryName())
             .categoryImg(categoryDto.getCategoryImg())
             .build();
-
         return categoryRepository.save(category);
     }
 
