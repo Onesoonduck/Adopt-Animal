@@ -6,39 +6,26 @@ import com.DogFoot.adpotAnimal.cart.repository.CartRepository;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.repository.ProductRepository;
 import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> f56752c3da1721b92436613a04e1fe3b8c52977d
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-
-import java.util.Collections;
-<<<<<<< HEAD
-=======
->>>>>>> cc072727447ace72d723a46d4311bad18e8e3ac9
-=======
->>>>>>> f56752c3da1721b92436613a04e1fe3b8c52977d
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+
 
 @Service
 public class CartService {
     private CartRepository cartRepository;
     private ProductRepository productRepository;
-    private UsersRepository userRepository;
 
     @Autowired
-    public CartService(CartRepository cartRepository,ProductRepository productRepository,
-                       UsersRepository userRepository){
+    public CartService(CartRepository cartRepository,ProductRepository productRepository){
         this.cartRepository=cartRepository;
         this.productRepository=productRepository;
-        this.userRepository=userRepository;
     }
 
     public void addCart(CartDto cartDto) {
@@ -46,22 +33,21 @@ public class CartService {
         cartRepository.save(cartEntity);
     }
 
-    public List<CartDto> getCartItemsByUserId(String userId) {
-        List<CartEntity> cartEntities = cartRepository.findByUserId(userId);
-        return cartEntities.stream()
-                .map(cartEntity -> {
-                    Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
-                    Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found"));
-                    if (productEntity != null) {
+    public Page<CartDto> getCartItemsByUserId(String userId, int page, int size) {
+        if (page <= 0 || size <= 0) {
+            throw new IllegalArgumentException("Invalid page or size value");
+        }
 
-                        return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
+        Pageable pageable = PageRequest.of(page - 1, size);
+        Page<CartEntity> cartEntitiesPage = cartRepository.findByUserId(userId, pageable);
 
-                    } else {
-                        return null;
-                    }
-                })
-                .collect(Collectors.toList());
+        return cartEntitiesPage.map(cartEntity -> {
+            Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
+            Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found for ID: " + cartEntity.getProductId()));
+            return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
+        });
     }
+
 
     public void deleteCartItems(List<Long> itemId){
         for(Long itemIds:itemId){
