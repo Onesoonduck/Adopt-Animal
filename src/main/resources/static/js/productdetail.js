@@ -10,8 +10,24 @@ async function getProductById(productId) {
     }
 }
 
+function getQueryParams() {
+    const params = {};
+    const queryString = window.location.search.slice(1); // '?' 제거
+    const pairs = queryString.split('&'); // 각 쿼리 스트링 항목 분리
+
+    pairs.forEach(pair => {
+        const [key, value] = pair.split('='); // 키와 값 분리
+        params[decodeURIComponent(key)] = decodeURIComponent(value || ''); // 디코드 후 객체에 할당
+    });
+
+    return params;
+}
+
 async function displayProductDetail(productId) {
+
     try {
+        const requestParams = getQueryParams();
+        const productId = requestParams.productId;
         // 상품 세부 정보 가져오기
         const productDto = await getProductById(productId);
 
