@@ -17,6 +17,7 @@ public class CartDto {
     private String productName;
     private int productPrice;
     private int cnt;
+    private String productImg;
 
     public static CartEntity toEntity(CartDto cartDto) {
         return CartEntity.builder()
@@ -27,7 +28,7 @@ public class CartDto {
                 .build();
     }
 
-    public static CartDto fromEntity2(CartEntity cartEntity, String productName, int productPrice) {
+    public static CartDto fromEntity2(CartEntity cartEntity, String productName, int productPrice,String productImg) {
         return CartDto.builder()
                 .cartId(cartEntity.getCartId())
                 .userId(cartEntity.getUserId())
@@ -35,6 +36,7 @@ public class CartDto {
                 .cnt(cartEntity.getCnt())
                 .productName(productName)
                 .productPrice(productPrice)
+                .productImg(productImg)
                 .build();
     }
 

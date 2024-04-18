@@ -47,14 +47,53 @@ body {
     width:800px;
     margin:auto;
     margin-top:100px;
+    margin-bottom:200px;
 }
 .price{
-    margin-top:50px;
+    margin-top:30px;
+    font-size:18px;
+    text-align:right;
+    margin-right:20px;
 }
 .btns{
     display:flex;
-    margin-top:50px;
+    margin-top:40px;
 }
+.btns button{
+    width:100px;
+    height:60px;
+    font-size:14px;
+}
+
 .order-btn{
     margin-left:580px;
+}
+.productImg{
+    width:120px;
+    height:120px;
+}
+.table{
+    margin-top:30px;
+}
+.table th{
+    text-align:center;
+    vertical-align: middle;
+}
+.table td{
+    width:120px;
+    height:120px;
+    text-align:center;
+    vertical-align: middle;
+    line-height: 120px;
+}
+.cnt{
+    margin-left:5px;
+    margin-right:5px;
+}
+.table .increment-btn,
+.table .decrement-btn {
+    width: 34px;
+    height: 30px;
+    font-size: 16px;
+    line-height: 10px;
 }

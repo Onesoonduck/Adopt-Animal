@@ -36,7 +36,7 @@ public class CartService {
             .map(cartEntity -> {
                 Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
                 Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found for ID: " + cartEntity.getProductId()));
-                return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
+                return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice(), productEntity.getProductImg());
             })
             .collect(Collectors.toList());
     }
