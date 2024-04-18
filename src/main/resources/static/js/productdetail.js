@@ -1,5 +1,3 @@
-
-
 async function getProductById(productId) {
     try {
         const response = await axios.get(`/products/${productId}`);
@@ -35,7 +33,7 @@ async function displayProductDetail(productId) {
                         </button>
                         <button class="btn btn-outline-dark flex-shrink-0" type="button">
                             <i class="bi-cart-fill me-1"></i>
-                            장바구니에 추가-
+                            장바구니에 추가
                         </button>
 
                     </div>
@@ -62,48 +60,3 @@ function getQueryParams() {
     return params;
 }
 
-window.onload = async function () {
-    displayProductDetail(getQueryParams());
-}
-
-    // async function createProductAndGetId(productData) {
-    //     try {
-    //         const response = await axios.post('/createProduct', productData);
-    //         return response.data;
-    //     } catch (error) {
-    //         console.error(error);
-    //         throw error; // Re-throwing the error to propagate it to the calling function
-    //     }
-    // }
-    //
-    // window.onload = async function () {
-    //     try {
-    //         // 상품 생성 후 생성된 상품 ID 가져오기
-    //         const productData = { /* Assuming you have product data here */};
-    //         const productId = await createProductAndGetId(productData);
-    //         console.log("Received product ID in window.onload:", productId);
-    //         // 생성된 상품 ID를 사용하여 상세 정보 표시
-    //         await displayProductDetail(productId);
-    //     } catch (error) {
-    //         console.error(error);
-    //     }
-    // };
-
-// 버튼 요소 가져오기
-// const purchaseButton = document.querySelector('.btn.btn-outline-dark');
-
-// 클릭 이벤트 리스너 추가
-// purchaseButton.addEventListener('click', function() {
-//     // 주문하기 페이지로 이동
-//     window.location.href = '/orderPage?id=' + productDto.id; // 주문하기 페이지의 URL로 대체해야 합니다.
-// });
-
-// 버튼 요소 가져오기
-// const addToCartButton = document.querySelector('.btn.btn-outline-dark');
-//
-// // 클릭 이벤트 리스너 추가
-// addToCartButton.addEventListener('click', function() {
-//     // 여기에 장바구니 페이지로 이동하는 코드를 작성합니다.
-//     // 예를 들어, window.location.href를 사용하여 장바구니 페이지의 URL로 이동할 수 있습니다.
-//     window.location.href = '/장바구니-페이지-URL'; // 장바구니 페이지의 URL로 대체해야 합니다.
-// });

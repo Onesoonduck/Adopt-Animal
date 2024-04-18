@@ -42,7 +42,7 @@ function callProductTable(page, size) {
                 divCard.className = 'col mb-5';
                 divCard.innerHTML = `
                     <div class="card h-100">
-                        <a href="#" class="product-link" data-product-id="${productDto.Id}">
+                        <a href="#" class="product-link" data-product-id="${productDto.id}">
                             <!-- Product image-->
                             <img class="card-img-top" src=${productDto.productImg} alt="..." />
                             <!-- Product details-->
@@ -97,18 +97,10 @@ async function renderPage() {
     // 상품 링크에 클릭 이벤트 핸들러 추가
     const productLinks = document.querySelectorAll('.product-link');
     productLinks.forEach(link => {
-        link.addEventListener('click', async function (event) {
+        link.addEventListener('click', function (event) {
             event.preventDefault();
-            try {
-                const productId = await getProductId(); // getProductId 함수를 호출하여 제품 ID를 가져옴
-                if (productId !== -1) {
-                    productClickHandler(productId);
-                } else {
-                    console.error('Failed to get product ID');
-                }
-            } catch (error) {
-                console.error('Error occurred while getting product ID:', error);
-            }
+            const productId = event.currentTarget.dataset.productId;  // 수정된 부분
+            productClickHandler(productId);
         });
     });
 }
