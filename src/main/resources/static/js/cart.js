@@ -24,13 +24,14 @@ document.addEventListener('DOMContentLoaded', function () {
                     row.innerHTML = `
                         <td><input type="checkbox" class="itemCheckbox" data-cartId="${product.cartId}"></td>
                         <td>${product.productName}</td>
-                        <td>${product.productPrice}</td>
+                        <td><img class="productImg" src=${product.productImg} alt="..." /></td>
+                        <td>${product.productPrice}원</td>
                         <td>
-                            <button class="decrement-btn">-</button>
+                            <button type="button" class="decrement-btn btn btn-secondary">-</button>
                             <span class="cnt">${product.cnt}</span>
-                            <button class="increment-btn">+</button>
+                            <button type="button" class="increment-btn btn btn-secondary">+</button>
                         </td>
-                        <td class="totalPriceCell">${productTotalPrice}</td>
+                        <td class="totalPriceCell">${productTotalPrice}원</td>
                     `;
                     productTable.appendChild(row);
                     totalPrice += productTotalPrice;
