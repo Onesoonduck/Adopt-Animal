@@ -28,7 +28,7 @@ public class CategoryService {
 
     public Category findByCategoryId(Long categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow(() ->
-            new IllegalArgumentException("잘못된 접근입니다."));
+            new IllegalArgumentException("카테고리 서비스 : 잘못된 접근입니다."));
     }
 
     public Category createCategory(CategoryDto categoryDto) {

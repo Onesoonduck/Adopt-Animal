@@ -1,6 +1,7 @@
 package com.DogFoot.adpotAnimal.products.dto;
 
 import com.DogFoot.adpotAnimal.categories.entity.Category;
+import com.DogFoot.adpotAnimal.products.controller.ProductController;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import lombok.*;
 
@@ -15,8 +16,16 @@ public class ProductDto {
     private int productStock;
     private int productLike;
     private String productImg;
-
     private Long categoryId;
+
+    public ProductDto(String productName, int productPrice, int productStock, String productImg, Long categoryId) {
+        this.productName = productName;
+        this.productPrice = productPrice;
+        this.productStock = productStock;
+        this.productImg = productImg;
+        this.categoryId = categoryId;
+        this.productLike = 0;
+    }
 
     public static Product toEntity(ProductDto productDto) {
         Product product = new Product();

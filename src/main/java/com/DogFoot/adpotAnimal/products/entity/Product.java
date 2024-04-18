@@ -60,7 +60,6 @@ public class Product {
     @Builder
     public Product(int productPrice, String productName, int productStock,
         int productLike, String productImg, Category category) {
-//        this.category = category;
         this.productPrice = productPrice;
         this.productName = productName;
         this.productStock = productStock;
