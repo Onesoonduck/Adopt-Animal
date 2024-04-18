@@ -33,7 +33,11 @@ function callTable(page, size) {
       const row = document.createElement('tr');
       row.innerHTML = `
         <th class="align-middle">${i}</th>
-        <td class="align-middle"></td>
+        <td class="align-middle">
+        <img class="img" src=${productDto.productImg} alt=""
+         id="product-list-img"
+         style="width: 100px; height: 100px;"
+          onerror="this.onerror=null; this.src='https://dummyimage.com/60x60/808080/FFF.png';">
         <td class="align-middle">${productDto.productName}</td>
         <td class="align-middle">${productDto.productPrice.toLocaleString()}</td>
         <td class="align-middle">${productDto.productStock}</td>

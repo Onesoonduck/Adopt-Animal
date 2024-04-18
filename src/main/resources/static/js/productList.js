@@ -38,7 +38,7 @@ function callProductTable(page, size) {
                         <!-- Product name-->
                         <h5 class="fw-bolder">${productDto.productName}</h5>
                         <!-- Product price-->
-                        ${productDto.productPrice}
+                        ${productDto.productPrice.toLocaleString()}
                     </div>
                 </div>
                 <!-- Product actions-->
@@ -55,6 +55,19 @@ function callProductTable(page, size) {
         });
 }
 
+// 카테고리 관련 기능
+
+// 카테고리를 불러들여 카테고리 네비를 완성시킨다.
+function getCategoryList() {
+    axios.get('categories/')
+    .then(function (response){
+        if(response.status===200){
+
+        }
+    })
+}
+
+// 페이지 클릭 이벤트
 function pageClickEvent(event) {
     event.preventDefault();
     let pageText = event.target.textContent;
