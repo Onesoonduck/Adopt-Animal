@@ -22,14 +22,7 @@ function postLogin(data) {
       const userRoles = decodedToken.auth;
       console.log(userRoles);
       if (userRoles === "ROLE_ADMIN") {
-        axios.get('/admin/admin')
-        .then(function (response) {
-          location.href = '/admin/admin.html'
-        })
-        .catch(function (error) {
-          // 에러 처리
-          console.error(error);
-        });
+        location.href = '/admin/admin.html'
       } else {
         location.href = '/main.html';
       }
