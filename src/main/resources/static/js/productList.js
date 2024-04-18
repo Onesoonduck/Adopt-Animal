@@ -65,7 +65,7 @@ function callProductTable(page, size) {
             }
         })
         .catch(function (error) {
-            console.log(error);
+            console.error(error);
         });
 }
 
@@ -73,7 +73,6 @@ function pageClickEvent(event) {
     event.preventDefault();
     let pageText = event.target.textContent;
     let page = Number(pageText);
-    let currentPage;
     if (!isNaN(page)) {
         pagination.currentPage = page;
     } else if (pageText === '«') {
@@ -100,7 +99,7 @@ async function renderPage() {
     productLinks.forEach(link => {
         link.addEventListener('click', function (event) {
             event.preventDefault();
-            const productId = event.currentTarget.dataset.productId; // 수정된 부분
+            const productId = event.currentTarget.dataset.productId;  // 수정된 부분
             productClickHandler(productId);
         });
     });
