@@ -93,8 +93,6 @@ async function addCartFromProduct() {
         const TotalPrice = parseInt(productPrice) * parseInt(productStock) + shippingFee;
 
         const cartList = document.getElementById('cartList');
-        // cartList.innerHTML = 'cartList';
-        // cartList.innerHTML = `
         cartList.innerHTML = '';
         const html = `
                     <h4 class="d-flex justify-content-between align-items-center mb-3">

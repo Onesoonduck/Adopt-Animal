@@ -88,7 +88,7 @@ async function displayProductDetail(productId) {
             const productStock = document.getElementById('productStock').value;
 
             // order/productToOrder.html로 이동하기
-            window.location.href = `/order/productToOrder.html?productId=${productId}productName=${productName}&productPrice=${productPrice}&productStock=${productStock}`;
+            window.location.href = `/order/productToOrder.html?productId=${productId}&productName=${encodeURIComponent(productName)}&productPrice=${productPrice}&productStock=${productStock}`;
         });
 
     } catch (error) {
