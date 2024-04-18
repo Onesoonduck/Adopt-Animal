@@ -40,6 +40,11 @@ public class ProductService {
         return productRepository.findAll(pageable);
     }
 
+    // 상품 리스트
+    public Page<Product> findProductByCategory(Pageable pageable, String categoryId) {
+        return productRepository.findByCategoryId(Long.parseLong(categoryId), pageable);
+    }
+
     @Transactional
     public void deleteProduct(Long id) {
         Product existingProduct = productRepository.findById(id)

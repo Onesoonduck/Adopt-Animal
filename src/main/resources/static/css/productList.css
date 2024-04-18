@@ -33,6 +33,10 @@
   color: white !important;
 }
 
+.nav-pills .nav-link:hover {
+  background-color: #ffe189; /* 원하는 색상으로 변경 */
+}
+
 .nav-pills .nav-link {
   color: black !important;
   font-size: 25px;
