@@ -3,6 +3,7 @@ package com.DogFoot.adpotAnimal.categories.service;
 import com.DogFoot.adpotAnimal.categories.dto.CategoryDto;
 import com.DogFoot.adpotAnimal.categories.entity.Category;
 import com.DogFoot.adpotAnimal.categories.repository.CategoryRepository;
+import java.io.Console;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,14 +28,14 @@ public class CategoryService {
 
     public Category findByCategoryId(Long categoryId) {
         return categoryRepository.findById(categoryId).orElseThrow(() ->
-            new IllegalArgumentException("잘못된 접근입니다."));
+            new IllegalArgumentException("카테고리 서비스 : 잘못된 접근입니다."));
     }
 
     public Category createCategory(CategoryDto categoryDto) {
-        Category category = new Category();
-        category.setCategoryName(categoryDto.getCategoryName());
-        category.setCategoryImg(categoryDto.getCategoryImg());
-
+        Category category = Category.builder()
+            .categoryName(categoryDto.getCategoryName())
+            .categoryImg(categoryDto.getCategoryImg())
+            .build();
         return categoryRepository.save(category);
     }
 

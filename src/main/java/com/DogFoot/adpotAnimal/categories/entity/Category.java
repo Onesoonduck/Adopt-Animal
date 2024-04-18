@@ -11,8 +11,10 @@ import lombok.NoArgsConstructor;
 @Entity
 @NoArgsConstructor
 public class Category {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "category_id")
     private Long categoryId;
 
     @NotNull
@@ -28,10 +30,11 @@ public class Category {
         this.categoryImg = categoryImg;
     }
 
-    public CategoryDto toCategoryTableDto() {
+    public CategoryDto toDto() {
         CategoryDto categoryDto;
         categoryDto = new CategoryDto();
 
+        categoryDto.setId(categoryDto.getId());
         categoryDto.setCategoryName(categoryDto.getCategoryName());
         categoryDto.setCategoryImg(categoryDto.getCategoryImg());
 
