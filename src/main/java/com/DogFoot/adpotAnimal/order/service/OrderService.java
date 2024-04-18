@@ -119,4 +119,11 @@ public class OrderService {
         Page<Order> orderPage = orderRepository.findAll(pageable);
         return orderPage.map(Order::toTableDto);
     }
+
+    // 회원 주문 목록 조회
+    public Page<OrderTableDto> getUserOrderTable(Pageable pageable, long id) {
+
+        Page<Order> orderPage = orderRepository.findAllByUsers_id(pageable, id);
+        return orderPage.map(Order::toTableDto);
+    }
 }

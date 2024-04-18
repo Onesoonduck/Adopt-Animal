@@ -1,10 +1,11 @@
 .col-12 > h1 {
   font-weight: bold;
+  text-align: center;
   color:orange;
 }
 
 .users-image-container {
-  margin-top: 50px;
+  margin-top: 90px;
   margin-bottom: 50px;
   display: flex;
   justify-content: center;
@@ -18,6 +19,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  border: 2px solid #f1edda;
   overflow: hidden;
 }
 
@@ -27,6 +29,7 @@
 }
 
 .users-detail-link {
+  font-size: 24px;
   font-weight: bold;
   color:orange;
 }
@@ -49,4 +52,19 @@
   margin-left: 30px;
   border-style:none;
   text-decoration-line: none;
+}
+
+.container {
+  width: 700px;
+  height: 500px;
+  margin-top: 100px;
+
+  padding: 20px;
+  background-color: #fff3ea;
+  border-radius: 10px;
+  box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+}
+
+.list-group-item {
+  background-color: #fff3ea;
 }
