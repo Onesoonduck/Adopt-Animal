@@ -36,7 +36,7 @@ function callTable(page, size) {
         <td class="align-middle"></td>
         <td class="align-middle">${productDto.productName}</td>
         <td class="align-middle">${productDto.productPrice.toLocaleString()}</td>
-        <td class="align-middle">${productDto.Stock}</td>
+        <td class="align-middle">${productDto.productStock}</td>
         <td class="align-middle">0</td>
         <td class="align-middle"><button type="button" class="btn btn-danger btn-sm">삭제</button></td>
       `;
@@ -68,9 +68,13 @@ function pageClickEvent(event) {
   callTable(pagination.currentPage - 1, pagination.dataPerPage);
 }
 
-function uploadImage(data) {
-  return axios.post('/image/upload', data)
-  .then(function (response) {
+async function uploadImage(imageFile) {
+  let formData = new FormData();
+  formData.append("image", imageFile);
+
+  try {
+    const response = await axios.post('/image/upload', formData);
+
     if (response.status === 200) {
       alert('이미지 등록이 완료되었습니다.');
       return response.data;
@@ -78,9 +82,10 @@ function uploadImage(data) {
       alert('이미지 등록이 실패하였습니다.');
       return null;
     }
-  }).catch(function (error) {
+  } catch(error) {
     alert(error.response.data);
-  })
+    console.error(error);
+  }
 }
 
 async function getProductData() {
@@ -88,8 +93,8 @@ async function getProductData() {
   // image를 업로드 하고 image의 경로를 가져와야 한다.
 
   const productName = document.getElementById('product-name').value;
-  const productImage = await uploadImage(image);
-  const productCategory = document.getElementById('product-category').value;
+  const productImg = await uploadImage(image);
+  const categoryId = document.getElementById('product-category').value;
   const productPrice = document.getElementById('product-price').value;
   const productStock = document.getElementById('product-stock').value;
   const productDescription = document.getElementById(
@@ -97,18 +102,20 @@ async function getProductData() {
 
   return {
     productName,
-    productImage,
-    productCategory,
+    productImg,
+    categoryId,
     productPrice,
     productStock,
   };
 }
 
-function postProductRegister(data) {
+async function postProductRegister(data) {
   axios.post('/products', data)
   .then(function (response){
-    if(response.status===200) {
-      location.href = '/static/admin/admin-product.html';
+    const formdata = data;
+    if(response.status===201) {
+      location.href = '/static/admin/admin_product.html';
+      showSection(tableSection);
     } else {
       alert('상품 등록이 실패했습니다.');
     }
@@ -122,9 +129,7 @@ function getCategoryList() {
   .then(function (response) {
     if(response.status===200) {
       const selectBox = document.getElementById('product-category');
-      // 기존의 옵션을 모두 제거합니다.
       selectBox.innerHTML = '';
-      // 새로운 옵션을 추가합니다.
       response.data.forEach(category => {
         const option = document.createElement('option');
         option.value = category.categoryId;
@@ -153,24 +158,39 @@ function showSection(section) {
 
   // 지정된 섹션만 보입니다.
   section.style.display = 'block';
-  switch (section) {
-    case addSection:
-      getCategoryList();
-      break
-    default:
-      break
-  }
 }
 
-// "추가" 버튼을 선택합니다.
-let addButton = document.querySelector('#product-add');
+function showImage() {
+  let inputImage = document.querySelector('#product-image');
+  inputImage.addEventListener('change', function() {
+    let file = this.files[0];
+    let reader = new FileReader();
+    reader.addEventListener('load', function() {
+      let img = document.querySelector('#product-img');
+      img.src = reader.result;
+    });
+    reader.readAsDataURL(file);
+  });
+}
 
-// 클릭 이벤트를 추가합니다.
-addButton.addEventListener('click', function() {
-  // 이곳에 클릭 시 실행할 코드를 작성합니다.
+// "추가" 버튼을 누르면 상품 추가 섹션으로 전환됩니다.
+let addButton = document.querySelector('#product-add');
+addButton.addEventListener('click', function(event) {
+  event.preventDefault();
   showSection(addSection);
 });
 
+// 상품 추가 섹션에서 "등록' 버튼을 누르면 상품이 등록됩니다.
+let productForm = document.querySelector('#product_form');
+productForm.addEventListener('submit', async function (event) {
+  event.preventDefault();
+  const formData = await getProductData();
+  await postProductRegister(formData);
+});
+
+
 renderPage();
 showSection(tableSection);
+getCategoryList();
+showImage();
 
