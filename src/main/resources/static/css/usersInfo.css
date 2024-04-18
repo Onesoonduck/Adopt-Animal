@@ -1,0 +1,16 @@
+.col-12 > h1 {
+  font-weight: bold;
+  color:orange;
+}
+
+.row {
+  margin-bottom: 100px;
+}
+
+.container {
+  margin-top: 50px;
+}
+
+.accordion-item {
+  border-color: #f58c19;
+}
