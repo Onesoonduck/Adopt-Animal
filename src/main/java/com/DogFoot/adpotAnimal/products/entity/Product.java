@@ -1,5 +1,6 @@
 package com.DogFoot.adpotAnimal.products.entity;
 
+import com.DogFoot.adpotAnimal.categories.entity.Category;
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
 import com.DogFoot.adpotAnimal.products.dto.ProductDto;
 import com.DogFoot.adpotAnimal.users.dto.UsersTableDto;
@@ -9,6 +10,8 @@ import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
@@ -50,19 +53,31 @@ public class Product {
     @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
     private List<OrderItem> orderItems = new ArrayList<>();
 
-//    @ManyToOne
-//    @JoinColumn(name = "category_id")
-//    private Category category;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private Category category;
 
     @Builder
     public Product(int productPrice, String productName, int productStock,
-        int productLike, String productImg) {
-//        this.category = category;
+        int productLike, String productImg, Category category) {
         this.productPrice = productPrice;
         this.productName = productName;
         this.productStock = productStock;
         this.productLike = productLike;
         this.productImg = productImg;
+        this.category = category;
+    }
+
+    public ProductDto toDto() {
+        ProductDto productDto = new ProductDto();
+        productDto.setId(productId);
+        productDto.setProductPrice(productPrice);
+        productDto.setProductName(productName);
+        productDto.setProductStock(productStock);
+        productDto.setProductLike(productLike);
+        productDto.setProductImg(productImg);
+        productDto.setCategoryId(category.getCategoryId());
+        return productDto;
     }
 
     public ProductDto toProductTableDto() {
@@ -75,7 +90,7 @@ public class Product {
         productDto.setProductStock(productDto.getProductStock());
         productDto.setProductLike(productDto.getProductLike());
         productDto.setProductImg(productDto.getProductImg());
-
+        productDto.setCategoryId(productDto.getCategoryId());
         return productDto;
     }
 
@@ -92,5 +107,7 @@ public class Product {
         }
         this.productStock += count;
     }
+
+
 
 }
