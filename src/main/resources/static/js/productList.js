@@ -42,7 +42,7 @@ function callProductTable(page, size) {
                 divCard.className = 'col mb-5';
                 divCard.innerHTML = `
                     <div class="card h-100">
-                        <a href="#" class="product-link" data-product-id="${productDto.productId}">
+                        <a href="#" class="product-link" data-product-id="${productDto.id}">
                             <!-- Product image-->
                             <img class="card-img-top" src=${productDto.productImg} alt="..." />
                             <!-- Product details-->
@@ -100,7 +100,7 @@ async function renderPage() {
     productLinks.forEach(link => {
         link.addEventListener('click', function (event) {
             event.preventDefault();
-            const productId = event.target.dataset.productId; // 수정된 부분
+            const productId = event.currentTarget.dataset.productId; // 수정된 부분
             productClickHandler(productId);
         });
     });

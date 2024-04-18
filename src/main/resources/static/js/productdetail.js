@@ -34,7 +34,7 @@ async function displayProductDetail(productId) {
                         <p class="lead">상품에 대한 소개 & 별점</p>
                         <div class="d-flex">
                             <input class="form-control text-center me-3" id="productStock" type="number" value="1" style="max-width: 3rem"/>
-                            <a class="btn btn-outline-dark flex-shrink-0" id="buyButton" href="#" data-product-id="${productDto.productId}" 
+                            <a class="btn btn-outline-dark flex-shrink-0" id="buyButton" href="#" data-product-id="${productDto.id}" 
                             data-product-name="${productDto.productName}" data-product-price="${productDto.productPrice}" data-product-stock="">
                                 <i class="bi-cart-fill me-1"></i>
                                 구매하기
