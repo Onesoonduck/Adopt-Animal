@@ -23,13 +23,16 @@ import org.springframework.web.multipart.MultipartFile;
 public class ImageController {
 
     @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    public ResponseEntity<String> upload(@RequestPart("Dto") ImageDto imageDto, @RequestPart("image") MultipartFile image) {
-        String originalFilename = image.getOriginalFilename();  // 파일의 원본 이름을 가져옴
-        int index = originalFilename.lastIndexOf(".");
-        String ext = originalFilename.substring(index+1).toLowerCase(); // 파일의 확장자를 추출합니다.
+    public ResponseEntity<String> upload(@RequestPart("image") MultipartFile imageFile) {
         List<String> allowedExtensions = Arrays.asList("jpg", "png", "gif");
 
-        if(!allowedExtensions.contains(ext)){
+        String originalFilename = imageFile.getOriginalFilename();  // 파일의 원본 이름을 가져옴
+        if (originalFilename == null) {
+            return new ResponseEntity<>("이미지 파일이 유효하지 않습니다.", HttpStatus.BAD_REQUEST);
+        }
+
+        String ext = originalFilename.substring(originalFilename.lastIndexOf(".") + 1).toLowerCase();
+        if (!allowedExtensions.contains(ext)) {
             return new ResponseEntity<>("이미지 파일만 업로드 가능합니다.", HttpStatus.BAD_REQUEST);
         }
 
@@ -41,18 +44,18 @@ public class ImageController {
             String key = savePath + now + "/" + storeFileName;
             File temp = new File(savePath + now + "/");
 
-            if(!temp.exists()){
+            if (!temp.exists()) {
                 temp.mkdirs();
             }
 
             FileOutputStream fileOutputStream = new FileOutputStream(key);
-            fileOutputStream.write(image.getBytes());
+            fileOutputStream.write(imageFile.getBytes());
             fileOutputStream.close();
 
-            imageDto.setImageUrl("/images/" + now + "/" + storeFileName);
-            return new ResponseEntity<>("이미지가 성공적으로 저장되었습니다.", HttpStatus.OK);
-        } catch (IOException e){
-            return new ResponseEntity("이미지 저장에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
+            String imageUrl = "/images/" + now + "/" + storeFileName;
+            return new ResponseEntity<>(imageUrl, HttpStatus.OK);
+        } catch (IOException e) {
+            return new ResponseEntity<>("이미지 저장에 실패했습니다.", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }

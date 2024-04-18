@@ -1,16 +1,20 @@
 document.addEventListener('DOMContentLoaded', function () {
-    loadProducts(); // 페이지가 로드될 때 상품을 로드
+    loadProducts();
 
-    function loadProducts() {
-        fetch('http://localhost:8080/cart/items')
-            .then(response => response.json())
-            .then(data => {
+    function loadProducts(page = 1) {
+        const accessToken = sessionStorage.getItem('authorization');
+        const pageSize = 10;
+
+        axios.get(`http://localhost:8080/cart/items`)
+            .then(response => {
+                const data = response.data;
+
                 const productTable = document.getElementById('table-body');
+
+                productTable.innerHTML = '';
+
                 let totalPrice = 0;
 
-                productTable.innerHTML = ''; // 기존 테이블 내용 지우기
-
-                //데이터 가져와서 행 생성
                 data.forEach(product => {
                     const row = document.createElement('tr');
                     const productPrice = parseFloat(product.productPrice);
@@ -32,11 +36,8 @@ document.addEventListener('DOMContentLoaded', function () {
                     totalPrice += productTotalPrice;
                 });
 
-                // 총 가격 업데이트
-                const priceDiv = document.querySelector('.price');
-                priceDiv.textContent = `총 금액: ${totalPrice}원`;
+                updateTotalPrice(totalPrice);
 
-                // 전체 선택 체크박스 이벤트 핸들러
                 const selectAllCheckbox = document.getElementById('selectAllCheckbox');
                 selectAllCheckbox.addEventListener('change', function() {
                     const checkboxes = document.querySelectorAll('.itemCheckbox');
@@ -45,70 +46,85 @@ document.addEventListener('DOMContentLoaded', function () {
                     });
                 });
 
-                // 상품 증가 버튼 클릭 이벤트 핸들러
-                document.querySelectorAll('.increment-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const cntElement = button.parentElement.querySelector('.cnt');
-                        const cnt = parseInt(cntElement.textContent);
-                        const cartId = button.closest('tr').querySelector('.itemCheckbox').getAttribute('data-cartId');
-
-                        fetch('http://localhost:8080/cart/items/' + cartId + '/increase', {
-                            method: 'PATCH',
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            loadProducts(); // 상품 다시로드
-                        })
-                    });
-                });
-
-                // 상품 감소 버튼 클릭 이벤트 핸들러
-                document.querySelectorAll('.decrement-btn').forEach(button => {
-                    button.addEventListener('click', function() {
-                        const cntElement = button.parentElement.querySelector('.cnt');
-                        const cnt = parseInt(cntElement.textContent);
-                        if (cnt > 1) {
-                            const cartId = button.closest('tr').querySelector('.itemCheckbox').getAttribute('data-cartId');
-
-                            fetch('http://localhost:8080/cart/items/' + cartId + '/decrease', {
-                                method: 'PATCH',
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                loadProducts(); // 상품 다시로드
-                            })
-                        } else {
-                            alert("1보다 작은 개수로 감소시킬 수 없습니다.");
-                        }
-                    });
-                });
-                const deleteButton = document.querySelector('.delete-btn button');
-                deleteButton.addEventListener('click', function() {
-                    const checkedCheckboxes = document.querySelectorAll('.itemCheckbox:checked');
-                    const cartIds = Array.from(checkedCheckboxes).map(checkbox => checkbox.getAttribute('data-cartId'));
-                    deleteCartItems(cartIds);
-                });
+                incrementButtons();
+                decrementButtons();
             })
+            .catch(handleError);
     }
-        // 삭제 버튼 이벤트 핸들러
 
-});
+    function updateTotalPrice(totalPrice) {
+        const priceDiv = document.querySelector('.price');
+        priceDiv.textContent = `총 금액: ${totalPrice}원`;
+    }
 
-// Function to delete cart items
-function deleteCartItems(cartIds) {
-    fetch("http://localhost:8080/cart/items", {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(cartIds)
-    })
-    .then(response => {
-        if (!response.ok) {
-            throw new Error('Failed to delete cart items');
+    function incrementButtons() {
+        document.querySelectorAll('.increment-btn').forEach(button => {
+            button.addEventListener('click', handleIncrement);
+        });
+    }
+
+    function handleIncrement(event) {
+        const cartId = event.target.closest('tr').querySelector('.itemCheckbox').getAttribute('data-cartId');
+        axios.patch(`http://localhost:8080/cart/items/${cartId}/increase`)
+            .then(response => {
+                loadProducts();
+            })
+            .catch(handleError);
+    }
+
+    function decrementButtons() {
+        document.querySelectorAll('.decrement-btn').forEach(button => {
+            button.addEventListener('click', handleDecrement);
+        });
+    }
+
+    function handleDecrement(event) {
+        const cntElement = event.target.closest('tr').querySelector('.cnt');
+        let cnt = parseInt(cntElement.textContent);
+        if (cnt <= 1) {
+            alert("1보다 적게 감소시킬 수 없습니다.");
+            return;
         }
-        alert('선택한 물품이 삭제되었습니다.');
-        window.location.reload();
-    })
+        const cartId = event.target.closest('tr').querySelector('.itemCheckbox').getAttribute('data-cartId');
+        axios.patch(`http://localhost:8080/cart/items/${cartId}/decrease`)
+            .then(response => {
+                loadProducts();
+            })
+            .catch(handleError);
+    }
 
-}
+    function handleError(error) {
+        console.error('에러 발생:', error);
+    }
+
+    document.querySelector('.delete-btn button').addEventListener('click', function() {
+        const selectedCartIds = [];
+        const checkboxes = document.querySelectorAll('.itemCheckbox');
+        checkboxes.forEach(checkbox => {
+            if (checkbox.checked) {
+                selectedCartIds.push(checkbox.getAttribute('data-cartId'));
+            }
+        });
+
+        if (selectedCartIds.length === 0) {
+            alert('삭제할 상품을 선택하세요.');
+            return;
+        }
+
+        deleteCartItems(selectedCartIds);
+    });
+
+    function deleteCartItems(cartIds) {
+        axios.delete("http://localhost:8080/cart/items", {
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: cartIds
+        })
+        .then(response => {
+            alert('선택한 물품이 삭제되었습니다.');
+            window.location.reload();
+        })
+        .catch(handleError);
+    }
+});

@@ -5,7 +5,6 @@ import com.DogFoot.adpotAnimal.cart.entity.CartEntity;
 import com.DogFoot.adpotAnimal.cart.repository.CartRepository;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.repository.ProductRepository;
-import com.DogFoot.adpotAnimal.users.repository.UsersRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,14 +17,11 @@ import java.util.stream.Collectors;
 public class CartService {
     private CartRepository cartRepository;
     private ProductRepository productRepository;
-    private UsersRepository userRepository;
 
     @Autowired
-    public CartService(CartRepository cartRepository,ProductRepository productRepository,
-                       UsersRepository userRepository){
+    public CartService(CartRepository cartRepository,ProductRepository productRepository){
         this.cartRepository=cartRepository;
         this.productRepository=productRepository;
-        this.userRepository=userRepository;
     }
 
     public void addCart(CartDto cartDto) {
@@ -35,20 +31,16 @@ public class CartService {
 
     public List<CartDto> getCartItemsByUserId(String userId) {
         List<CartEntity> cartEntities = cartRepository.findByUserId(userId);
+
         return cartEntities.stream()
-                .map(cartEntity -> {
-                    Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
-                    Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found"));
-                    if (productEntity != null) {
-
-                        return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
-
-                    } else {
-                        return null;
-                    }
-                })
-                .collect(Collectors.toList());
+            .map(cartEntity -> {
+                Optional<Product> productOptional = productRepository.findById(cartEntity.getProductId());
+                Product productEntity = productOptional.orElseThrow(() -> new EntityNotFoundException("Product not found for ID: " + cartEntity.getProductId()));
+                return CartDto.fromEntity2(cartEntity, productEntity.getProductName(), productEntity.getProductPrice());
+            })
+            .collect(Collectors.toList());
     }
+
 
     public void deleteCartItems(List<Long> itemId){
         for(Long itemIds:itemId){

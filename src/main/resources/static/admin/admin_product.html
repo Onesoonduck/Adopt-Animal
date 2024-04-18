@@ -16,36 +16,42 @@
 <body>
 <!-- 네비바 -->
 <nav class="navbar navbar-expand-md navbar-light">
-  <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse" data-target="#sidebar">
+  <button class="navbar-toggler ml-auto mb-2 bg-light" type="button" data-toggle="collapse"
+          data-target="#sidebar">
   </button>
   <div class="collapse navbar-collapse" id="sidebar">
     <div class="container-fluid">
       <div class="row">
         <!-- 사이드바 -->
         <div class="col-xl-2 col-lg-3 sidebar fixed-top">
-          <a href="#" class="navbar-brand text-white text-center d-block mx-auto py-3 mb-4 bottom-border">DogFoot</a>
+          <a href="#"
+             class="navbar-brand text-white text-center d-block mx-auto py-3 mb-4 bottom-border">DogFoot</a>
           <div class="bottom-border pb-3">
-            <img src="https://api.dicebear.com/8.x/bottts/svg?seed=621" alt="" width="50" class="rounded-circle mr-3">
+            <img src="https://api.dicebear.com/8.x/bottts/svg?seed=621" alt="" width="50"
+                 class="rounded-circle mr-3">
             <a href="/static/admin/admin.html" class="text-white">Admin</a>
           </div>
           <ul class="navbar-nav flex-column mt-4">
             <li class="nav-item">
-              <a href="/static/admin/admin.html" class="nav-link text-white p-3 mb-2 current">
+              <a href="/static/admin/admin.html" class="nav-link text-white p-3 mb-2">
                 <i class="fas fa-home text-white fa-lg mr-3"></i>DashBoard
               </a>
             </li>
             <li class="nav-item">
-              <a href="/static/admin/admin_user.html" class="nav-link text-white p-3 mb-2 sidebar-link">
+              <a href="/static/admin/admin_user.html"
+                 class="nav-link text-white p-3 mb-2 sidebar-link">
                 <i class="fas fa-user text-white fa-lg mr-3"></i>회원 관리
               </a>
             </li>
             <li class="nav-item">
-              <a href="/static/admin/admin_order.html" class="nav-link text-white p-3 mb-2 sidebar-link">
+              <a href="/static/admin/admin_order.html"
+                 class="nav-link text-white p-3 mb-2 sidebar-link">
                 <i class="fas fa-shopping-cart text-white fa-lg mr-3"></i>주문 관리
               </a>
             </li>
             <li class="nav-item">
-              <a href="/static/admin/admin_product.html" class="nav-link text-white p-3 mb-2 sidebar-link">
+              <a href="/static/admin/admin_product.html"
+                 class="nav-link text-white p-3 mb-2 sidebar-link">
                 <i class="fas fa-box-open text-white fa-lg mr-3"></i>상품 관리
               </a>
             </li>
@@ -99,8 +105,8 @@
 </nav>
 
 <!--카드 섹션 -->
-<!-- 테이블 -->
-<section>
+<!-- 상품 테이블 -->
+<section id="productTable">
   <div class="container-fluid">
     <div class="row">
       <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
@@ -135,7 +141,9 @@
               <th class="align-middle">제품 가격</th>
               <th class="align-middle">재고</th>
               <th class="align-middle">주문량</th>
-              <th class="align-middle"><button type="button" class="btn btn-primary btn-sm">추가</button></th>
+              <th class="align-middle">
+                <button type="button" class="btn btn-primary btn-sm" id="product-add">추가</button>
+              </th>
             </tr>
             </thead>
             <tbody id="table-products">
@@ -169,13 +177,85 @@
     </div>
   </div>
 </section>
+<!-- 상품 추가 섹션 -->
+<section id="productAdd">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+        <div class="row pt-md-5 mt-md-3 mb-5">
+          <div class="col-12 d-flex justify-content-between">
+            <h2 class="text-muted text-center mb-3">상품 등록</h2>
+          </div>
+          <div class="col-12 row justify-content-end">
+            <div class="row gx-4 gx-lg-5 align-items-center product_box">
+              <div class="product_div col-md-5">
+                <img class="card-img-top mb-6" src="" alt="" id="product-img"
+                     onerror="this.onerror=null; this.src='https://www.dummyimage.com/600x600/808080/ffffff&text=No+Image';">
+              </div>
+              <div class="product_div col-md-6">
+                <form class="product_form" id="product_form">
+
+                  <div class="mb-3">
+                    <label for="product-name" class="form-label">상품 이름</label>
+                    <input type="text" class="form-control" id="product-name">
+                  </div>
+                  <!--이미지-->
+                  <div class="mb-3">
+                    <label for="product-image" class="form-label">상품 이미지</label>
+                    <input type="file" class="form-control" id="product-image" accept="image/*">
+                  </div>
+                  <!--카테고리-->
+                  <div class="mb-3">
+                    <label for="product-category" class="form-label">상품 카테고리</label>
+                    <select class="form-control" id="product-category">
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="product-price" class="form-label">상품 가격</label>
+                    <input type="text" class="form-control" id="product-price">
+                  </div>
+                  <div class="mb-3">
+                    <label for="product-stock" class="form-label">상품 재고</label>
+                    <input type="text" class="form-control" id="product-stock">
+                  </div>
+                  <div class="mb-3 custom-description">
+                    <label for="product-description" class="form-label">상품 설명</label>
+                    <textarea class="form-control custom-textarea" id="product-description"></textarea>
+                  </div>
+                  <div>
+                    <button type="submit" class="btn btn-primary" id="product-submit">Submit</button>
+                  </div>
+
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</section>
+<!-- 상품 정보 섹션 -->
+<section id="productInfo">
+  <div class="row">
+    <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
+      <div class="row pt-md-5 mt-md-3 mb-5">
+        <div class="col-12 d-flex justify-content-between">
+          <h2 class="text-muted text-center mb-3">상품 상세 정보</h2>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
 <script src="/static/js/bootstrap.bundle.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="/static/js/form-validation.js"></script>
 <script type="module" src="/static/js/common.js"></script>
-<script type="module" src="/js/admin/productTable.js"></script>
-<script src="/static/js/admin/sidebar.js"></script><script src="/static/js/admin/sidebar.js"></script>
-</body>
+<script type="module" src="/static/js/admin/productTable.js"></script>
+<script src="/static/js/admin/sidebar.js"></script>
 
 
 </html>
