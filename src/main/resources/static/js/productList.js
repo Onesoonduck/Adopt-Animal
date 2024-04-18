@@ -1,16 +1,27 @@
-import {Pagination} from "/static/js/pagination/pagination.js";
+import { Pagination } from "/static/js/pagination/pagination.js";
 
 let pagination;
 let productCnt = await getProductCount();
 
 async function getProductCount() {
-  try {
-    const response = await axios.get('/products/api/productCount');
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return -1; // or throw an error, or return a default value
-  }
+    try {
+        const response = await axios.get('/products/api/productCount');
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return -1; // or throw an error, or return a default value
+    }
+}
+
+async function getProductId() {
+    try {
+        const response = await axios.get('/products/api/productId');
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return -1; // or throw an error, or return a default value
+    }
+
 }
 
 function callProductTable(page, size) {
@@ -30,29 +41,26 @@ function callProductTable(page, size) {
                 const divCard = document.createElement('div');
                 divCard.className = 'col mb-5';
                 divCard.innerHTML = `
-            <div class="card h-100">
-                <a href="productdetail.html">
-                  <!-- Product image-->
-                  <img class="card-img-top" src=${productDto.productImg} alt="..." />
-                  <!-- Product details-->
-                  <div class="card-body p-4">
-                      <div class="text-center">
-                          <!-- Product name-->
-                          <h5 class="fw-bolder">${productDto.productName}</h5>
-                          <!-- Product price-->
-                          ${productDto.productPrice}
-                      </div>
-                  </div>
-                  </a>
-                  <!-- Product actions-->
-                  <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                      <div class="text-center"><a class="btn btn-outline-warning mt-auto" href="#">장바구니 담기</a></div>
-                  </div>
-            </div>
-            `;
-                divCard.addEventListener('click', function () {
-                    window.location.href = '/product/productdetail.html?id=' + productDto.productId;
-                })
+                    <div class="card h-100">
+                        <a href="#" class="product-link" data-product-id="${productDto.Id}">
+                            <!-- Product image-->
+                            <img class="card-img-top" src=${productDto.productImg} alt="..." />
+                            <!-- Product details-->
+                            <div class="card-body p-4">
+                                <div class="text-center">
+                                    <!-- Product name-->
+                                    <h5 class="fw-bolder">${productDto.productName}</h5>
+                                    <!-- Product price-->
+                                    ${productDto.productPrice}
+                                </div>
+                            </div>
+                        </a>
+                        <!-- Product actions-->
+                        <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                            <div class="text-center"><a class="btn btn-outline-warning mt-auto" href="#">장바구니 담기</a></div>
+                        </div>
+                    </div>
+                `;
                 tbody.appendChild(divCard);
             }
         })
@@ -61,43 +69,45 @@ function callProductTable(page, size) {
         });
 }
 
-async function getProductById(id) {
-    try {
-        const response = await axios.get(`/products/${id}`);
-        const product = response.data;
-        console.log(product);
-        return product.data;
-    } catch (error) {
-        console.error(error);
-        throw error; // Re-throwing the error to propagate it to the calling function
-    }
-}
-
 function pageClickEvent(event) {
-  event.preventDefault();
-  let pageText = event.target.textContent;
-  let page = Number(pageText);
-  if (!isNaN(page)) {
-    pagination.currentPage = page;
-  } else if (pageText === '«') {
-    if (pagination.currentPage > 1) {
-      pagination.currentPage = pagination.currentPage - 1;
+    event.preventDefault();
+    let pageText = event.target.textContent;
+    let page = Number(pageText);
+    if (!isNaN(page)) {
+        pagination.currentPage = page;
+    } else if (pageText === '«') {
+        if (pagination.currentPage > 1) {
+            pagination.currentPage = pagination.currentPage - 1;
+        }
+    } else if (pageText === '»') {
+        if (pagination.currentPage < pagination.totalPage) {
+            pagination.currentPage = pagination.currentPage + 1;
+        }
     }
-  } else if (pageText === '»') {
-    if (pagination.currentPage < pagination.totalPage) {
-      pagination.currentPage = pagination.currentPage + 1;
-    }
-  }
-  pagination.renderPagination(pagination.currentPage);
-  callProductTable(pagination.currentPage - 1, pagination.dataPerPage);
+    pagination.renderPagination(pagination.currentPage);
+    callProductTable(pagination.currentPage - 1, pagination.dataPerPage);
 }
 
 async function renderPage() {
-  productCnt = await getProductCount();
-  pagination = new Pagination(6, 5, Math.ceil(productCnt / 10), pageClickEvent);
-  pagination.renderPagination(1);
-  await callProductTable(0, 6);
+    productCnt = await getProductCount();
+    pagination = new Pagination(6, 5, Math.ceil(productCnt / 10), pageClickEvent);
+    pagination.renderPagination(1);
+    await callProductTable(0, 6);
+
+    // 상품 링크에 클릭 이벤트 핸들러 추가
+    const productLinks = document.querySelectorAll('.product-link');
+    productLinks.forEach(link => {
+        link.addEventListener('click', function (event) {
+            event.preventDefault();
+            const productId = event.target.dataset.productId; // 수정된 부분
+            productClickHandler(productId);
+        });
+    });
 }
 
 renderPage();
 
+// 상품 클릭 이벤트 핸들러
+function productClickHandler(productId) {
+    window.location.href = `/product/productdetail.html?productId=${productId}`;
+}

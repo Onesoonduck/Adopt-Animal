@@ -13,15 +13,12 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @Data
 @Entity
 @NoArgsConstructor
-@AllArgsConstructor
 @Table(name = "product")
 public class Product {
 
@@ -55,9 +52,10 @@ public class Product {
 //    private Category category;
 
     @Builder
-    public Product(int productPrice, String productName, int productStock,
+    public Product(Long productId, int productPrice, String productName, int productStock,
         int productLike, String productImg) {
 //        this.category = category;
+        this.productId = productId;
         this.productPrice = productPrice;
         this.productName = productName;
         this.productStock = productStock;
@@ -69,7 +67,7 @@ public class Product {
 
         ProductDto productDto;
         productDto = new ProductDto();
-
+        productDto.setId(productId);
         productDto.setProductPrice(productDto.getProductPrice());
         productDto.setProductName(productDto.getProductName());
         productDto.setProductStock(productDto.getProductStock());
@@ -92,5 +90,6 @@ public class Product {
         }
         this.productStock += count;
     }
+
 
 }

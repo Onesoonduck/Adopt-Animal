@@ -13,8 +13,8 @@ async function getProductById(productId) {
 async function displayProductDetail(productId) {
     try {
         const productDto = await getProductById(productId);
-        const divCard = document.createElement('div');
-        divCard.className = 'py-5';
+        const divCard = document.getElementById('pyt');
+        divCard.innerHTML= '';
         divCard.innerHTML = `
         <div class="container px-4 px-lg-5 my-5">
             <div class="row gx-4 gx-lg-5 align-items-center">
@@ -25,7 +25,7 @@ async function displayProductDetail(productId) {
                     <div class="fs-5 mb-5" id="productPrice">
                         <span >${productDto.productPrice}원</span>
                     </div>
-                    <div class="small mb-1" id="productStock">${productDto.productStock}</div>
+                    <div class="small mb-1" id="productStock">재고 : ${productDto.productStock}</div>
                     <p class="lead">상품에 대한 소개 & 별점</p>
                     <div class="d-flex">
                         <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
@@ -35,7 +35,7 @@ async function displayProductDetail(productId) {
                         </button>
                         <button class="btn btn-outline-dark flex-shrink-0" type="button">
                             <i class="bi-cart-fill me-1"></i>
-                            장바구니에 추가
+                            장바구니에 추가-
                         </button>
 
                     </div>
@@ -43,13 +43,28 @@ async function displayProductDetail(productId) {
             </div>
         </div>
         `;
-        document.body.appendChild(divCard); // 추가: divCard를 body에 추가
+        divCard.appendChild(divCard); // 추가: divCard를 body에 추가
     } catch (error) {
         console.error(error);
     }
 }
 
-displayProductDetail();
+function getQueryParams() {
+    const params = {};
+    const queryString = window.location.search.slice(1); // '?' 제거
+    const pairs = queryString.split('&'); // 각 쿼리 스트링 항목 분리
+
+    pairs.forEach(pair => {
+        const [key, value] = pair.split('='); // 키와 값 분리
+        params[decodeURIComponent(key)] = decodeURIComponent(value || ''); // 디코드 후 객체에 할당
+    });
+
+    return params;
+}
+
+window.onload = async function () {
+    displayProductDetail(getQueryParams());
+}
 
     // async function createProductAndGetId(productData) {
     //     try {
