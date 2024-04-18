@@ -27,13 +27,13 @@ function callProductTable(page, size) {
             for (let i = 0; i < length; i++) {
                 const productDto = productDtos[i];
                 const divCard = document.createElement('div');
-                divCard.className = 'col mb-5';
+                divCard.className = 'col mb-7 p-2';
                 divCard.innerHTML = `
             <div class="card h-100">
                 <!-- Product image-->
-                <img class="card-img-top" src=${productDto.productImg} alt="..." />
+                <img class="card-img-top h-60" src=${productDto.productImg} alt="..." />
                 <!-- Product details-->
-                <div class="card-body p-4">
+                <div class="card-body p-3 d-flex align-items-center justify-content-center">
                     <div class="text-center">
                         <!-- Product name-->
                         <h5 class="fw-bolder">${productDto.productName}</h5>
@@ -42,8 +42,8 @@ function callProductTable(page, size) {
                     </div>
                 </div>
                 <!-- Product actions-->
-                <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                    <div class="text-center"><a class="btn btn-outline-warning mt-auto" href="#">장바구니 담기</a></div>
+                <div class="card-footer p-0 pb-2 border-top-0 bg-transparent">
+                    <div class="text-center"><a class="btn btn-sm btn-outline-warning mt-auto" href="#">장바구니 담기</a></div>
                 </div>
             </div>
       `;
