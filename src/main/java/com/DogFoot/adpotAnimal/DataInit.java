@@ -111,6 +111,7 @@ public class DataInit {
         Delivery delivery = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
         orderService.create(users, delivery, orderItems);
 
+        //
         List<OrderItem> list2 = new ArrayList<>();
         list2.add(OrderItem.createOrderItem(productService.findProductById(1L), 20000, 10));
         orderItems = list2;

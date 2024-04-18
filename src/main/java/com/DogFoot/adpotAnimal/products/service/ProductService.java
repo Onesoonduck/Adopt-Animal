@@ -5,12 +5,9 @@ import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.dto.ProductDto;
 import com.DogFoot.adpotAnimal.products.repository.ProductRepository;
 import jakarta.transaction.Transactional;
-import org.antlr.v4.runtime.ParserRuleContext;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Service
 public class ProductService {

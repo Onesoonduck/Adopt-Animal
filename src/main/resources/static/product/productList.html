@@ -53,6 +53,7 @@
 
         <!-- Section-->
         <section class="py-5">
+<<<<<<< HEAD:src/main/resources/static/product/productlist.html
             <div class="container-xxl">
                 <div class="row row-cols-md-3 p-2" id="product-card">
                     <div class="col mb-7 p-2">
@@ -66,8 +67,25 @@
                                     <h5 class="fw-bolder">상품 1</h5>
                                     <!-- Product price-->
                                     10,000원
+=======
+            <div class="container px-4 px-lg-5 mt-5">
+                <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center" id="product-card">
+                    <div class="col mb-5">
+                        <div class="card h-100">
+                            <a href="#" class="product-link" data-product-id="${productDto.productId}">
+                                <!-- Product image-->
+                                <img class="card-img-top" src=${productDto.productImg} alt="..." />
+                                <!-- Product details-->
+                                <div class="card-body p-4">
+                                    <div class="text-center">
+                                        <!-- Product name-->
+                                        <h5 class="fw-bolder">${productDto.productName}</h5>
+                                        <!-- Product price-->
+                                        ${productDto.productPrice}
+                                    </div>
+>>>>>>> feature-FE-orders:src/main/resources/static/product/productList.html
                                 </div>
-                            </div>
+                            </a>
                             <!-- Product actions-->
                             <div class="card-footer p-0 pb-2 border-top-0 bg-transparent">
                                 <div class="text-center"><a class="btn btn-sm btn-outline-warning mt-auto" href="#">장바구니 담기</a></div>

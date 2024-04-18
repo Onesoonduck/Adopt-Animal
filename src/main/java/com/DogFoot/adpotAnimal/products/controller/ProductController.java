@@ -4,6 +4,7 @@ import com.DogFoot.adpotAnimal.order.service.OrderService;
 import com.DogFoot.adpotAnimal.products.dto.ProductDto;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.service.ProductService;
+import com.DogFoot.adpotAnimal.users.entity.Users;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -62,4 +63,5 @@ public class ProductController {
         Long productCount = productService.getProductCount();
         return ResponseEntity.ok(productCount);
     }
+
 }

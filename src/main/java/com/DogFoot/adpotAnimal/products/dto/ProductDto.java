@@ -41,7 +41,6 @@ public class ProductDto {
 
     public static ProductDto fromDto(Product product) {
         ProductDto productDto = new ProductDto();
-        productDto.setId(product.getProductId());
         productDto.setProductPrice(product.getProductPrice());
         productDto.setProductName(product.getProductName());
         productDto.setProductStock(product.getProductStock());
@@ -50,5 +49,4 @@ public class ProductDto {
         productDto.setCategoryId(product.getCategory().getCategoryId());
         return productDto;
     }
-
 }

@@ -6,7 +6,6 @@ import com.DogFoot.adpotAnimal.order.dto.OrderTableDto;
 import com.DogFoot.adpotAnimal.order.entity.Delivery;
 import com.DogFoot.adpotAnimal.order.entity.Order;
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
-import com.DogFoot.adpotAnimal.order.entity.OrderStatus;
 import com.DogFoot.adpotAnimal.order.service.DeliveryService;
 import com.DogFoot.adpotAnimal.order.service.OrderItemService;
 import com.DogFoot.adpotAnimal.order.service.OrderService;
@@ -15,7 +14,6 @@ import com.DogFoot.adpotAnimal.users.entity.CustomUserDetails;
 import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -40,22 +38,37 @@ public class OrderController {
 
     // 주문 생성
     @PostMapping("")
-    public ResponseEntity<Long> addOrder(@RequestBody OrderRequest request) {
+    @ResponseBody
+    public ResponseEntity<Long> addOrder(@ModelAttribute OrderRequest request) {
+        // 사용자의 인증 정보 확인
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = String.valueOf(1L);
+            if (userId==null) {
+                 //사용자가 로그인되어 있지 않은 경우에 대한 처리
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+            Users user = usersService.findUserById(Long.parseLong(userId));
 
-        Users users = usersService.getUsers();
+            Long deliveryId = request.getDeliveryId();
+            if (deliveryId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
+            Delivery delivery = deliveryService.findById(1L);
 
-        Delivery delivery = deliveryService.findById(request.getDeliveryId());
 
-        List<OrderItem> orderItems = new ArrayList<>();
+            List<OrderItem> orderItems = new ArrayList<>();
+            for (Long orderItemId : request.getOrderItemId()) {
+                if (orderItemId == null) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                }
+                orderItems.add(orderItemService.findById(1L));
+            }
 
-        for (Long orderItemId : request.getOrderItemId()) {
-            orderItems.add(orderItemService.findById(orderItemId));
+            Order order = orderService.create(user, delivery, orderItems);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
         }
 
-        Order order = orderService.create(users, delivery, orderItems);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
-    }
 
     // 주문 목록 검색
     @GetMapping("")
@@ -70,7 +83,7 @@ public class OrderController {
 
 
     // 특정 주문 검색
-    @GetMapping("/{id}")
+    @GetMapping("/list/{id}")
     public ResponseEntity<OrderResponse> findOrder(@PathVariable(value = "id") Long id) {
         Order order = orderService.findById(id);
         return ResponseEntity.ok().body(new OrderResponse(order));

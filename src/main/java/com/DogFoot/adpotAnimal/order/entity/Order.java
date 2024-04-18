@@ -39,7 +39,6 @@ public class Order {
     // Orders 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
-    @JsonManagedReference // 순환참조를 막기 위한 어노테이션이지만 Dto를 쓰는 방법도?
     private Users users;
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
