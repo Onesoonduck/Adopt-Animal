@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <title>마이페이지</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-  <link rel="stylesheet" href=../css/users.css>
+  <link rel="stylesheet" href="/static/css/users.css">
 </head>
 <body>
 <!-- include 함수 가져오기 -->
@@ -24,7 +24,7 @@
       <div class="card" id = users-detail-left style="width: 10rem;">
         <ul class="list-group list-group-flush">
           <li class="list-group-item">
-            <a class="users-detail-link" href="/static/users/users.html">주문 조회</a>
+            <a class="users-detail-link" href="/static/users/usersOrder.html">주문 조회</a>
           </li>
           <li class="list-group-item">
             <a class="users-detail-link" href="/static/users/usersInfo.html">회원 정보</a>
@@ -48,64 +48,22 @@
       </div>
     </div>
 
-    <section>
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-xl-10 col-lg-9 col-md-8 ml-auto">
-            <div class="row pt-md-5 mt-md-3 mb-5">
-              <div class="col-12 d-flex justify-content-between">
-                <h2 class="text-muted text-center mb-3">주문 조회</h2>
-              </div>
-              <table class="table bg-light text-center">
-                <thead>
-                <tr class="text-muted align-middle">
-                  <th class="align-middle">주문번호</th>
-                  <th class="align-middle">주문일자</th>
-                  <th class="align-middle">상품명</th>
-                  <th class="align-middle">상품 가격</th>
-                  <th class="align-middle">주문 상태</th>
-                  <th class="align-middle">주문 취소</th>
-                </tr>
-                </thead>
-                <tbody id="table-orders">
-
-                </tbody>
-              </table>
-              <!-- 페이지네이션 -->
-              <nav id="pagination">
-                <ul class="pagination justify-content-center">
-                  <li class="page-item">
-                    <a href="#" class="page-link py-2 px-3">
-                      <span>&laquo;</span>
-                    </a>
-                  </li>
-
-                  <!-- 페이지 정보를 추가 -->
-                  <li class="page-item active my">
-                    <a href="#" class="page-link py-2 px-3">1</a>
-                  </li>
-                  <li class="page-item my">
-                    <a href="#" class="page-link py-2 px-3">2</a>
-                  </li>
-                  <li class="page-item">
-                    <a href="#" class="page-link py-2 px-3">
-                      <span>&raquo;</span>
-                    </a>
-                  </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
   </div>
+  <script>
+    function removeCheck(id) {
+      console.log(id);
+      if (confirm("정말 삭제하시겠습니까??") == true) {    //확인
+        console.log("sss");
+      } else {   //취소
 
+        return false;
+
+      }
+    }
+  </script>
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   <script type="module" src="/static/js/common.js"></script>
   <script type="module" src="/static/js/logout.js"></script>
-  <script type="module" src="/static/js/users.js"></script>
 </body>
 </html>

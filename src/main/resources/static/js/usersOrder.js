@@ -45,7 +45,7 @@ function callTable(page, size) {
         <td class="align-middle">${ordertitle}</td>
         <td class="align-middle">${orderTableDto.totalPrice.toLocaleString()}</td>
         <td class="align-middle">${orderTableDto.orderStatus}</td>
-        <td class="align-middle"><button type="button" class="btn btn-danger btn-sm" id="order${orderTableDto.id}">취소</button></td>
+        <td class="align-middle"><button type="button" class="btn btn-danger btn-sm" id="order${orderTableDto.id}" onclick="removeCheck(${orderTableDto.id});">취소</button></td>
       `;
       }else {
         row.innerHTML = `
@@ -63,6 +63,7 @@ function callTable(page, size) {
     }
   })
   .catch(function (error) {
+    alert('주문목록을 가져오는 중 문제가 발생하였습니다.');
     console.log(error);
   });
 }

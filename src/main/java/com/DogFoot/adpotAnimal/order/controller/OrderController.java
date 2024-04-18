@@ -6,6 +6,7 @@ import com.DogFoot.adpotAnimal.order.dto.OrderTableDto;
 import com.DogFoot.adpotAnimal.order.entity.Delivery;
 import com.DogFoot.adpotAnimal.order.entity.Order;
 import com.DogFoot.adpotAnimal.order.entity.OrderItem;
+import com.DogFoot.adpotAnimal.order.entity.OrderStatus;
 import com.DogFoot.adpotAnimal.order.service.DeliveryService;
 import com.DogFoot.adpotAnimal.order.service.OrderItemService;
 import com.DogFoot.adpotAnimal.order.service.OrderService;
@@ -14,6 +15,7 @@ import com.DogFoot.adpotAnimal.users.entity.CustomUserDetails;
 import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
 import jakarta.servlet.http.HttpServletResponse;
+import jakarta.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -113,5 +115,13 @@ public class OrderController {
         Long orderCount =Long.valueOf(orders.size());
 
         return ResponseEntity.ok(orderCount);
+    }
+
+    // 회원 주문 취소
+    @PutMapping("/api/statusChange")
+    public ResponseEntity<Void> updateOrderStatus(@RequestParam Long id) {
+        orderService.cancel(id);
+
+        return ResponseEntity.ok().build();
     }
 }

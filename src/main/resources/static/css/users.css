@@ -1,10 +1,11 @@
 .col-12 > h1 {
   font-weight: bold;
+  text-align: center;
   color:orange;
 }
 
 .users-image-container {
-  margin-top: 50px;
+  margin-top: 90px;
   margin-bottom: 50px;
   display: flex;
   justify-content: center;
@@ -27,6 +28,7 @@
 }
 
 .users-detail-link {
+  font-size: 24px;
   font-weight: bold;
   color:orange;
 }
@@ -49,43 +51,6 @@
   margin-left: 30px;
   border-style:none;
   text-decoration-line: none;
-}
-
-/* 카드 섹션 */
-.card-common {
-  box-shadow: 1px 2px 5px #999;
-  transition: all .4s;
-}
-
-.card-common:hover {
-  box-shadow: 2px 3px 15px #999;
-  transform: translate(-1px);
-}
-
-.page-link span {
-  color: #ff8000;
-}
-
-.my.page-item.active .page-link {
-  z-index: 3;
-  color: #ffffff;
-  border-color: #ff8000;
-  background-color: #ff8000;
-}
-
-.my.page-item .page-link {
-  z-index: 3;
-  color: #ff8000;
-}
-
-.my.btn-primary {
-  background-color: #ffa500;
-  border-color: #ffa500;
-}
-
-.my.btn-primary:hover {
-  background-color: #ff8000;
-  border-color: #ff8000;
 }
 
 .container {
