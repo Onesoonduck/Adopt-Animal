@@ -53,10 +53,10 @@ public class OrderController {
             }
             Users user = userService.findUserById(Long.parseLong(userId));
 
-//            Long deliveryId = request.getDeliveryId();
-//            if (deliveryId == null) {
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-//            }
+            Long deliveryId = request.getDeliveryId();
+            if (deliveryId == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+            }
             Delivery delivery = deliveryService.findById(1L);
 
 

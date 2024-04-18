@@ -85,8 +85,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const shippingFee = 3000;
                     const productTotalPrice = productPrice * productStock + shippingFee;
 
-
-                    row.innerHTML = `
+                    cartList.innerHTML = `
                 <div class="col-md-5 col-lg-4 order-md-last">
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-warning">장바구니</span>
@@ -104,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         <div class="text-success">
                             <h6 class="my-0">배송비</h6>
                         </div>
-                        <span class="text-success">${shippingFee}</span>
+                        <span class="text-success">${shippingFee}원</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span>총합</span>
@@ -169,13 +168,13 @@ function addOrderItemsToCart(cartItems) {
             // 배송 정보 저장
             const deliveryId = await saveDeliveryInfo();
             // 장바구니 상품 정보 가져오기
-            const cartItems = await addOrderItemsToCart();
+            const cartItemId = await addOrderItemsToCart();
 
             // 주문 요청 객체 생성
             const orderRequest = {
                 usersId: userId(),
                 deliveryId: deliveryId(),
-                orderItemIds: cartItems()
+                orderItemIds: cartItemId()
             };
 
             // 주문 생성
@@ -189,8 +188,6 @@ function addOrderItemsToCart(cartItems) {
             location.hred = '/static/order/orderFail.html';
         }
     }
-
-
 
 // 사용자 ID 가져오기 API 호출
 function getUsersIdFromAPI() {
