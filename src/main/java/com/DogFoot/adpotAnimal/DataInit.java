@@ -179,5 +179,7 @@ public class DataInit {
         Delivery delivery12 = Delivery.createDelivery(address, "받는사람", "010-0000-0000");
         orderService.create(users, delivery12, orderItems);
         orderService.delivery(12L);
+
+
     }
 }
