@@ -42,7 +42,7 @@ public class ProductService {
 
     // 상품 리스트
     public Page<Product> findProductByCategory(Pageable pageable, String categoryId) {
-        return productRepository.findByCategoryId(Long.parseLong(categoryId), pageable);
+        return productRepository.findByCategoryCategoryId(Long.parseLong(categoryId), pageable);
     }
 
     @Transactional
@@ -73,4 +73,8 @@ public class ProductService {
         return productRepository.count();
     }
 
+    // 카테고리 별 제품 수 조회
+    public long getProductCountByCategory(Long categoryId) {
+        return productRepository.countByCategoryCategoryId(categoryId);
+    }
 }

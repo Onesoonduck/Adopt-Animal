@@ -4,7 +4,17 @@ let productCnt = await getProductCount();
 let categoryId = 99;
 async function getProductCount() {
     try {
-        const response = await axios.get('/products/api/productCount');
+        const response = await axios.get(`/products/api/productCount`);
+        return response.data;
+    } catch (error) {
+        console.error(error);
+        return -1; // or throw an error, or return a default value
+    }
+}
+
+async function getProductCountByCategory() {
+    try {
+        const response = await axios.get(`/products/api/productCount/${categoryId}`);
         return response.data;
     } catch (error) {
         console.error(error);
@@ -97,8 +107,8 @@ function callProdutTableByCategory(page, size) {
         console.log(error);
     });
 }
-// 카테고리 관련 기능
 
+// 카테고리 관련 기능
 // 카테고리를 불러들여 카테고리 네비를 완성시킨다.
 function getCategoryList() {
     axios.get('/categories')
@@ -111,20 +121,23 @@ function getCategoryList() {
             all.value = "ALL";
             all.text = "모두";
             all.style.cursor = "pointer";
-
+            categoryId = 99;
             // 클릭 이벤트 추가
-            all.addEventListener('click', function(event) {
+            all.addEventListener('click', async function (event) {
                 event.preventDefault();
                 // 여기에 클릭 시 실행할 코드를 작성하세요.
+                categoryId = 99;
+                productCnt = await getProductCount();
+                let ceilproductCnt = Math.ceil(productCnt / 6);
+                pagination.setTotalPage(ceilproductCnt);
                 pagination.renderPagination(1);
-                callProductTable(0,6);
+                callProductTable(0, 6);
                 let activeNav = document.querySelector('#product-nav .active');
                 if (activeNav) {
                     activeNav.classList.remove('active');
                 }
                 all.classList.add("active");
             });
-            categoryId = 99;
             productNav.appendChild(all);
             response.data.forEach(category => {
                 const nav = document.createElement('a');
@@ -134,17 +147,22 @@ function getCategoryList() {
                 nav.style.cursor = "pointer";
 
                 // 클릭 이벤트 추가
-                nav.addEventListener('click', function(event) {
+                nav.addEventListener('click', async function (event) {
                     event.preventDefault();
                     // 여기에 클릭 시 실행할 코드를 작성하세요.
+                    categoryId = nav.value;
+                    productCnt = await getProductCountByCategory();
+                    let ceilproductCnt = Math.ceil(productCnt / 6);
+                    pagination.setTotalPage(ceilproductCnt);
                     pagination.renderPagination(1);
-                    callProdutTableByCategory(0,6);
-                    let activeNav = document.querySelector('#product-nav .active');
+                    callProdutTableByCategory(0, 6);
+                    let activeNav = document.querySelector(
+                        '#product-nav .active');
                     if (activeNav) {
                         activeNav.classList.remove('active');
                     }
                     nav.classList.add("active");
-                    categoryId
+
                 });
 
                 productNav.appendChild(nav);
@@ -173,11 +191,16 @@ function pageClickEvent(event) {
     pagination.renderPagination(pagination.currentPage);
 
     // 활성화 된 카테고리를 확인 하여 분기
-    callProductTable(pagination.currentPage - 1, pagination.dataPerPage);
+    if(categoryId===99){
+        callProductTable(pagination.currentPage - 1, pagination.dataPerPage);
+    } else {
+        callProdutTableByCategory(pagination.currentPage - 1, pagination.dataPerPage)
+    }
+
 }
 
 function renderPage() {
-    pagination = new Pagination(6,5, Math.ceil(productCnt/10), pageClickEvent);
+    pagination = new Pagination(6,5, Math.ceil(productCnt/6), pageClickEvent);
     pagination.renderPagination(1);
     callProductTable(0, 6);
 }

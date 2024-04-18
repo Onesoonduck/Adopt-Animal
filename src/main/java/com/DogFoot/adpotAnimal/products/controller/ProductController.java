@@ -64,8 +64,16 @@ public class ProductController {
 
     // 상품수 조회
     @GetMapping("/api/productCount")
-    public ResponseEntity<Long> getUsersCount(HttpServletResponse response) {
+    public ResponseEntity<Long> getProductCount(HttpServletResponse response) {
         Long productCount = productService.getProductCount();
+        return ResponseEntity.ok(productCount);
+    }
+
+    // 카테고리 별 상품수 조회
+    @GetMapping("/api/productCount/{categoryId}")
+    public ResponseEntity<Long> getProductCountByCategory(HttpServletResponse response,
+        @PathVariable Long categoryId) {
+        Long productCount = productService.getProductCountByCategory(categoryId);
         return ResponseEntity.ok(productCount);
     }
 }
