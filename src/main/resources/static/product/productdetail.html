@@ -55,7 +55,7 @@
 </nav>
 
 
-<!-- Product section-->
+<!-- 상품 정보 -->
 <section class="py-5" id="pyt">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
@@ -66,7 +66,7 @@
                 <div class="fs-5 mb-5" id="productPrice">
                     <span >${productDto.productPrice}원</span>
                 </div>
-                <p class="lead">상품에 대한 소개 & 별점</p>
+                <p class="lead">상품 소개글 + 별점: ${productDto.productLike}</p>
                 <div class="d-flex">
                     <input class="form-control text-center me-3" id="productStock" type="num" value="1" style="max-width: 3rem" />
                     <a class="btn btn-outline-dark flex-shrink-0" id="buyButton" href="#"
