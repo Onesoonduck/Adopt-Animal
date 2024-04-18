@@ -97,10 +97,18 @@ async function renderPage() {
     // 상품 링크에 클릭 이벤트 핸들러 추가
     const productLinks = document.querySelectorAll('.product-link');
     productLinks.forEach(link => {
-        link.addEventListener('click', function (event) {
+        link.addEventListener('click', async function (event) {
             event.preventDefault();
-            const productId = event.target.dataset.productId; // 수정된 부분
-            productClickHandler(productId);
+            try {
+                const productId = await getProductId(); // getProductId 함수를 호출하여 제품 ID를 가져옴
+                if (productId !== -1) {
+                    productClickHandler(productId);
+                } else {
+                    console.error('Failed to get product ID');
+                }
+            } catch (error) {
+                console.error('Error occurred while getting product ID:', error);
+            }
         });
     });
 }
