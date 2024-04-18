@@ -93,10 +93,30 @@ public class DataInit {
             "/images/2024-04-16/d6b0222b-c664-4bdd-8eb7-aba64cf75bdb.jpg",
             categoryService.findByCategoryId(1L));
         productService.createProduct(product.toDto());
+
         product = new Product(30000, "고양이 단추", 10, 0,
             "/images/2024-04-16/ed596cc4-a361-4a94-9d04-269135471928.png",
             categoryService.findByCategoryId(2L));
         productService.createProduct(product.toDto());
+
+        product = new Product(2500, "강아지 무지 노트", 40, 0,
+            "/images/2024-04-18/a70314d8-edf1-4fe4-af63-55438d1eac86.jpg",
+            categoryService.findByCategoryId(3L));
+        productService.createProduct(product.toDto());
+
+        for (int i = 1; i <= 12; i++) {
+            product = new Product(15000, "고양이 단추" + i, 40, 0,
+                "/images/2024-04-16/456fa6f6-6098-44a4-92a4-a9923a11e20a.jpg",
+                categoryService.findByCategoryId(1L));
+            productService.createProduct(product.toDto());
+        }
+
+        for (int i = 1; i <= 12; i++) {
+            product = new Product(2500, "강아지 무지 노트" + i, 40, 0,
+                "/images/2024-04-18/a70314d8-edf1-4fe4-af63-55438d1eac86.jpg",
+                categoryService.findByCategoryId(3L));
+            productService.createProduct(product.toDto());
+        }
 
         // 주문 추가
         Users users = usersService.findUserById(1L);

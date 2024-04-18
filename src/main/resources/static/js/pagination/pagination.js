@@ -13,6 +13,10 @@ export class Pagination {
     this.clickEvent = clickEvent;
   }
 
+  setTotalPage(totalCount){
+    this.totalPage = totalCount;
+  }
+
   renderPagination(currentPage) {
     let startPage;
     if (currentPage <= 3) {

@@ -1,6 +1,5 @@
 package com.DogFoot.adpotAnimal.products.controller;
 
-import com.DogFoot.adpotAnimal.order.service.OrderService;
 import com.DogFoot.adpotAnimal.products.dto.ProductDto;
 import com.DogFoot.adpotAnimal.products.entity.Product;
 import com.DogFoot.adpotAnimal.products.service.ProductService;
@@ -28,10 +27,17 @@ public class ProductController {
         return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
     }
 
-    // 모든 상품 조회
+    // 모든 상품 조회 (페이지)
     @GetMapping("/lists")
     public Page<ProductDto> getAllProducts(Pageable pageable) {
         Page<Product> productPage = productService.findAll(pageable);
+        return productPage.map(ProductDto::fromDto);
+    }
+
+    // 카테고리별 상품 조회 (페이지)
+    @GetMapping("/lists/{categoryId}")
+    public Page<ProductDto> getProductsByCategory(Pageable pageable, @PathVariable String categoryId) {
+        Page<Product> productPage = productService.findProductByCategory(pageable, categoryId);
         return productPage.map(ProductDto::fromDto);
     }
 
@@ -58,8 +64,16 @@ public class ProductController {
 
     // 상품수 조회
     @GetMapping("/api/productCount")
-    public ResponseEntity<Long> getUsersCount(HttpServletResponse response) {
+    public ResponseEntity<Long> getProductCount(HttpServletResponse response) {
         Long productCount = productService.getProductCount();
+        return ResponseEntity.ok(productCount);
+    }
+
+    // 카테고리 별 상품수 조회
+    @GetMapping("/api/productCount/{categoryId}")
+    public ResponseEntity<Long> getProductCountByCategory(HttpServletResponse response,
+        @PathVariable Long categoryId) {
+        Long productCount = productService.getProductCountByCategory(categoryId);
         return ResponseEntity.ok(productCount);
     }
 }
