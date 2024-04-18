@@ -25,6 +25,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
@@ -43,34 +44,34 @@ public class OrderController {
     @PostMapping("")
     @ResponseBody
     public ResponseEntity<Long> addOrder(@ModelAttribute OrderRequest request) {
-//       Users user = usersService.getUsers();
-//
-        String UserId = String.valueOf(1L);
-        if (UserId==null) {
-            // 사용자가 로그인되어 있지 않은 경우에 대한 처리
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
-        }
-        Users user = userService.findUserById(Long.valueOf(UserId));
-
-        Long deliveryId = request.getDeliveryId();
-        if (deliveryId == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
-        Delivery delivery = deliveryService.findById(1L);
-
-
-        List<OrderItem> orderItems = new ArrayList<>();
-        for (Long orderItemId : request.getOrderItemId()) {
-            if (orderItemId == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        // 사용자의 인증 정보 확인
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = String.valueOf(1L);
+            if (userId==null) {
+                 //사용자가 로그인되어 있지 않은 경우에 대한 처리
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
             }
-            orderItems.add(orderItemService.findById(1L));
+            Users user = userService.findUserById(Long.parseLong(userId));
+
+//            Long deliveryId = request.getDeliveryId();
+//            if (deliveryId == null) {
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+//            }
+            Delivery delivery = deliveryService.findById(1L);
+
+
+            List<OrderItem> orderItems = new ArrayList<>();
+            for (Long orderItemId : request.getOrderItemId()) {
+                if (orderItemId == null) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+                }
+                orderItems.add(orderItemService.findById(1L));
+            }
+
+            Order order = orderService.create(user, delivery, orderItems);
+
+            return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
         }
-
-        Order order = orderService.create(user, delivery, orderItems);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
-    }
 
 
     // 주문 목록 검색

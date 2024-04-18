@@ -1,12 +1,12 @@
 
 
-async function ProductDetail(productId) {
+async function getProductById(productId) {
     try {
-        const response = await axios.get(`/products/${id}`);
+        const response = await axios.get(`/products/${productId}`);
         return response.data;
     } catch (error) {
         console.error(error);
-        throw error; // Re-throwing the error to propagate it to the calling function
+        throw error;
     }
 }
 

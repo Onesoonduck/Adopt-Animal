@@ -61,7 +61,6 @@ function callProductTable(page, size) {
         });
 }
 
-
 async function getProductById(id) {
     try {
         const response = await axios.get(`/products/${id}`);

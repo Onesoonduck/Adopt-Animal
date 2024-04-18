@@ -71,67 +71,61 @@ document.addEventListener('DOMContentLoaded', function () {
     // 장바구니에서 상품 가져오기
     function getCart() {
         axios.get('/cart/items')
-            .then(function(response) {
+            .then(function (response) {
                 const cartItems = response.data;
-
-                const cartItemCountElement = document.getElementById('cartItemCount');
-                cartItemCountElement.textContent = cartItems.length;
 
                 const cartList = document.getElementById('cartList');
                 cartList.innerHTML = '';
 
-                if (cartItems.length === 0) {
-                    let tr = document.createElement('tr');
-                    let td = document.createElement('td');
-                    td.colSpan = 5;
-                    td.innerText = '장바구니에 담긴 상품이 없습니다.';
-                    tr.appendChild(td);
-                    cartList.appendChild(tr);
-                    return;
-                }
+                cartItems.forEach(product => {
+                    const row = document.createElement('tr');
+                    const productName = product.productName;
+                    const productPrice = parseFloat(product.productPrice);
+                    const productStock = parseInt(product.productStock);
+                    const shippingFee = 3000;
+                    const productTotalPrice = productPrice * productStock + shippingFee;
 
-                cartItems.forEach(item => {
-                    let li = document.createElement('li');
-                    li.className = 'list-group-item d-flex justify-content-between lh-sm';
 
-                    let divLeft = document.createElement('div');
-                    let h6 = document.createElement('h6');
-                    h6.className = 'my-0';
-                    h6.textContent = item.productName;
-                    let small = document.createElement('small');
-                    small.className = 'text-muted';
-                    small.textContent = '개수: ' + item.productStock
-                    divLeft.appendChild(h6);
-                    divLeft.appendChild(small);
-
-                    let spanPrice = document.createElement('span');
-                    spanPrice.className = 'text-muted';
-                    spanPrice.textContent = item.productPrice;
-
-                    li.appendChild(divLeft);
-                    li.appendChild(spanPrice);
-
-                    cartList.appendChild(li);
+                    row.innerHTML = `
+                <div class="col-md-5 col-lg-4 order-md-last">
+                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="text-warning">장바구니</span>
+                    <span class="badge bg-warning rounded-pill"></span>
+                </h4>
+                <ul class="list-group mb-3">
+                    <li class="list-group-item d-flex justify-content-between lh-sm">
+                        <div>
+                            <h6 class="my-0" id="productName">${productName}</h6>
+                            <small class="text-muted" id="productStock">${productStock}</small>
+                        </div>
+                        <span class="text-muted" id="productPrice">${productPrice}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between bg-light">
+                        <div class="text-success">
+                            <h6 class="my-0">배송비</h6>
+                        </div>
+                        <span class="text-success">${shippingFee}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between">
+                        <span>총합</span>
+                        <strong id="totalPrice">${productTotalPrice}</strong>
+                    </li>
+                </ul>
+                </div>
+                `;
+                    cartList.appendChild(row);
                 });
-
-                updateTotalPrice(cartItems);
             })
-            .catch(function(error) {
+            .catch(function (error) {
                 console.error(error);
             });
     }
-    // 총합 가격 업데이트
-    function updateTotalPrice(cartItems) {
-        let totalPrice = 0;
-        cartItems.forEach(item => {
-            totalPrice += item.productPrice * item.productStock + 3000;
-        });
-        document.getElementById('totalPrice').textContent = totalPrice;
-    }
+
 });
 
 // 주문 항목 추가
 function addOrderItemsToCart(cartItems) {
+    // 주문 항목 요청 객체 생성
     const orderItemRequests = cartItems.map(item => {
         return {
             productId: item.productId,
@@ -140,54 +134,69 @@ function addOrderItemsToCart(cartItems) {
         };
     });
 
+    // 주문 항목을 추가하는 POST 요청
     return axios.post('/orderItem/lists', orderItemRequests)
         .then(function(response) {
-            console.log("Order items added successfully:", response.data);
-            // 추가된 주문 항목의 ID를 반환
-            return response.data.map(orderItem => orderItem.id);
+            console.log("주문 상품에 성공적으로 등록되었습니다.", response.data);
+
+            // 추가된 주문 항목의 ID 추출
+            const orderItemIds = response.data;
+
+            // 각 주문 항목의 ID를 사용하여 주문 항목 조회하는 GET 요청
+            const orderItemPromises = orderItemIds.map(orderItemId => {
+                return axios.get(`/orderItem/api/${orderItemId}`);
+            });
+
+            // 모든 GET 요청이 완료되면 해당 주문 항목들을 반환
+            return Promise.all(orderItemPromises)
+                .then(responses => {
+                    const orderItems = responses.map(response => response.data);
+                    return orderItems;
+                });
         })
         .catch(function(error) {
-            console.error("Error occurred while adding order items:", error);
+            console.error("주문 상품 등록에 실패했습니다.", error);
             throw error; // 오류 처리를 위해 에러를 다시 던집니다.
         });
 }
 
 // 주문 생성
 // 주문 생성
-async function createOrder() {
-    try {
-        // 사용자 ID 가져오기
-        const usersId = await getUsersIdFromAPI();
-        // 배송 정보 ID 가져오기
-        const deliveryId = await saveDeliveryInfo();
-        // 주문 상품 ID 가져오기
-        const cartItemId = await addOrderItemsToCart();
+    async function createOrder() {
+        try {
+            // 사용자 ID 가져오기
+            const userId = await getUsersIdFromAPI();
+            // 배송 정보 저장
+            const deliveryId = await saveDeliveryInfo();
+            // 장바구니 상품 정보 가져오기
+            const cartItems = await addOrderItemsToCart();
 
-        // 주문 요청 객체 생성
-        const orderRequest = {
-            usersId: usersId,
-            deliveryId: deliveryId,
-            orderItemIds: cartItemId
-        };
+            // 주문 요청 객체 생성
+            const orderRequest = {
+                usersId: userId(),
+                deliveryId: deliveryId(),
+                orderItemIds: cartItems()
+            };
 
-        // 주문 생성
-        const response = await axios.post('/order', orderRequest);
+            // 주문 생성
+            const response = await axios.post('/order', orderRequest);
 
-        // 주문 완료 페이지로 리다이렉트
-        console.log("주문이 성공적으로 생성되었습니다. 주문 ID:", response.data);
-        location.href = '/static/order/orderComplete.html';
-    } catch (error) {
-        console.error("주문 생성 중 오류가 발생했습니다:", error);
+            // 주문 완료 페이지로 리다이렉트
+            console.log("주문이 성공적으로 생성되었습니다. 주문 ID:", response.data);
+            location.href = '/static/order/orderComplete.html';
+        } catch (error) {
+            console.error("주문 생성 중 오류가 발생했습니다:", error);
+            location.hred = '/static/order/orderFail.html';
+        }
     }
-}
 
 
 
 // 사용자 ID 가져오기 API 호출
 function getUsersIdFromAPI() {
     return axios.get('/users/api/usersId')
-        .then((response) => {
-            return response.data;
+        .then((usersDto) => {
+            return usersDto.data;
         })
         .catch((error) => {
             console.error("Error occurred while getting users ID:", error);

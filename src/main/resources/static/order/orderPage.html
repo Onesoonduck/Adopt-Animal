@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<html lang="ko" >
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -70,22 +70,21 @@
                         </div>
                         <span class="text-muted">가격</span>
                     </li>
-                    <li class="list-group-item d-flex justify-content-between bg-light">
-                        <div class="text-success">
-                            <h6 class="my-0">배송비</h6>
-                        </div>
-                        <span class="text-success">가격</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between">
-                        <span>총합</span>
-                        <strong id="totalPrice">가격</strong>
-                    </li>
+                        <li class="list-group-item d-flex justify-content-between bg-light ">
+                            <div class="text-success">
+                                <h6 class="my-0">배송비</h6>
+                            </div>
+                            <span class="text-success">가격</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between">
+                            <span>총합</span>
+                            <strong id="totalPrice">가격</strong>
+                        </li>
                 </ul>
             </div>
-
             <div class="col-md-7 col-lg-8">
                 <h4 class="mb-3">주문하기</h4>
-                <form class="needs-validation" novalidate action="/order" method="post">
+                <form class="needs-validation">
                     <div class="row g-3">
                         <div class="col-sm-6">
                             <label for="receiverName" class="form-label">수령인</label>
@@ -124,7 +123,7 @@
                         </div>
                         <div class="col-md-3">
                             <label for="sample6_postcode" class="form-label">우편번호</label>
-                            <input type="text" class="form-control" id="sample6_postcode" placeholder="" required>
+                            <input type="text" class="form-control" id="sample6_postcode" placeholder="00000" required>
                         </div>
                     </div>
 
