@@ -22,8 +22,8 @@ public class OrderItemController {
     private final OrderItemService orderItemService;
     private final ProductService productService;
 
-    @PostMapping("")
-    public ResponseEntity<Long> createOrderItem(@RequestBody OrderItemRequest request) {
+    @PostMapping
+    public ResponseEntity<Long> createOrderItem(OrderItemRequest request) {
         Product product = productService.findProductById(request.getProductId());
         if (product == null) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();

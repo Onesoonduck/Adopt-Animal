@@ -42,7 +42,7 @@ function callProductTable(page, size) {
                 divCard.className = 'col mb-5';
                 divCard.innerHTML = `
                     <div class="card h-100">
-                        <a href="#" class="product-link" data-product-id="${productDto.Id}">
+                        <a href="#" class="product-link" data-product-id="${productDto.productId}">
                             <!-- Product image-->
                             <img class="card-img-top" src=${productDto.productImg} alt="..." />
                             <!-- Product details-->

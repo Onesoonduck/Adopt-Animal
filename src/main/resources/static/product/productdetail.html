@@ -80,23 +80,23 @@
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6"><img class="card-img-top mb-5 mb-md-0" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." /></div>
             <div class="col-md-6">
-                <div class="small mb-1" id="productId">상품아이디</div>
-                <h1 class="display-5 fw-bolder" id="productName">상품명</h1>
-                <div class="fs-5 mb-5">
-<!--                    <span class="text-decoration-line-through">10000원</span>-->
-                    <span id="productPrice">8000원</span>
-<!--                    <span>20%</span>-->
+
+                <h1 class="display-5 fw-bolder" id="productName">${productDto.productName}</h1>
+                <div class="fs-5 mb-5" id="productPrice">
+                    <span >${productDto.productPrice}원</span>
                 </div>
+                <!--                    <div class="small mb-1" id="productStock">재고 : </div>-->
                 <p class="lead">상품에 대한 소개 & 별점</p>
                 <div class="d-flex">
-                    <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1" style="max-width: 3rem" />
-                    <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                    <input class="form-control text-center me-3" id="productStock" type="num" value="1" style="max-width: 3rem" />
+                    <a class="btn btn-outline-dark flex-shrink-0" id="buyButton" href="#"
+                       data-product-name="${productDto.productName}" data-product-price="${productDto.productPrice}" data-product-stock="">
                         <i class="bi-cart-fill me-1"></i>
                         구매하기
-                    </button>
+                    </a>
                     <button class="btn btn-outline-dark flex-shrink-0" type="button">
                         <i class="bi-cart-fill me-1"></i>
-                        장바구니에 추가
+                        장바구니에 추가-
                     </button>
 
                 </div>
