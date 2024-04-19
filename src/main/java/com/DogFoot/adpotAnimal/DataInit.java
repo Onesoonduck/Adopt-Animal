@@ -34,7 +34,6 @@ public class DataInit {
 
     @PostConstruct
     public void init() {
-        Random random = new Random();
         for (int i = 1; i <= 85; i++) {
             String userId = "test" + i;
             String userName = "test name " + i;
