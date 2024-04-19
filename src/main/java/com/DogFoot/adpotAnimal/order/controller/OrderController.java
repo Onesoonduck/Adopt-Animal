@@ -40,8 +40,7 @@ public class OrderController {
     // 주문 생성
     @PostMapping("")
     @ResponseBody
-    public ResponseEntity<Long> addOrder(@ModelAttribute OrderRequest request) {
-
+    public ResponseEntity<Long> addOrder(@RequestBody OrderRequest request) {
 
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userId = authentication.getName();
@@ -51,7 +50,8 @@ public class OrderController {
             }
             Users user = usersService.findUserById(Long.parseLong(userId));
 
-            Long deliveryId = request.getDeliveryId();
+
+        Long deliveryId = request.getDeliveryId();
             if (deliveryId == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }

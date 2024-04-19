@@ -65,7 +65,7 @@ async function createOrderItem() {
     const productCnt = document.getElementById('productCnt').innerText;
 
     try {
-    const response = axios.post('/orderItem/lists', [
+    const response = await axios.post('/orderItem/lists', [
         {
             productId: productId,
             price: productPrice,
@@ -161,13 +161,13 @@ async function createOrder(event) {
         // 배송 정보 저장
         const deliveryId = await saveDeliveryInfo();
         // 장바구니 상품 정보
-        const orderItemIds = await createOrderItem();
+        const orderItemId = await createOrderItem();
 
         // 주문 요청 객체 생성
         const orderRequest = {
             usersId: userId,
             deliveryId: deliveryId,
-            orderItemIds: orderItemIds
+            orderItemId: orderItemId
         };
         // 주문 생성
         const response = await axios.post('/order', orderRequest);
