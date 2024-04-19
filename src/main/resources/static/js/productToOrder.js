@@ -93,8 +93,6 @@ async function addCartFromProduct() {
         const TotalPrice = parseInt(productPrice) * parseInt(productStock) + shippingFee;
 
         const cartList = document.getElementById('cartList');
-        // cartList.innerHTML = 'cartList';
-        // cartList.innerHTML = `
         cartList.innerHTML = '';
         const html = `
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
@@ -149,8 +147,6 @@ async function createOrderItem(productId, productName, productPrice, productStoc
     }
 }
 
-
-
 // 주문 생성
     async function createOrder() {
         try {
@@ -164,13 +160,13 @@ async function createOrderItem(productId, productName, productPrice, productStoc
             const productName = queryParams['productName'];
             const productPrice = queryParams['productPrice'];
             const productStock = queryParams['productStock'];
-            const cartItemId = createOrderItem(productId, productName, productPrice, productStock).get('orderItemId');
+            const cartItemId = await createOrderItem(productId, productName, productPrice, productStock).get('orderItemId');
 
             // 주문 요청 객체 생성
             const orderRequest = {
-                usersId: userId(),
-                deliveryId: deliveryId(),
-                orderItemIds: cartItemId()
+                usersId: userId,
+                deliveryId: deliveryId,
+                orderItemIds: cartItemId
             };
 
             // 주문 생성
@@ -178,21 +174,32 @@ async function createOrderItem(productId, productName, productPrice, productStoc
 
             // 주문 완료 페이지로 리다이렉트
             console.log("주문이 성공적으로 생성되었습니다. 주문 ID:", response.data);
-            location.href = '/static/order/orderComplete.html';
+            window.location.href = '/order/orderComplete.html';
         } catch (error) {
             console.error("주문 생성 중 오류가 발생했습니다:", error);
-            location.hred = '/static/order/orderFail.html';
+            window.location.href = '/order/orderFail.html';
         }
     }
 
+// 주문하기 페이지에서 이전 페이지의 정보를 추출하여 사용하는 함수
+function getPreviousPageInfo() {
+    // 현재 URL에서 이전 페이지의 정보를 추출합니다.
+    const previousPageInfo = window.location.search;
+    // 추출된 정보를 사용하여 주문하기 기능을 실행합니다.
+    // 예를 들어, 제품 ID, 제품 이름, 가격 등...
+    // 이 함수는 페이지가 로드될 때 자동으로 실행되도록 설정할 수 있습니다.
+}
+
+// 주문하기 페이지 로드 시 이전 페이지의 정보를 추출하여 사용합니다.
+getPreviousPageInfo();
+
 // 사용자 ID 가져오기 API 호출
-    function getUsersIdFromAPI() {
-        return axios.get('/users/api/usersId')
-            .then((usersDto) => {
-                return usersDto.data;
-            })
-            .catch((error) => {
-                console.error("Error occurred while getting users ID:", error);
-                throw error; // 오류 처리를 위해 에러를 다시 던집니다.
-            });
+    async function getUsersIdFromAPI() {
+        try{
+            const userId = await axios.get('/users/api/usersId');
+            return userId.data;
+        } catch {
+            console.error("Error occurred while getting users ID:", error);
+            throw error;
+        }
     }
