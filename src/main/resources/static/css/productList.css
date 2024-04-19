@@ -1,25 +1,43 @@
 .page-link span {
-    color: #ff8000;
+  color: #ff8000;
 }
 
 .my.page-item.active .page-link {
-    z-index: 3;
-    color: #ffffff;
-    border-color: #ff8000;
-    background-color: #ff8000;
+  z-index: 3;
+  color: #ffffff;
+  border-color: #ff8000;
+  background-color: #ff8000;
 }
 
 .my.page-item .page-link {
-    z-index: 3;
-    color: #ff8000;
+  z-index: 3;
+  color: #ff8000;
 }
 
 .my.btn-primary {
-    background-color: #ffa500;
-    border-color: #ffa500;
+  background-color: #ffa500;
+  border-color: #ffa500;
 }
 
 .my.btn-primary:hover {
-    background-color: #ff8000;
-    border-color: #ff8000;
+  background-color: #ff8000;
+  border-color: #ff8000;
+}
+
+.category_nav {
+  margin-top: 30px;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #FFC107 !important;
+  color: white !important;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: #ffe189; /* 원하는 색상으로 변경 */
+}
+
+.nav-pills .nav-link {
+  color: black !important;
+  font-size: 25px;
 }
