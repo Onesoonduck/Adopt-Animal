@@ -65,7 +65,7 @@ function callProductTable(page, size) {
             }
         })
         .catch(function (error) {
-            console.log(error);
+            console.error(error);
         });
 }
 

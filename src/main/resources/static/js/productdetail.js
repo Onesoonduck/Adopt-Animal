@@ -1,5 +1,3 @@
-
-
 async function getProductById(productId) {
     try {
         const response = await axios.get(`/products/${productId}`);
