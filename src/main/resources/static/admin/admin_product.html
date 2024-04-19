@@ -24,11 +24,9 @@
       <div class="row">
         <!-- 사이드바 -->
         <div class="col-xl-2 col-lg-3 sidebar fixed-top">
-          <a href="#"
-             class="navbar-brand text-white text-center d-block mx-auto py-3 mb-4 bottom-border">DogFoot</a>
+          <a href="/static/admin/admin.html" class="navbar-brand text-white text-center d-block mx-auto py-3 mb-4 bottom-border">DogFoot</a>
           <div class="bottom-border pb-3">
-            <img src="https://api.dicebear.com/8.x/bottts/svg?seed=621" alt="" width="50"
-                 class="rounded-circle mr-3">
+            <img src="https://api.dicebear.com/8.x/bottts/svg?seed=621" alt="" width="50" class="rounded-circle mr-3">
             <a href="/static/admin/admin.html" class="text-white">Admin</a>
           </div>
           <ul class="navbar-nav flex-column mt-4">
@@ -38,25 +36,22 @@
               </a>
             </li>
             <li class="nav-item">
-              <a href="/static/admin/admin_user.html"
-                 class="nav-link text-white p-3 mb-2 sidebar-link">
+              <a href="/static/admin/admin_user.html" class="nav-link text-white p-3 mb-2 sidebar-link">
                 <i class="fas fa-user text-white fa-lg mr-3"></i>회원 관리
               </a>
             </li>
             <li class="nav-item">
-              <a href="/static/admin/admin_order.html"
-                 class="nav-link text-white p-3 mb-2 sidebar-link">
+              <a href="/static/admin/admin_order.html" class="nav-link text-white p-3 mb-2 sidebar-link">
                 <i class="fas fa-shopping-cart text-white fa-lg mr-3"></i>주문 관리
               </a>
             </li>
             <li class="nav-item">
-              <a href="/static/admin/admin_product.html"
-                 class="nav-link text-white p-3 mb-2 sidebar-link">
+              <a href="/static/admin/admin_product.html" class="nav-link text-white p-3 mb-2 sidebar-link">
                 <i class="fas fa-box-open text-white fa-lg mr-3"></i>상품 관리
               </a>
             </li>
             <li class="nav-item">
-              <a href="#" class="nav-link text-white p-3 mb-2 sidebar-link">
+              <a href="/static/admin/admin_category.html" class="nav-link text-white p-3 mb-2 sidebar-link">
                 <i class="fas fa-list-alt text-white fa-lg mr-3"></i>카테고리 관리
               </a>
             </li>
@@ -147,6 +142,18 @@
             </tr>
             </thead>
             <tbody id="table-products">
+            <tr>
+              <th class="align-middle">0</th>
+              <td class="align-middle">
+                <img class="img" src="" alt="" id="product-list-img"
+                     onerror="this.onerror=null; this.src='https://dummyimage.com/60x60/808080/FFF.png';">
+              </td>
+              <td class="align-middle">title</td>
+              <td class="align-middle">1200</td>
+              <td class="align-middle">31</td>
+              <td class="align-middle">0</td>
+              <td class="align-middle"><button type="button" class="btn btn-danger btn-sm">삭제</button></td>
+            </tr>
             </tbody>
           </table>
           <!-- 페이지네이션 -->

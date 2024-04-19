@@ -66,27 +66,35 @@ async function saveDeliveryInfo() {
     }
 }
 
-document.addEventListener('DOMContentLoaded', function () {
-    getCart();
-    // 장바구니에서 상품 가져오기
-    function getCart() {
-        axios.get('/cart/items')
-            .then(function (response) {
-                const cartItems = response.data;
 
-                const cartList = document.getElementById('cartList');
-                cartList.innerHTML = '';
+// 장바구니 상품 정보 추가
+// URL의 쿼리 매개변수를 객체로 추출하는 함수
+function getQueryParams() {
+    const params = {};
+    const queryString = window.location.search.slice(1); // '?' 제거
+    const pairs = queryString.split('&'); // 각 쿼리 스트링 항목 분리
 
-                cartItems.forEach(product => {
-                    const row = document.createElement('tr');
-                    const productName = product.productName;
-                    const productPrice = parseFloat(product.productPrice);
-                    const productStock = parseInt(product.productStock);
-                    const shippingFee = 3000;
-                    const productTotalPrice = productPrice * productStock + shippingFee;
+    pairs.forEach(pair => {
+        const [key, value] = pair.split('='); // 키와 값 분리
+        params[decodeURIComponent(key)] = decodeURIComponent(value || ''); // 디코드 후 객체에 할당
+    });
 
-                    cartList.innerHTML = `
-                <div class="col-md-5 col-lg-4 order-md-last">
+    return params;
+}
+
+// 쿼리 매개변수를 가져와서 productName, productPrice, productStock를 추출
+async function addCartFromProduct() {
+    try {
+        const queryParams = getQueryParams();
+        const productName = queryParams['productName'];
+        const productPrice = queryParams['productPrice'];
+        const productStock = queryParams['productStock'];
+        const shippingFee = 3000;
+        const TotalPrice = parseInt(productPrice) * parseInt(productStock) + shippingFee;
+
+        const cartList = document.getElementById('cartList');
+        cartList.innerHTML = '';
+        const html = `
                     <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-warning">장바구니</span>
                     <span class="badge bg-warning rounded-pill"></span>
@@ -95,9 +103,9 @@ document.addEventListener('DOMContentLoaded', function () {
                     <li class="list-group-item d-flex justify-content-between lh-sm">
                         <div>
                             <h6 class="my-0" id="productName">${productName}</h6>
-                            <small class="text-muted" id="productStock">${productStock}</small>
+                            <small class="text-muted" id="productStock">개수 : ${productStock}</small>
                         </div>
-                        <span class="text-muted" id="productPrice">${productPrice}</span>
+                        <span class="text-muted" id="productPrice">${productPrice}원</span>
                     </li>
                     <li class="list-group-item d-flex justify-content-between bg-light">
                         <div class="text-success">
@@ -107,59 +115,38 @@ document.addEventListener('DOMContentLoaded', function () {
                     </li>
                     <li class="list-group-item d-flex justify-content-between">
                         <span>총합</span>
-                        <strong id="totalPrice">${productTotalPrice}</strong>
+                        <strong id="totalPrice">${TotalPrice}원</strong>
                     </li>
                 </ul>
-                </div>
-                `;
-                    cartList.appendChild(row);
-                });
-            })
-            .catch(function (error) {
-                console.error(error);
-            });
+            `;
+        cartList.innerHTML = html;
+    } catch (error) {
+        console.error(error);
     }
+}
+    addCartFromProduct();
 
-});
-
-// 주문 항목 추가
-function addOrderItemsToCart(cartItems) {
-    // 주문 항목 요청 객체 생성
-    const orderItemRequests = cartItems.map(item => {
-        return {
-            productId: item.productId,
-            price: item.productPrice,
-            count: item.productStock
-        };
-    });
-
-    // 주문 항목을 추가하는 POST 요청
-    return axios.post('/orderItem/lists', orderItemRequests)
-        .then(function(response) {
-            console.log("주문 상품에 성공적으로 등록되었습니다.", response.data);
-
-            // 추가된 주문 항목의 ID 추출
-            const orderItemIds = response.data;
-
-            // 각 주문 항목의 ID를 사용하여 주문 항목 조회하는 GET 요청
-            const orderItemPromises = orderItemIds.map(orderItemId => {
-                return axios.get(`/orderItem/api/${orderItemId}`);
-            });
-
-            // 모든 GET 요청이 완료되면 해당 주문 항목들을 반환
-            return Promise.all(orderItemPromises)
-                .then(responses => {
-                    const orderItems = responses.map(response => response.data);
-                    return orderItems;
-                });
-        })
-        .catch(function(error) {
-            console.error("주문 상품 등록에 실패했습니다.", error);
-            throw error; // 오류 처리를 위해 에러를 다시 던집니다.
+const queryParams = getQueryParams();
+const productId = queryParams['productId'];
+const productName = queryParams['productName'];
+const productPrice = queryParams['productPrice'];
+const productStock = queryParams['productStock'];
+async function createOrderItem(productId, productName, productPrice, productStock) {
+    try {
+        const response = await axios.post('/orderItem/api', {
+            productId: productId,
+            productName: productName,
+            productPrice: productPrice,
+            productStock: productStock
         });
+        console.log("Order item created successfully. ID:", response.data);
+        return response.data; // 생성된 주문 항목의 ID 반환
+    } catch (error) {
+        console.error("Error occurred while creating order item:", error);
+        throw error;
+    }
 }
 
-// 주문 생성
 // 주문 생성
     async function createOrder() {
         try {
@@ -168,13 +155,18 @@ function addOrderItemsToCart(cartItems) {
             // 배송 정보 저장
             const deliveryId = await saveDeliveryInfo();
             // 장바구니 상품 정보 가져오기
-            const cartItemId = await addOrderItemsToCart();
+            const queryParams = getQueryParams();
+            const productId = queryParams['productId'];
+            const productName = queryParams['productName'];
+            const productPrice = queryParams['productPrice'];
+            const productStock = queryParams['productStock'];
+            const cartItemId = await createOrderItem(productId, productName, productPrice, productStock).get('orderItemId');
 
             // 주문 요청 객체 생성
             const orderRequest = {
-                usersId: userId(),
-                deliveryId: deliveryId(),
-                orderItemIds: cartItemId()
+                usersId: userId,
+                deliveryId: deliveryId,
+                orderItemIds: cartItemId
             };
 
             // 주문 생성
@@ -182,21 +174,32 @@ function addOrderItemsToCart(cartItems) {
 
             // 주문 완료 페이지로 리다이렉트
             console.log("주문이 성공적으로 생성되었습니다. 주문 ID:", response.data);
-            location.href = '/static/order/orderComplete.html';
+            window.location.href = '/order/orderComplete.html';
         } catch (error) {
             console.error("주문 생성 중 오류가 발생했습니다:", error);
-            location.hred = '/static/order/orderFail.html';
+            window.location.href = '/order/orderFail.html';
         }
     }
 
-// 사용자 ID 가져오기 API 호출
-function getUsersIdFromAPI() {
-    return axios.get('/users/api/usersId')
-        .then((usersDto) => {
-            return usersDto.data;
-        })
-        .catch((error) => {
-            console.error("Error occurred while getting users ID:", error);
-            throw error; // 오류 처리를 위해 에러를 다시 던집니다.
-        });
+// 주문하기 페이지에서 이전 페이지의 정보를 추출하여 사용하는 함수
+function getPreviousPageInfo() {
+    // 현재 URL에서 이전 페이지의 정보를 추출합니다.
+    const previousPageInfo = window.location.search;
+    // 추출된 정보를 사용하여 주문하기 기능을 실행합니다.
+    // 예를 들어, 제품 ID, 제품 이름, 가격 등...
+    // 이 함수는 페이지가 로드될 때 자동으로 실행되도록 설정할 수 있습니다.
 }
+
+// 주문하기 페이지 로드 시 이전 페이지의 정보를 추출하여 사용합니다.
+getPreviousPageInfo();
+
+// 사용자 ID 가져오기 API 호출
+    async function getUsersIdFromAPI() {
+        try{
+            const userId = await axios.get('/users/api/usersId');
+            return userId.data;
+        } catch {
+            console.error("Error occurred while getting users ID:", error);
+            throw error;
+        }
+    }

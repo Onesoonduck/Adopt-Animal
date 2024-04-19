@@ -16,10 +16,8 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import java.util.ArrayList;
 import java.util.List;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+
+import lombok.*;
 
 @Data
 @Entity
@@ -48,18 +46,13 @@ public class Product {
     @Column(name = "product_img")
     private String productImg;
 
-    // product 연관 관계
-
-    @OneToMany(mappedBy = "product", fetch = FetchType.LAZY)
-    private List<OrderItem> orderItems = new ArrayList<>();
-
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 
     @Builder
     public Product(int productPrice, String productName, int productStock,
-        int productLike, String productImg, Category category) {
+                   int productLike, String productImg, Category category) {
         this.productPrice = productPrice;
         this.productName = productName;
         this.productStock = productStock;
@@ -84,7 +77,7 @@ public class Product {
 
         ProductDto productDto;
         productDto = new ProductDto();
-
+        productDto.setId(productId);
         productDto.setProductPrice(productDto.getProductPrice());
         productDto.setProductName(productDto.getProductName());
         productDto.setProductStock(productDto.getProductStock());

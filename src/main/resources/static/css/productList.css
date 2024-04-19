@@ -23,3 +23,29 @@
   background-color: #ff8000;
   border-color: #ff8000;
 }
+
+.category_nav {
+  margin-top: 30px;
+}
+
+.nav-pills .nav-link.active {
+  background-color: #FFC107 !important;
+  color: white !important;
+}
+
+.nav-pills .nav-link:hover {
+  background-color: #ffe189; /* 원하는 색상으로 변경 */
+}
+
+.col.product_card {
+  cursor: pointer;
+}
+
+.col.product_card:hover {
+  background-color: #ffe189;
+}
+
+.nav-pills .nav-link {
+  color: black !important;
+  font-size: 25px;
+}

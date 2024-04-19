@@ -50,5 +50,4 @@ public class ProductDto {
         productDto.setCategoryId(product.getCategory().getCategoryId());
         return productDto;
     }
-
 }

@@ -39,16 +39,9 @@ public class SecurityConfiguration {
         // 페이지 별 권한 설정
         http
             .authorizeHttpRequests((auth)->auth
+//                .requestMatchers("/admin/**").hasRole("ADMIN")   // 관리자만 접근 가능
                 .requestMatchers("/**").permitAll()
-                .requestMatchers(
-                    "users/signup",
-                    "users/login",
-                    "users/{id}",
-                    "users/usersEdit",
-                    "users/api/usersTable"
-                ).permitAll()
                 .requestMatchers("/users.html").hasRole("USER")    // 유저만 접근 가능
-                .requestMatchers("/admin").hasRole("ADMIN")   // 관리자만 접근 가능
                 .anyRequest().authenticated()   //인증된 사용자만 접근 허용
             );
 
