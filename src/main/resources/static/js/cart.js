@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function () {
         const accessToken = sessionStorage.getItem('authorization');
         const pageSize = 10;
 
-        axios.get(`http://localhost:8080/cart/items`)
+        axios.get(`/cart/items`)
             .then(response => {
                 const data = response.data;
 
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function handleIncrement(event) {
         const cartId = event.target.closest('tr').querySelector('.itemCheckbox').getAttribute('data-cartId');
-        axios.patch(`http://localhost:8080/cart/items/${cartId}/increase`)
+        axios.patch(`/cart/items/${cartId}/increase`)
             .then(response => {
                 loadProducts();
             })
@@ -87,7 +87,7 @@ document.addEventListener('DOMContentLoaded', function () {
             return;
         }
         const cartId = event.target.closest('tr').querySelector('.itemCheckbox').getAttribute('data-cartId');
-        axios.patch(`http://localhost:8080/cart/items/${cartId}/decrease`)
+        axios.patch(`/cart/items/${cartId}/decrease`)
             .then(response => {
                 loadProducts();
             })
@@ -116,7 +116,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function deleteCartItems(cartIds) {
-        axios.delete("http://localhost:8080/cart/items", {
+        axios.delete("/cart/items", {
             headers: {
                 'Content-Type': 'application/json'
             },

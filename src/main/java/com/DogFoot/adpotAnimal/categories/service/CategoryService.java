@@ -13,7 +13,6 @@ import java.util.List;
 
 @Service
 @Slf4j
-@Transactional(readOnly = true)
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 
@@ -36,6 +35,7 @@ public class CategoryService {
             .categoryName(categoryDto.getCategoryName())
             .categoryImg(categoryDto.getCategoryImg())
             .build();
+
         return categoryRepository.save(category);
     }
 
