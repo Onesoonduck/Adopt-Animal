@@ -19,7 +19,7 @@ export class Pagination {
 
   renderPagination(currentPage) {
     let startPage;
-    if (currentPage <= 3) {
+    if (currentPage <= 4) {
       startPage = 1;
     } else if (currentPage >= this.totalPage - 2) {
       startPage = this.totalPage - 4;

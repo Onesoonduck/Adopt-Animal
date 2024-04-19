@@ -24,7 +24,7 @@ public class ImageController {
 
     @PostMapping(value = "/upload", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     public ResponseEntity<String> upload(@RequestPart("image") MultipartFile imageFile) {
-        List<String> allowedExtensions = Arrays.asList("jpg", "png", "gif");
+        List<String> allowedExtensions = Arrays.asList("jpg", "png", "gif", "jpeg");
 
         String originalFilename = imageFile.getOriginalFilename();  // 파일의 원본 이름을 가져옴
         if (originalFilename == null) {
