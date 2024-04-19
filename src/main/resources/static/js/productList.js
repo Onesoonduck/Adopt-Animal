@@ -99,7 +99,7 @@ async function renderPage() {
     productLinks.forEach(link => {
         link.addEventListener('click', function (event) {
             event.preventDefault();
-            const productId = event.currentTarget.dataset.productId;  // 수정된 부분
+            const productId = event.currentTarget.dataset.productId;
             productClickHandler(productId);
         });
     });
