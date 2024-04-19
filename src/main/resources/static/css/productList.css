@@ -37,6 +37,14 @@
   background-color: #ffe189; /* 원하는 색상으로 변경 */
 }
 
+.col.product_card {
+  cursor: pointer;
+}
+
+.col.product_card:hover {
+  background-color: #ffe189;
+}
+
 .nav-pills .nav-link {
   color: black !important;
   font-size: 25px;
