@@ -67,6 +67,7 @@ label {
   justify-content: center;
   align-items: center;
   border-radius: 50%;
+  border: 2px solid #f1edda;
   overflow: hidden;
 }
 
