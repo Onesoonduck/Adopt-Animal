@@ -217,7 +217,7 @@ public class UsersService {
     }
 
     public Page<UsersTableDto> getUserTable(Pageable pageable) {
-        Page<Users> usersPage = usersRepository.findAll(pageable);
+        Page<Users> usersPage = usersRepository.findAllUsers(pageable);
         return usersPage.map(Users::toTableDto);
     }
 
