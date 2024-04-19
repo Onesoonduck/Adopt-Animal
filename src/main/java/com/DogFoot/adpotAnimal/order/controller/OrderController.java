@@ -42,11 +42,14 @@ public class OrderController {
     @ResponseBody
     public ResponseEntity<Long> addOrder(@ModelAttribute OrderRequest request) {
 
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        if (authentication != null && authentication.getPrincipal() instanceof CustomUserDetails) {
-            CustomUserDetails userDetails = (CustomUserDetails) authentication.getPrincipal();
-            Users users = userDetails.getUser();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userId = authentication.getName();
+            if (userId==null) {
+                 //사용자가 로그인되어 있지 않은 경우에 대한 처리
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            }
+            Users user = usersService.findUserById(Long.parseLong(userId));
 
             Long deliveryId = request.getDeliveryId();
             if (deliveryId == null) {
@@ -62,12 +65,11 @@ public class OrderController {
                 }
                 orderItems.add(orderItemService.findById(1L));
             }
-            Order order = orderService.create(users, delivery, orderItems);
+
+            Order order = orderService.create(user, delivery, orderItems);
+
             return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
         }
-
-
-    }
 
 
     // 주문 목록 검색
