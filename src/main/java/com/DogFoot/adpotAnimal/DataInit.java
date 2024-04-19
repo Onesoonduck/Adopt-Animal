@@ -29,8 +29,6 @@ public class DataInit {
     private final UsersService usersService;
     private final ProductService productService;
     private final OrderService orderService;
-    private final OrderItemService orderItemService;
-    private final DeliveryService deliveryService;
     private final CategoryService categoryService;
 
     @PostConstruct
@@ -71,7 +69,7 @@ public class DataInit {
             .categoryName("문구")
             .categoryImg(null)
             .build();
-        Category category = categoryService.createCategory(categoryDto);
+        categoryService.createCategory(categoryDto);
         categoryDto = CategoryDto.builder()
             .categoryName("폰")
             .categoryImg(null)
