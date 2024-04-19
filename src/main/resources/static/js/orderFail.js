@@ -1,10 +1,16 @@
 
 
-// 실패 페이지에서 이전 페이지의 정보를 받아와서 다시 주문하기 페이지로 이동하는 함수
-function retryOrder() {
-    // 실패 페이지에서 이전 페이지의 정보를 받아옵니다.
-    const queryParams = window.location.search;
-    // 이전 페이지의 정보를 유지하면서 주문하기 페이지로 이동합니다.
-    window.location.href = '/order/productToOrder.html' + queryParams;
+function handleRetryOrder() {
+    location.href = '/cart/cart.html'; // 장바구니 페이지로 이동
 }
+
+function handleGoMyPage() {
+    location.href = '/users/users.html'; // 마이페이지로 이동
+}
+
+const retryOrderButton = document.querySelector('.btn.btn-warning.btn-lg.px-4.gap-3.text-white');
+retryOrderButton.addEventListener('click', handleRetryOrder);
+
+const goMyPageButton = document.querySelector('.btn.btn-outline-warning.btn-lg.px-4');
+goMyPageButton.addEventListener('click', handleGoMyPage);
 
