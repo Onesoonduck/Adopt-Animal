@@ -46,13 +46,6 @@ public class Delivery {
         this.receiverPhoneNumber = receiverPhoneNumber;
     }
 
-//    @Builder
-//    public Delivery(Address address, String receiverName, String receiverPhoneNumber) {
-//        this.address = address;
-//        this.receiverName = receiverName;
-//        this.receiverPhoneNumber = receiverPhoneNumber;
-//    }
-
     public static Delivery createDelivery(Address address, String receiverName, String receiverPhoneNumber) {
 
         Delivery delivery = new Delivery();

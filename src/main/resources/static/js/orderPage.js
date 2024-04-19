@@ -135,7 +135,6 @@ async function saveDeliveryInfo() {
 
         const response = await axios.post('/order/delivery/api', deliveryData);
         console.log("Delivery information successfully saved.");
-        return response.data.deliveryId; // deliveryId를 반환
     } catch (error) {
         console.error("Error occurred while saving delivery information:", error);
         throw error;
@@ -143,6 +142,9 @@ async function saveDeliveryInfo() {
 }
 
 // 주문 생성
+const orderButton = document.getElementById('orderButton');
+orderButton.addEventListener('click', createOrder);
+
 async function createOrder(event) {
     try {
         event.preventDefault(); // 기본 동작을 막음
@@ -153,6 +155,10 @@ async function createOrder(event) {
         const deliveryId = await saveDeliveryInfo();
         // 장바구니 상품 정보 가져오기
         const orderItemId = await createOrderItem();
+
+        console.log("userId:", userId);
+        console.log("deliveryId:", deliveryId);
+        console.log("orderItemId:", orderItemId);
 
         // 주문 요청 객체 생성
         const orderRequest = {
