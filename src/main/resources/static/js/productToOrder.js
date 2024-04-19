@@ -95,7 +95,7 @@ async function addCartFromProduct() {
         const cartList = document.getElementById('cartList');
         cartList.innerHTML = '';
         const html = `
-                    <h4 class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="d-flex justify-content-between align-items-center mb-3">
                     <span class="text-warning">장바구니</span>
                     <span class="badge bg-warning rounded-pill"></span>
                 </h4>

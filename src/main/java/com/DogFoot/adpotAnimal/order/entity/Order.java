@@ -28,7 +28,7 @@ public class Order {
     private Long id;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "delivery_id")
+    @JoinColumn(name = "delivery_id", unique = false)
     private Delivery delivery;
 
     private LocalDateTime orderDate;

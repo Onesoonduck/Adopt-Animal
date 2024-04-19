@@ -105,9 +105,9 @@
     </style>
 
     
-<main>
+<body>
 
-  <div class="px-4 py-5 my-5 text-center">
+  <div class="px-4 py-5 my-5 text-center" id="orderInfo">
     <h1 class="display-5 fw-bold text-body-emphasis">주문 완료</h1>
     <div class="col-lg-6 mx-auto">
       <p class="lead mb-4">성공적으로 주문이 완료되었습니다.</p>
@@ -120,29 +120,19 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
+        <tr class="productTable" id="productTable">
           <td>핸드폰케이스</td>
           <td>1</td>
           <td>20,000</td>
         </tr>
-        <tr>
-          <td>이어폰케이스</td>
-          <td>1</td>
-          <td>15,000</td>
-        </tr>
-        <tr>
-          <td>목도리</td>
-          <td>1</td>
-          <td>30,000</td>
-        </tr>
-        <tr>
+        <tr class="deliveryFee" id="deliveryFee">
           <td>배송비</td>
           <td></td>
           <td>3,000</td>
         </tr>
         </tbody>
         <tfoot>
-        <tr>
+        <tr class="totalPrice" id="totalPrice">
           <td>Totals</td>
           <td></td>
           <td>68,000</td>
@@ -153,15 +143,17 @@
       <p class="lead mb-4">주문 날짜 : </p>
       <p class="lead mb-4">배송지 : </p>
       <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-        <button type="button" class="btn btn-warning btn-lg px-4 gap-3 text-white">계속 쇼핑하기</button>
-        <button type="button" class="btn btn-outline-warning btn-lg px-4">마이페이지</button>
+        <a type="button" class="btn btn-warning btn-lg px-4 gap-3 text-white" id="continueShoppingBtn">계속 쇼핑하기</a>
+        <a type="button" class="btn btn-outline-warning btn-lg px-4" id="goToMyPage">마이페이지</a>
       </div>
     </div>
   </div>
 
 
-</main>
-<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/orderComplete.js"></script>
+    <script type="module" src="/static/js/common.js"></script>
 
-    </body>
 </html>

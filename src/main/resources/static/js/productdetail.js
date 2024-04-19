@@ -53,7 +53,7 @@ async function displayProductDetail(productId) {
                                 <i class="bi-cart-fill me-1"></i>
                                 구매하기
                             </a>
-                            <button class="btn btn-outline-dark flex-shrink-0" type="button">
+                            <button class="btn btn-outline-dark flex-shrink-0" type="button" id="cartButton">
                                 <i class="bi-cart-fill me-1"></i>
                                 장바구니에 추가
                             </button>
@@ -85,14 +85,47 @@ async function displayProductDetail(productId) {
             const productPrice = productDto.productPrice;
             const productStock = document.getElementById('productStock').value;
 
+
             // order/productToOrder.html로 이동하기
             window.location.href = `/order/productToOrder.html?productId=${productId}&productName=${encodeURIComponent(productName)}&productPrice=${productPrice}&productStock=${productStock}`;
+        });
+
+        // 장바구니 버튼 클릭 이벤트 처리
+        const cartButton = document.getElementById('cartButton');
+        cartButton.addEventListener('click', function() {
+            const productName = productDto.productName;
+            const productPrice = productDto.productPrice;
+            const productStock = document.getElementById('productStock').value;
+
+            addProductToCart(productId, productName, productPrice, productStock);
         });
 
     } catch (error) {
         console.error(error);
     }
 }
+
+// 장바구니 담기 버튼 클릭
+function addProductToCart(productId, productName, productPrice, productStock) {
+    const cartItem = {
+        productId: productId,
+        productName: productName,
+        productPrice: productPrice,
+        cnt: productStock
+    };
+
+    axios.post('/cart/items', cartItem)
+        .then(response => {
+            // 성공적으로 요청을 처리한 후 할 작업을 여기에 추가할 수 있습니다.
+            console.log('상품이 장바구니에 추가되었습니다.');
+            window.location.href = '/cart/cart.html';
+        })
+        .catch(error => {
+            // 요청이 실패한 경우 에러를 처리합니다.
+            console.error('상품을 장바구니에 추가하는 동안 오류가 발생했습니다:', error);
+        });
+}
+
 
 // 초기화 코드
 displayProductDetail();

@@ -19,7 +19,7 @@ public class OrderItem {
     @Column(name = "order_item_id")
     private Long id;
 
-    private int orderPrice;
+    private int price;
 
     private int count;
 
@@ -31,10 +31,10 @@ public class OrderItem {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
     private Order order;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "cart_id")
-    private CartEntity cart;
+//
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "cart_id")
+//    private CartEntity cart;
 
 
     public void setOrder(Order order) {
@@ -45,8 +45,8 @@ public class OrderItem {
         this.product = product;
     }
 
-    public void setOrderPrice(int orderPrice) {
-        this.orderPrice = orderPrice;
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public void setCount(int count) {
@@ -54,10 +54,10 @@ public class OrderItem {
     }
 
     // 추문 시 주문상품에 상품, 주문 당시 가격, 개수 추가 / 상품 재고량 감소
-    public static OrderItem createOrderItem(Product product, int orderPrice, int count) {
+    public static OrderItem createOrderItem(Product product, int price, int count) {
         OrderItem orderItem = new OrderItem();
         orderItem.setProduct(product);
-        orderItem.setOrderPrice(orderPrice);
+        orderItem.setPrice(price);
         orderItem.setCount(count);
 
         product.removeStock(count);
@@ -77,6 +77,6 @@ public class OrderItem {
 
     // 가격 총액 = 제품 가격 * 개수
     public int getTotalPrice() {
-        return this.orderPrice * this.count;
+        return this.price * this.count;
     }
 }

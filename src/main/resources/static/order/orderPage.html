@@ -28,8 +28,16 @@
             }
         }
 
-        .address-search {
+        .product-item {
+            display: block !important;
+            justify-content: space-between !important;
+            align-items: center !important;
+            white-space: nowrap !important;
+        }
 
+        .product-item span {
+            margin-left: 170px !important;
+            margin-right: 10px !important;
         }
 
     </style>
@@ -54,21 +62,21 @@
 <div class="container">
     <main>
         <div class="py-5 text-center">
-
         </div>
         <div class="row g-5">
-            <div class="col-md-5 col-lg-4 order-md-last" id="cartList">
-                <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <div class="col-md-5 col-lg-4 order-md-last" id="cart-table">
+                <h4 class="d-flex justify-content-between align-items-center mb-3" id="cartName">
                     <span class="text-warning">장바구니</span>
                     <span class="badge bg-warning rounded-pill"></span>
                 </h4>
                 <ul class="list-group mb-3">
-                    <li class="list-group-item d-flex justify-content-between lh-sm">
-                        <div>
+                    <li class="list-group-item d-flex justify-content-between lh-sm product-item">
+                        <div class="product-item">
                             <h6 class="my-0">상품 이름</h6>
-                            <small class="text-muted">개수</small>
+                            <small class="text-muted product-count" id="productCnt">개수</small>
+                            <small class="text-muted product-id" id="productId" style="display: none;"></small>
+                            <span class="text-muted product-price" id="productPrice">가격</span>
                         </div>
-                        <span class="text-muted">가격</span>
                     </li>
                         <li class="list-group-item d-flex justify-content-between bg-light ">
                             <div class="text-success">
@@ -129,7 +137,7 @@
 
                     <hr class="my-4">
 
-                    <button class="w-100 btn btn-warning btn-lg text-white" type="submit" onclick="createOrder()">주문하기</button>
+                    <button class="w-100 btn btn-warning btn-lg text-white" type="submit" id="orderButton">주문하기</button>
                 </form>
             </div>
         </div>
@@ -145,13 +153,15 @@
     </footer>
 </div>
 
+<script src="/static/js/orderPage.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
 <script type="module" src="/static/js/common.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0-beta1/js/bootstrap.bundle.min.js"></script>
 <script src="/static/js/form-validation.js"></script>
-<script src="/static/js/orderPage.js"></script>
+
 <script type="module" src="/js/logout.js"></script>
-<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
+
 
 </body>
 </html>
