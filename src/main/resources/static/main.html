@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <title>메인 페이지</title>
-    <link rel="stylesheet" href="/static/css/main.css">
+  <meta charset="UTF-8">
+  <title>메인 페이지</title>
+  <link rel="stylesheet" href="/static/css/main.css">
 </head>
 <body>
 
@@ -13,43 +13,42 @@
 <div include="/static/header/index.html"></div>
 <script>includeHTML();</script>
 
-<div class="banner_one">
-    <img>
+<div class="banner_one"
+     style="background-image: url('assets/10106104.jpg'); background-size: cover; background-position: center; height: 400px;">
 </div>
 
-<h1 class="banner_text">도움이 필요한 유기동물들</h1>
-<h2 class="subBanner_text">풍요롭지 못한 보호소의 환경으로
-    <br>
-    유기동물은 늘 도움이 필요합니다
-</h2>
-
-<div>
-    <img>
-</div>
-
-<h1 class="banner_text2">유기동물 봉사</h1>
-<h2 class="subBanner_text2">여러분의 손재주로
-    <br>
-    유기동물 친구들에게 도움을 주세요
-</h2>
-
-<div class="current_donate">
-    <h1 class="current_donate_text">현재 기부 상황</h1>
-    <div class="box_list">
-        <div class="box">
-            저번 달 기부 통계
-        </div>
-        <div class="box">
-            이번 달 기부 통계
-        </div>
+<div class="container container-fluid">
+  <div class="row row-cols-xxl-auto">
+    <div class="col p-3">
+      <img class="img-fluid" src="assets/4883_13258_5133.png" alt=""/>
     </div>
+      <div class="col-xxl-6 p-3 d-flex align-items-center justify-content-center">
+          <a style="font-size: 20px; font-family: Arial, sans-serif; font-weight: bold; color: #ff8000;"> 풍요롭지 못한 보호소의 환경으로 유기동물은 늘 도움이 필요합니다. </a>
+      </div>
+  </div>
+  <div class="row row-cols-xxl-auto">
+    <div class="col-xxl-6 p-3 d-flex align-items-center justify-content-center">
+      <a style="font-size: 20px; font-family: Arial, sans-serif; font-weight: bold; color: #ff8000;">여러분의 손재주로 유기동물 친구들에게 도움을 주세요.</a>
+    </div>
+    <div class="col p-3">
+      <img class="img-fluid" src="assets/130690_90612_406.png">
+    </div>
+  </div>
+  <div class="row row-cols-xxl-auto">
+    <div class="col p-3">
+      <img class="img-fluid" src="assets/adorable-animal-canine-2041050.png">
+    </div>
+    <div class="col p-3">
+      <img class="img-fluid" src="assets/05cd91_b871b0896e024e12a3c4fd676e5d0b7cmv2.png"/>
+    </div>
+  </div>
 </div>
 
+</body>
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script src="https://code.jquery.com/jquery-latest.min.js"></script>
 <script src="/static/js/bootstrap.bundle.min.js"></script>
 <script src="/static/js/form-validation.js"></script>
 <script type="module" src="/static/js/common.js"></script>
 <script type="module" src="/static/js/logout.js"></script>
-</body>
 </html>

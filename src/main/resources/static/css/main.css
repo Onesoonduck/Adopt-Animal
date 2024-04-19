@@ -41,6 +41,11 @@
     background-color: #fbbdc5;
 }
 
+.container {
+    padding-left: 1px;  /* 좌측 여백 조절 */
+    padding-right: 1px; /* 우측 여백 조절 */
+}
+
 .banner_text {
     font-size: 40px;
     font-weight: bold;
