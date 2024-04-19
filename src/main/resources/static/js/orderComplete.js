@@ -140,89 +140,63 @@ function getQueryParams() {
 const requestParams = getQueryParams();
 
 // 쿼리 문자열에서 필요한 정보들을 가져온다.
-const orderId = requestParams.orderId;
 const totalPrice = requestParams.totalPrice;
 const recipient = requestParams.recipient;
-const productIds = requestParams.productIds.split(',').map(id => parseInt(id)); // 제품 ID 배열
+const productNames = requestParams.productNames.split(',');
 const productCnts = requestParams.cntValues.split(',').map(cnt => parseInt(cnt)); // 개수 배열
 const productPrices = requestParams.productPrices.split(',').map(price => parseInt(price)); // 가격 배열
 
-
-// getProductNames 함수를 통해 제품 이름을 가져온다.
-function getProductNames(productIds) {
-    let names = [];
-    for (const productId of productIds) {
-            axios.get(`/products/${productId}`)
-                .then(response => {
-                    names.push(response.data);
-                    const orderCompleteTable = document.getElementById('orderInfo');
-                    orderCompleteTable.innerHTML = '';
-
-                    names.forEach((product, index) => {
-
-                    }
-
-
-
-                })
-                .catch(error => {
-                    console.error('상품 이름을 가져오는 중 오류가 발생했습니다:', error);
-                });
-
-
+function printPage() {
+    document.getElementById('orderInfo').innerHTML = `
+    <h1 class="display-5 fw-bold text-body-emphasis">주문 완료</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">성공적으로 주문이 완료되었습니다.</p>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>상품명</th>
+                    <th>개수</th>
+                    <th>가격</th>
+                </tr>
+            </thead>
+            <tbody>
+                ${productNames.map((productName, index) => `
+                    <tr>
+                        <td>${productName}</td>
+                        <td>${productCnts[index]}</td>
+                        <td>${productPrices[index]}원</td>
+                    </tr>
+                `).join('')}
+                <tr>
+                    <td>배송비</td>
+                    <td></td>
+                    <td>3,000원</td>
+                </tr>
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td>Totals</td>
+                    <td></td>
+                    <td>${totalPrice}</td>
+                </tr>
+            </tfoot>
+        </table>
+        <p class="lead mb-4">수령인: ${recipient}</p>
+        <p class="lead mb-4">주문 날짜: ${new Date().toLocaleString()}</p>
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
+            <a type="button" class="btn btn-warning btn-lg px-4 gap-3 text-white" id="continueShoppingBtn">계속 쇼핑하기</a>
+            <a type="button" class="btn btn-outline-warning btn-lg px-4" id="goToMyPage">마이페이지</a>
+        </div>
+    </div>
+`;
 }
 
+printPage();
 
+document.getElementById('continueShoppingBtn').addEventListener('click', function() {
+    window.location.href = '/product/productList.html';
+});
 
-// getProductNames 함수를 호출하여 제품 이름들을 가져온다.
-getProductNames(productIds)
-    .then(productNames => {
-        // 가져온 정보들을 HTML에 삽입한다.
-        document.getElementById('orderInfo').innerHTML = `
-            <h1 class="display-5 fw-bold text-body-emphasis">주문 완료</h1>
-            <div class="col-lg-6 mx-auto">
-                <p class="lead mb-4">성공적으로 주문이 완료되었습니다.</p>
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th>상품명</th>
-                            <th>개수</th>
-                            <th>가격</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        ${productNames.map((productName, index) => `
-                            <tr>
-                                <td>${productName}</td>
-                                <td>${productCnts[index]}</td>
-                                <td>${productPrices[index]}원</td>
-                            </tr>
-                        `).join('')}
-                        <tr>
-                            <td>배송비</td>
-                            <td></td>
-                            <td>3,000원</td>
-                        </tr>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <td>Totals</td>
-                            <td></td>
-                            <td>${totalPrice}원</td>
-                        </tr>
-                    </tfoot>
-                </table>
-                <p class="lead mb-4">수령인: ${recipient}</p>
-                <p class="lead mb-4">주문 날짜: ${new Date().toLocaleString()}</p>
-                <div class="d-grid gap-2 d-sm-flex justify-content-sm-center">
-                    <button type="button" class="btn btn-warning btn-lg px-4 gap-3 text-white">계속 쇼핑하기</button>
-                    <button type="button" class="btn btn-outline-warning btn-lg px-4">마이페이지</button>
-                </div>
-            </div>
-        `;
-    })
-    .catch(error => {
-        console.error('상품 이름을 가져오는 중 오류가 발생했습니다:', error);
-    });
-
-
+document.getElementById('goToMyPage').addEventListener('click', function() {
+    window.location.href = '/users/users.html';
+});

@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded',
                         listItem.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'lh-sm');
                         listItem.innerHTML = `
                         <div class="product-item">
-                                <h6 class="my-0">${product.productName}</h6>
+                                <h6 class="my-0 product-name">${product.productName}</h6>
                                 <small class="text-muted product-count">${product.cnt}개</small>
                                 <small class="text-muted product-id" style="display: none;">${product.productId}</small>
                             <span class="text-muted product-price" >${product.productPrice}원</span>
@@ -192,12 +192,12 @@ async function createOrder(event) {
         const deliveryAddress = document.getElementById("sample6_address").value; // 배송지 정보
         const deliveryDetailAddress = document.getElementById("sample6_detailAddress").value; // 상세 배송지 정보
         const totalPrice = document.getElementById("totalPrice").innerText; // 총액 정보
-        const productIds = Array.from(document.querySelectorAll('.product-id')).map(productId => productId.innerText); // 상품 ID 배열 가져오기
+        const productNames = Array.from(document.querySelectorAll('.product-name')).map(productId => productId.innerText); // 상품 ID 배열 가져오기
         const cntValues = Array.from(document.querySelectorAll('.product-count')).map(cntElement => cntElement.innerText.replace('개', '')); // 수정된 부분
         const productPrices = Array.from(document.querySelectorAll('.product-price')).map(priceElement => priceElement.innerText.replace('원', '')); // 상품 가격 배열 가져오기
 
         // 데이터를 URL에 추가하여 주문 완료 페이지로 이동
-        const queryString = `?orderId=${orderId}&totalPrice=${totalPrice}&recipient=${recipient}&productIds=${productIds.join(',')}&cntValues=${cntValues.join(',')}&productPrices=${productPrices.join(',')}`;
+        const queryString = `?orderId=${orderId}&totalPrice=${totalPrice}&recipient=${recipient}&productNames=${productNames.join(',')}&cntValues=${cntValues.join(',')}&productPrices=${productPrices.join(',')}`;
         location.href = '/static/order/orderComplete.html' + queryString;
     } catch (error) {
         console.error("주문 생성 중 오류가 발생했습니다:", error);
