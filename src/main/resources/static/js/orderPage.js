@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded',
                     let totalPrice = 0;
 
                     data.forEach(product => {
+                        const productId = product.productId;
                         const productPrice = parseFloat(product.productPrice);
                         const productCnt = parseInt(product.cnt);
                         const productTotalPrice = productPrice * productCnt;
@@ -23,9 +24,10 @@ document.addEventListener('DOMContentLoaded',
                         listItem.innerHTML = `
                     <div>
                         <h6 class="my-0">${product.productName}</h6>
-                        <small class="text-muted">${product.cnt}</small>
+                        <small class="text-muted" id="productCnt">${product.cnt}</small>
+                        <small class="text-muted" id="productId" style="display: none;">${product.productId}</small>
                     </div>
-                    <span class="text-muted">${product.productPrice}원</span>
+                    <span class="text-muted" id="productPrice">${product.productPrice}</span>
                 `;
                         productTable.appendChild(listItem);
 
@@ -53,26 +55,28 @@ document.addEventListener('DOMContentLoaded',
                     productTable.appendChild(totalPriceItem);
 
                 })
-            }
+        }
+
     });
 
-async function createOrderItem(product) {
+async function createOrderItem() {
+    const productId = document.getElementById('productId').innerText;
+    const productPrice = document.getElementById('productPrice').innerText;
+    const productCnt = document.getElementById('productCnt').innerText;
+
     try {
-        const orderItemRequest = {
-            productId: product.productId,
-            price: product.productPrice,
-            count: product.cnt
-        }
-        const response = await axios.post('/orderItem/lists', orderItemRequest);
-        const orderItemId = response.data; // 주문 항목 ID
-        console.log('주문 항목이 성공적으로 추가되었습니다. 주문 항목 ID:', orderItemId);
-        return orderItemId;
+    const response = axios.post('/orderItem/lists', [
+        {
+            productId: productId,
+            price: productPrice,
+            count: productCnt
+        }]);
+        console.log('주문 항목이 성공적으로 추가되었습니다. 응답 데이터:', response.data);
+        return response.data;
     } catch (error) {
-        console.error('주문 항목을 추가하는 동안 오류가 발생했습니다:', error);
-        throw error;
+            console.error('주문 항목을 추가하는 동안 오류가 발생했습니다:', error);
     }
 }
-
 
 function sample6_execDaumPostcode() {
     new daum.Postcode({
@@ -135,11 +139,14 @@ async function saveDeliveryInfo() {
 
         const response = await axios.post('/order/delivery/api', deliveryData);
         console.log("Delivery information successfully saved.");
+        return response.data;
     } catch (error) {
         console.error("Error occurred while saving delivery information:", error);
         throw error;
     }
 }
+
+
 
 // 주문 생성
 const orderButton = document.getElementById('orderButton');
@@ -153,18 +160,14 @@ async function createOrder(event) {
         const userId = await getUsersIdFromAPI();
         // 배송 정보 저장
         const deliveryId = await saveDeliveryInfo();
-        // 장바구니 상품 정보 가져오기
-        const orderItemId = await createOrderItem();
-
-        console.log("userId:", userId);
-        console.log("deliveryId:", deliveryId);
-        console.log("orderItemId:", orderItemId);
+        // 장바구니 상품 정보
+        const orderItemIds = await createOrderItem();
 
         // 주문 요청 객체 생성
         const orderRequest = {
             usersId: userId,
             deliveryId: deliveryId,
-            orderItemIds: orderItemId
+            orderItemIds: orderItemIds
         };
         // 주문 생성
         const response = await axios.post('/order', orderRequest);

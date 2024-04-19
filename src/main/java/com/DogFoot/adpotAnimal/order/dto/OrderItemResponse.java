@@ -17,12 +17,10 @@ public class OrderItemResponse {
     private Long id;
 
     private final int count;
-    private final int orderPrice;
-    private final int totalPrice;
+    private final int price;
 
     public OrderItemResponse(OrderItem orderItem) {
         this.count = orderItem.getCount();
-        this.orderPrice = orderItem.getOrderPrice();
-        this.totalPrice = orderItem.getTotalPrice();
+        this.price = orderItem.getPrice();
     }
 }
