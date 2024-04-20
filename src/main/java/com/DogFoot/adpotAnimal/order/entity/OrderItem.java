@@ -19,7 +19,7 @@ public class OrderItem {
     @Column(name = "order_item_id")
     private Long id;
 
-    private int price;
+    private int price = 0;
 
     private int count;
 
