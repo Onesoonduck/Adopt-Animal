@@ -23,6 +23,9 @@ public class OrderItem {
 
     private int count;
 
+    @Setter
+    private int orderPrice;
+
     // OrderItem 연관관계
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
@@ -35,7 +38,6 @@ public class OrderItem {
 //    @ManyToOne(fetch = FetchType.LAZY)
 //    @JoinColumn(name = "cart_id")
 //    private CartEntity cart;
-
 
     public void setOrder(Order order) {
         this.order = order;
@@ -59,7 +61,7 @@ public class OrderItem {
         orderItem.setProduct(product);
         orderItem.setPrice(price);
         orderItem.setCount(count);
-
+        orderItem.setOrderPrice(price);
         product.removeStock(count);
 
         return orderItem;
