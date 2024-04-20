@@ -37,18 +37,17 @@ public class OrderItemController {
         List<Long> orderItemIds = new ArrayList<>();
         System.out.println(requests);
         for (OrderItemRequest request : requests) {
-            System.out.print("request1 : ");
-            System.out.println(request);
+
             Product product = productService.findProductById(request.getProductId());
             if (product == null) {
                 System.out.println("product is null");
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
             }
-            System.out.print("request2 : ");
-            System.out.println(request);
+            System.out.print("request1 : ");
+            System.out.println(request.getProductId());
+            System.out.print("request price : ");
+            System.out.println(request.getPrice());
             OrderItem createdOrderItem = orderItemService.create(request);
-            System.out.print("orderItem : ");
-            System.out.println(createdOrderItem);
             orderItemIds.add(createdOrderItem.getId());
         }
         return ResponseEntity.status(HttpStatus.CREATED).body(orderItemIds);
