@@ -14,8 +14,10 @@ import com.DogFoot.adpotAnimal.users.entity.CustomUserDetails;
 import com.DogFoot.adpotAnimal.users.entity.Users;
 import com.DogFoot.adpotAnimal.users.service.UsersService;
 import jakarta.servlet.http.HttpServletResponse;
+import java.io.Console;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -45,24 +47,24 @@ public class OrderController {
         Users users = usersService.findUserById(orderRequest.getUsersId());
 
         Long deliveryId = orderRequest.getDeliveryId();
-            if (deliveryId == null) {
+        if (deliveryId == null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+        Delivery delivery = deliveryService.findById(deliveryId);
+
+        List<OrderItem> orderItems = new ArrayList<>();
+        System.out.println(orderRequest.getOrderItemId());
+        for (Long orderItemId : orderRequest.getOrderItemId()) {
+            if (orderItemId == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
             }
-            Delivery delivery = deliveryService.findById(deliveryId);
-
-
-            List<OrderItem> orderItems = new ArrayList<>();
-            for (Long orderItemId : orderRequest.getOrderItemId()) {
-                if (orderItemId == null) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-                }
-                orderItems.add(orderItemService.findById(orderItemId));
-            }
-
-            Order order = orderService.create(users, delivery, orderItems);
-
-            return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
+            orderItems.add(orderItemService.findById(orderItemId));
         }
+
+        Order order = orderService.create(users, delivery, orderItems);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(order.getId());
+    }
 
 
     // 주문 목록 검색
@@ -119,8 +121,8 @@ public class OrderController {
     @GetMapping("/api/orderUserCount")
     public ResponseEntity<Long> getOrderUserCount(HttpServletResponse response) {
         Users users = usersService.getUsers();
-        List<Order> orders= orderService.findAllByUsersId(users.getId());
-        Long orderCount =Long.valueOf(orders.size());
+        List<Order> orders = orderService.findAllByUsersId(users.getId());
+        Long orderCount = Long.valueOf(orders.size());
 
         return ResponseEntity.ok(orderCount);
     }
